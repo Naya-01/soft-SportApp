@@ -1,5 +1,6 @@
 import controllers.ControllerImpl;
 import controllers.ControllerInterface;
+import utils.Log;
 
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -7,6 +8,7 @@ import java.util.logging.Logger;
 
 public class Main {
     public static void main(String[] args) {
+        Log.config();
         Logger.getLogger("Log").log(Level.INFO, "Server started");
         ControllerInterface controller = new ControllerImpl();
         while(true){
