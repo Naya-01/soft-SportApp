@@ -24,4 +24,12 @@ public class Strength extends Exercice {
     public int getSeries() {
         return series;
     }
+
+    public void setRepetitions(int repetitions) {
+        this.repetitions = repetitions;
+    }
+
+    public void setSeries(int series) {
+        this.series = series;
+    }
 }

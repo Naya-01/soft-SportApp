@@ -3,6 +3,8 @@ package models;
 import models.enums.ExerciceType;
 
 public class Coach {
+
+    private int id;
     private String name;
     private ExerciceType exerciceType;
 

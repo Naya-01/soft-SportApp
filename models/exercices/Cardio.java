@@ -24,4 +24,12 @@ public class Cardio extends Exercice {
     public int getDistance() {
         return distance;
     }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
 }
