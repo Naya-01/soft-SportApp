@@ -10,12 +10,17 @@ public class User {
     private Boolean isPremium;
 
 
-    public User(String name, String email, String password, String address, Boolean isPremium) {
+    public User(int id, String name, String email, String password, String address, Boolean isPremium) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.address = address;
         this.isPremium = isPremium;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -53,4 +58,8 @@ public class User {
     }
 
     public void setIsPremium(Boolean isPremium) {this.isPremium = isPremium;}
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

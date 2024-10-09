@@ -8,9 +8,14 @@ public class Coach {
     private String name;
     private ExerciceType exerciceType;
 
-    public Coach(String name, ExerciceType exerciceType) {
+    public Coach(int id, String name, ExerciceType exerciceType) {
+        this.id = id;
         this.name = name;
         this.exerciceType = exerciceType;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -29,4 +34,7 @@ public class Coach {
         this.exerciceType = exerciceType;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 }
