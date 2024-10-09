@@ -5,4 +5,8 @@ public class Bancontact implements PaymentMethod {
     public void pay(double amount) {
         System.out.println("Paying " + amount + " using Bancontact");
     }
+
+    public String getName() {
+        return "Bancontact";
+    }
 }
