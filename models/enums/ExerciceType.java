@@ -1,6 +1,6 @@
 package models.enums;
 
-public enum Type {
+public enum ExerciceType {
 
     CARDIO("Cardio"),
     STRENGTH("Strength"),
@@ -8,7 +8,7 @@ public enum Type {
 
     private String type;
 
-    Type(String type) {
+    ExerciceType(String type) {
         this.type = type;
     }
 
