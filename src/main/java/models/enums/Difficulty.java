@@ -2,17 +2,17 @@ package models.enums;
 
 public enum Difficulty {
 
-        BEGINNER("Beginner"),
-        INTERMEDIATE("Intermediate"),
-        ADVANCED("Advanced");
+    BEGINNER("Beginner"),
+    INTERMEDIATE("Intermediate"),
+    ADVANCED("Advanced");
 
-        private String difficulty;
+    private String difficulty;
 
-        Difficulty(String difficulty) {
-            this.difficulty = difficulty;
-        }
+    Difficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
 
-        public String getDifficulty() {
+    public String getDifficulty() {
             return difficulty;
         }
 }

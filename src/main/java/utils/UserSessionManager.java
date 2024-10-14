@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserSessionManager {
-    private static UserSessionManager instance = null;
+    public static User currentUser = null;
+    public static UserSessionManager instance = null;
     private List<User> connectedUsers;
 
     private UserSessionManager() {
@@ -20,7 +21,7 @@ public class UserSessionManager {
         return instance;
     }
 
-    public void addUser(User user) {
+    public void addConnectedUser(User user) {
         if (!connectedUsers.contains(user)) {
             connectedUsers.add(user);
         }
@@ -36,6 +37,11 @@ public class UserSessionManager {
 
     public boolean isUserConnected(User user) {
         return connectedUsers.contains(user);
+    }
+
+    public static User setUserConnected(User user) {
+        currentUser = user;
+        return currentUser;
     }
 
     public void clearSessions() {

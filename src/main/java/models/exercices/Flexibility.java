@@ -5,10 +5,15 @@ import models.enums.Difficulty;
 import models.enums.ExerciceType;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Flexibility extends Exercice {
 
-    public Flexibility(int id, String name, ExerciceType type, String explanation, List<Media> medias, String performance, Difficulty difficulty) {
-        super(id, name, type, explanation, medias, performance, difficulty);
+    public Flexibility() {
+        super.setType(ExerciceType.FLEXIBILITY);
+    }
+
+    public Flexibility(UUID id, String name, ExerciceType type, String explanation, List<Media> medias, Difficulty difficulty, boolean isCustom) {
+        super(id, name, type, explanation, medias, difficulty, isCustom);
     }
 }

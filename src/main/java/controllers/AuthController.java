@@ -10,14 +10,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AuthController implements ControllerInterface {
-    private User currentUser;
     private Logger logger = Logger.getLogger("AuthController");
     private static final String USER_FILE_PATH = "src/main/java/data/users.json";
     private boolean isUIEnabled = false;
 
-    public AuthController() {
-        this.currentUser = null;
-    }
+    public AuthController() {}
 
     public boolean login(String name, String password) {
         List<User> users = JsonDBUtil.readFromJson(USER_FILE_PATH, User.class);
@@ -28,10 +25,10 @@ public class AuthController implements ControllerInterface {
                     logger.log(Level.WARNING, "User already connected: " + name);
                     return false;
                 }
-                currentUser = JsonDBUtil.findObjectInJson(USER_FILE_PATH,"name", name, User.class);
+                User loggedUser = UserSessionManager.setUserConnected(JsonDBUtil.findObjectInJson(USER_FILE_PATH,"name", name, User.class));
                 logger.log(Level.INFO, "Login successful for user: " + name);
 
-                UserSessionManager.getInstance().addUser(currentUser);
+                UserSessionManager.getInstance().addConnectedUser(loggedUser);
                 return true;
             }
         }
@@ -45,11 +42,11 @@ public class AuthController implements ControllerInterface {
     }
 
     public void logout() {
-        if (currentUser != null) {
-            logger.log(Level.INFO, "User logged out: " + currentUser.getName());
+        if (UserSessionManager.currentUser != null) {
+            logger.log(Level.INFO, "User logged out: " + UserSessionManager.currentUser.getName());
 
-            UserSessionManager.getInstance().removeUser(currentUser);
-            currentUser = null;
+            UserSessionManager.getInstance().removeUser(UserSessionManager.currentUser);
+            UserSessionManager.currentUser = null;
         } else {
             logger.log(Level.INFO, "No user currently logged in.");
         }
@@ -71,17 +68,8 @@ public class AuthController implements ControllerInterface {
         return true;
     }
 
-    public User getCurrentUser() {
-        if (currentUser != null) {
-            return currentUser;
-        } else {
-            logger.log(Level.INFO, "No user logged in.");
-            return null;
-        }
-    }
-
     public boolean isAuthenticated() {
-        return currentUser != null;
+        return UserSessionManager.currentUser != null;
     }
 
     @Override
@@ -132,7 +120,8 @@ public class AuthController implements ControllerInterface {
     @Override
     public String[] getStateAsLog() {
         if (isAuthenticated()) {
-            return new String[] { "User: " + currentUser.getName() + " (Premium: " + currentUser.getIsPremium() + ")" };
+            return new String[] { "User: " + UserSessionManager.currentUser.getName() +
+                    " (Premium: " + UserSessionManager.currentUser.getIsPremium() + ")" };
         } else {
             return new String[] { "No user authenticated." };
         }

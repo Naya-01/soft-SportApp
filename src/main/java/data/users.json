@@ -1,8 +1,10 @@
-[ {
+[
+  {
   "id" : "2d07714b-651a-4381-8715-eb6fc645bcea",
   "name" : "newUser",
   "password" : "newPassword",
   "email" : "newuser@example.com",
   "address" : "789 Third St",
   "isPremium" : false
-} ]
+  }
+]

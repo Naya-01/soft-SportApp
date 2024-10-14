@@ -5,14 +5,19 @@ import models.enums.Difficulty;
 import models.enums.ExerciceType;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Strength extends Exercice {
 
     private int repetitions;
     private int series;
 
-    public Strength(int id, String name, ExerciceType type, String explanation, List<Media> medias, String performance, Difficulty difficulty, int repetitions, int series) {
-        super(id, name, type, explanation, medias, performance, difficulty);
+    public Strength() {
+        super.setType(ExerciceType.STRENGTH);
+    }
+
+    public Strength(UUID id, String name, ExerciceType type, String explanation, List<Media> medias, Difficulty difficulty, boolean isCustom, int repetitions, int series) {
+        super(id, name, type, explanation, medias, difficulty, isCustom);
         this.repetitions = repetitions;
         this.series = series;
     }

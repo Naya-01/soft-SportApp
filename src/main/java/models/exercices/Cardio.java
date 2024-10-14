@@ -5,14 +5,19 @@ import models.enums.Difficulty;
 import models.enums.ExerciceType;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Cardio extends Exercice {
 
     private int duration;
     private int distance;
 
-    public Cardio(int id, String name, ExerciceType type, String explanation, List<Media> medias, String performance, Difficulty difficulty, int duration, int distance) {
-        super(id, name, type, explanation, medias, performance, difficulty);
+    public Cardio() {
+        super.setType(ExerciceType.CARDIO);
+    }
+
+    public Cardio(UUID id, String name, ExerciceType type, String explanation, List<Media> medias, Difficulty difficulty, boolean isCustom, int duration, int distance) {
+        super(id, name, type, explanation, medias, difficulty, isCustom);
         this.duration = duration;
         this.distance = distance;
     }

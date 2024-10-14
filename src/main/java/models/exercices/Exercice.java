@@ -1,31 +1,45 @@
 package models.exercices;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import models.Media;
 import models.enums.Difficulty;
 import models.enums.ExerciceType;
 import java.util.List;
+import java.util.UUID;
 
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        property = "type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Cardio.class, name = "CARDIO"),
+        @JsonSubTypes.Type(value = Strength.class, name = "STRENGTH"),
+        @JsonSubTypes.Type(value = Flexibility.class, name = "FLEXIBILITY")
+})
 public class Exercice {
 
-    private int id;
+    private UUID id;
     private String name;
     private ExerciceType type;
     private String explanation;
     private List<Media> medias;
-    private String performance;
     private Difficulty difficulty;
+    private boolean isCustom;
 
-    public Exercice(int id, String name, ExerciceType type, String explanation, List<Media> medias, String performance, Difficulty difficulty) {
+    public Exercice() {}
+
+    public Exercice(UUID id, String name, ExerciceType type, String explanation, List<Media> medias, Difficulty difficulty, boolean isCustom) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.explanation = explanation;
         this.medias = medias;
-        this.performance = performance;
         this.difficulty = difficulty;
+        this.isCustom = isCustom;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -45,19 +59,17 @@ public class Exercice {
         return medias;
     }
 
-    public String getPerformance() {
-        return performance;
-    }
-
     public Difficulty getDifficulty() {
         return difficulty;
     }
+
+    public boolean isCustom() { return isCustom; }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -73,11 +85,24 @@ public class Exercice {
         this.explanation = explanation;
     }
 
-    public void setPerformance(String performance) {
-        this.performance = performance;
-    }
-
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public void setCustom(boolean custom) {
+        this.isCustom = custom;
+    }
+
+    @Override
+    public String toString() {
+        return "Exercice{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", explanation='" + explanation + '\'' +
+                ", medias=" + medias +
+                ", difficulty=" + difficulty +
+                ", isCustom=" + isCustom +
+                '}';
     }
 }
