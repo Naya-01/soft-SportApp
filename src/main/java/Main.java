@@ -44,6 +44,15 @@ public class Main {
             System.out.println("Connexion échouée.");
         }
 
+        // double connexion
+        System.out.println("Connexion de newUser 2...");
+        loginSuccess = authController.login("newUser", "newPassword");
+        if (loginSuccess) {
+            System.out.println("Connexion réussie.");
+        } else {
+            System.out.println("Connexion échouée.");
+        }
+
         // Vérifier les utilisateurs connectés
         System.out.println("Utilisateurs connectés :");
         List<User> connectedUsers = UserSessionManager.getInstance().getConnectedUsers();

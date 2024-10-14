@@ -5,7 +5,6 @@ import utils.JsonDBUtil;
 import utils.UserSessionManager;
 
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +24,10 @@ public class AuthController implements ControllerInterface {
 
         for (User user : users) {
             if (user.getName().equals(name) && verifyPassword(user, password)) {
+                if (UserSessionManager.getInstance().isUserConnected(user)) {
+                    logger.log(Level.WARNING, "User already connected: " + name);
+                    return false;
+                }
                 currentUser = JsonDBUtil.findObjectInJson(USER_FILE_PATH,"name", name, User.class);
                 logger.log(Level.INFO, "Login successful for user: " + name);
 

@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class User {
@@ -59,5 +60,18 @@ public class User {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(name, user.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(name);
     }
 }
