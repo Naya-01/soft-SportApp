@@ -1,6 +1,7 @@
 import controllers.ControllerImpl;
 import controllers.ControllerInterface;
 import utils.Log;
+import utils.UserSessionManager;
 
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -11,7 +12,8 @@ public class Main {
         Log.config();
         Logger.getLogger("Log").log(Level.INFO, "Server started");
         ControllerInterface controller = new ControllerImpl();
-        while(true){
+
+        /*while(true){
             Scanner sc = new Scanner(System.in);
             System.out.println("What do you want to do ? (deactivations, activations, enableUIView, disableUIView, getStateAsLog) ");
             String feature = sc.nextLine();
@@ -38,6 +40,6 @@ public class Main {
                 default:
                     System.out.println("Invalid entry");
             }
-        }
+        }*/
     }
 }
