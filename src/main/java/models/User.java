@@ -1,23 +1,27 @@
 package models;
 
+import java.util.UUID;
+
 public class User {
 
-    private int id;
+    private UUID id;
     private String name;
     private String password;
     private String email;
     private String address;
     private Boolean isPremium;
 
+    public User() {}
 
     public User(String name, String password, String email, String address, Boolean isPremium) {
         this.name = name;
+        this.password = password;
         this.email = email;
         this.address = address;
         this.isPremium = isPremium;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -53,7 +57,7 @@ public class User {
 
     public void setIsPremium(Boolean isPremium) {this.isPremium = isPremium;}
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 }

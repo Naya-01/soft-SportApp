@@ -5,12 +5,15 @@ import utils.JsonDBUtil;
 import utils.UserSessionManager;
 
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AuthController implements ControllerInterface {
     private User currentUser;
     private Logger logger = Logger.getLogger("AuthController");
+    private static final String USER_FILE_PATH = "src/main/java/data/users.json";
     private boolean isUIEnabled = false;
 
     public AuthController() {
@@ -18,11 +21,11 @@ public class AuthController implements ControllerInterface {
     }
 
     public boolean login(String name, String password) {
-        List<User> users = JsonDBUtil.readFromJson(User.class);
+        List<User> users = JsonDBUtil.readFromJson(USER_FILE_PATH, User.class);
 
         for (User user : users) {
             if (user.getName().equals(name) && verifyPassword(user, password)) {
-                currentUser = JsonDBUtil.findObjectInJson(User.class, "name", name);
+                currentUser = JsonDBUtil.findObjectInJson(USER_FILE_PATH,"name", name, User.class);
                 logger.log(Level.INFO, "Login successful for user: " + name);
 
                 UserSessionManager.getInstance().addUser(currentUser);
@@ -50,16 +53,16 @@ public class AuthController implements ControllerInterface {
     }
 
     public boolean register(String name, String password, String email, String address, boolean isPremium) {
-        User existingUser = JsonDBUtil.findObjectInJson(User.class, "name", name);
+        User existingUser = JsonDBUtil.findObjectInJson(USER_FILE_PATH,"name", name, User.class);
         if (existingUser != null) {
             logger.log(Level.WARNING, "User already exists: " + name);
             return false;
         }
 
         User newUser = new User(name, password, email, address, isPremium);
-        // PAS OUBLIER SET ID
+        newUser.setId(UUID.randomUUID());
 
-        JsonDBUtil.addObjectToJson(newUser, User.class);
+        JsonDBUtil.addObjectToJson(USER_FILE_PATH, newUser, User.class);
 
         logger.log(Level.INFO, "User registered successfully: " + name);
         return true;
