@@ -20,7 +20,7 @@ public class AuthController implements ControllerInterface {
         List<User> users = JsonDBUtil.readFromJson(USER_FILE_PATH, User.class);
 
         for (User user : users) {
-            if (user.getName().equals(name) && verifyPassword(user, password)) {
+            if (user.getName().equals(name) && user.verifyPassword(password)) {
                 if (UserSessionManager.getInstance().isUserConnected(user)) {
                     logger.log(Level.WARNING, "User already connected: " + name);
                     return false;
@@ -35,10 +35,6 @@ public class AuthController implements ControllerInterface {
 
         logger.log(Level.WARNING, "Login failed for user: " + name);
         return false;
-    }
-
-    private boolean verifyPassword(User user, String password) {
-        return user.getPassword().equals(password);
     }
 
     public void logout() {

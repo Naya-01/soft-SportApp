@@ -62,6 +62,10 @@ public class User {
         this.id = id;
     }
 
+    public boolean verifyPassword(String password) {
+        return this.getPassword().equals(password);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
