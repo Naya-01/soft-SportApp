@@ -1,6 +1,7 @@
 package models;
 
 import models.domains.UserDTO;
+import models.domains.UserViewDTO;
 import utils.JsonDBUtil;
 import utils.UserSessionManager;
 
@@ -50,5 +51,17 @@ public class User {
 
     public void setUserDTO(UserDTO userDTO) {
         this.userDTO = userDTO;
+    }
+
+    public UserDTO getUserDTO() {
+        return userDTO;
+    }
+
+    public UserViewDTO parseToUserViewDTO(UserDTO userDTO) {
+        UserViewDTO viewDTO = new UserViewDTO();
+        viewDTO.setId(userDTO.getId());
+        viewDTO.setName(userDTO.getName());
+        viewDTO.setPremium(userDTO.getIsPremium());
+        return viewDTO;
     }
 }

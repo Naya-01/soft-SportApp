@@ -56,4 +56,14 @@ public class UserDTO {
     public int hashCode() {
         return Objects.hashCode(name);
     }
+
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "isPremium=" + isPremium +
+                ", name='" + name + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }

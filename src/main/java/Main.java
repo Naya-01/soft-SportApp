@@ -5,6 +5,7 @@ import controllers.ExerciceController;
 import models.Media;
 import models.User;
 import models.domains.UserDTO;
+import models.domains.UserViewDTO;
 import models.enums.Difficulty;
 import models.enums.ExerciceType;
 import models.enums.MediaType;
@@ -19,7 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args){
         Log.config();
         Logger.getLogger("Log").log(Level.INFO, "Server started");
 
@@ -83,8 +84,8 @@ public class Main {
 
         // Test de connexion
         System.out.println("Connexion de user1...");
-        boolean loginSuccess = authController.login("user1", "password123");
-        if (loginSuccess) {
+        UserViewDTO loginSuccess = authController.login("user11", "password123");
+        if (loginSuccess != null) {
             System.out.println("Connexion réussie.");
         } else {
             System.out.println("Connexion échouée.");
@@ -92,7 +93,7 @@ public class Main {
 
         System.out.println("Connexion de newUser...");
         loginSuccess = authController.login("newUser", "newPassword");
-        if (loginSuccess) {
+        if (loginSuccess != null) {
             System.out.println("Connexion réussie.");
         } else {
             System.out.println("Connexion échouée.");
@@ -101,7 +102,7 @@ public class Main {
         // double connexion
         System.out.println("Connexion de newUser 2...");
         loginSuccess = authController.login("newUser", "newPassword");
-        if (loginSuccess) {
+        if (loginSuccess != null) {
             System.out.println("Connexion réussie.");
         } else {
             System.out.println("Connexion échouée.");

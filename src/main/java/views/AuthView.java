@@ -2,6 +2,7 @@ package views;
 
 import controllers.AuthController;
 import controllers.ExerciceController;
+import models.domains.UserViewDTO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -96,14 +97,13 @@ public class AuthView extends JFrame {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
-        boolean success = authController.login(username, password);
-        if (success) {
+        UserViewDTO success = authController.login(username, password);
+        if (success != null) {
             JOptionPane.showMessageDialog(this, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
 
-            // Fermer la fenêtre actuelle (login) et ouvrir le Dashboard
-            this.dispose();  // Fermer la fenêtre de login
-            ExerciceController exerciceController = new ExerciceController();  // Créer le contrôleur d'exercices
-            new DashboardView(exerciceController).setVisible(true);  // Ouvrir le tableau de bord
+            this.dispose();
+            ExerciceController exerciceController = new ExerciceController();
+            new DashboardView(exerciceController).setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Login failed", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -114,7 +114,7 @@ public class AuthView extends JFrame {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
-        boolean success = authController.register(username, password, true);
+        boolean success = authController.register(username, password, false);
         if (success) {
             JOptionPane.showMessageDialog(this, "Registration successful", "Success", JOptionPane.INFORMATION_MESSAGE);
         } else {
