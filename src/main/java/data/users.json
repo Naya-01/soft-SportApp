@@ -1,10 +1,22 @@
-[
-  {
+[ {
   "id" : "2d07714b-651a-4381-8715-eb6fc645bcea",
   "name" : "newUser",
   "password" : "newPassword",
   "email" : "newuser@example.com",
   "address" : "789 Third St",
   "isPremium" : false
-  }
-]
+}, {
+  "id" : "5cd0932f-e7c9-4b28-9b11-4b78ec079f13",
+  "name" : "rayan",
+  "password" : "rayan",
+  "email" : "ntm",
+  "address" : "ntm",
+  "isPremium" : false
+}, {
+  "id" : "ffb72392-3507-4f68-a170-e136b6168b0f",
+  "name" : "",
+  "password" : "",
+  "email" : "ffefe",
+  "address" : "fefefe",
+  "isPremium" : true
+} ]
