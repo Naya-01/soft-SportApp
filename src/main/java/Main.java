@@ -73,7 +73,7 @@ public class Main {
 
         // Test de l'inscription
         System.out.println("Inscription de newUser...");
-        boolean registrationSuccess = authController.register("newUser", "newPassword", "newuser@example.com", "789 Third St", false);
+        boolean registrationSuccess = authController.register("newUser", "newPassword", false);
         if (registrationSuccess) {
             System.out.println("Inscription réussie.");
         } else {

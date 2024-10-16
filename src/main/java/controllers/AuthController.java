@@ -1,71 +1,66 @@
 package controllers;
 
 import models.User;
-import utils.JsonDBUtil;
-import utils.UserSessionManager;
 
-import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AuthController implements ControllerInterface {
     private Logger logger = Logger.getLogger("AuthController");
-    private static final String USER_FILE_PATH = "src/main/java/data/users.json";
+    private User userModel;
     private boolean isUIEnabled = false;
 
-    public AuthController() {}
+    public AuthController() {
+        userModel = new User();
+    }
 
     public boolean login(String name, String password) {
-        List<User> users = JsonDBUtil.readFromJson(USER_FILE_PATH, User.class);
+        User user = userModel.getUser(name);
 
-        for (User user : users) {
-            if (user.getName().equals(name) && user.verifyPassword(password)) {
-                if (UserSessionManager.getInstance().isUserConnected(user)) {
-                    logger.log(Level.WARNING, "User already connected: " + name);
-                    return false;
-                }
-                User loggedUser = UserSessionManager.setUserConnected(JsonDBUtil.findObjectInJson(USER_FILE_PATH,"name", name, User.class));
-                logger.log(Level.INFO, "Login successful for user: " + name);
-
-                UserSessionManager.getInstance().addConnectedUser(loggedUser);
-                return true;
-            }
-        }
-
-        logger.log(Level.WARNING, "Login failed for user: " + name);
-        return false;
-    }
-
-    public void logout() {
-        if (UserSessionManager.currentUser != null) {
-            logger.log(Level.INFO, "User logged out: " + UserSessionManager.currentUser.getName());
-
-            UserSessionManager.getInstance().removeUser(UserSessionManager.currentUser);
-            UserSessionManager.currentUser = null;
-        } else {
-            logger.log(Level.INFO, "No user currently logged in.");
-        }
-    }
-
-    public boolean register(String name, String password, String email, String address, boolean isPremium) {
-        User existingUser = JsonDBUtil.findObjectInJson(USER_FILE_PATH,"name", name, User.class);
-        if (existingUser != null) {
-            logger.log(Level.WARNING, "User already exists: " + name);
+        if (user == null) {
+            logger.log(Level.WARNING, "Login failed: User not found - " + name);
             return false;
         }
 
-        User newUser = new User(name, password, email, address, isPremium);
-        newUser.setId(UUID.randomUUID());
+        if (!user.checkPassword(password)) {
+            logger.log(Level.WARNING, "Login failed: Incorrect password - " + name);
+            return false;
+        }
 
-        JsonDBUtil.addObjectToJson(USER_FILE_PATH, newUser, User.class);
+        if (user.isConnected()) {
+            logger.log(Level.WARNING, "Login failed: User already connected - " + name);
+            return false;
+        }
 
-        logger.log(Level.INFO, "User registered successfully: " + name);
+        user.connect();
+        logger.log(Level.INFO, "Login successful for user: " + name);
         return true;
     }
 
-    public boolean isAuthenticated() {
-        return UserSessionManager.currentUser != null;
+    public void logout() {
+        if (!userModel.isConnected()) {
+            logger.log(Level.WARNING, "Logout failed: User not connected");
+            return;
+        }
+
+        userModel.disconnect();
+        logger.log(Level.INFO, "Logout successful");
+    }
+
+    public boolean register(String name, String password, boolean isPremium) {
+        if (name == null || name.isEmpty() || password == null || password.isEmpty()) {
+            logger.log(Level.WARNING, "Register failed: Fields missing or empty");
+            return false;
+        }
+
+        if (userModel.getUser(name) != null) {
+            logger.log(Level.WARNING, "Register failed: User already exists - " + name);
+            return false;
+        }
+
+        userModel.addUser(name, password, isPremium);
+        logger.log(Level.INFO, "Register successful for user: " + name);
+        return true;
     }
 
     @Override
@@ -115,16 +110,6 @@ public class AuthController implements ControllerInterface {
 
     @Override
     public String[] getStateAsLog() {
-        if (isAuthenticated()) {
-            return new String[] { "User: " + UserSessionManager.currentUser.getName() +
-                    " (Premium: " + UserSessionManager.currentUser.getIsPremium() + ")" };
-        } else {
-            return new String[] { "No user authenticated." };
-        }
-    }
-
-    public List<User> getConnectedUsers() {
-        List<User> connectedUsers = UserSessionManager.getInstance().getConnectedUsers();
-        return connectedUsers;
+        return null;
     }
 }

@@ -1,5 +1,9 @@
 package models;
 
+import utils.JsonDBUtil;
+import utils.UserSessionManager;
+
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -8,17 +12,15 @@ public class User {
     private UUID id;
     private String name;
     private String password;
-    private String email;
-    private String address;
     private Boolean isPremium;
+
+    private static final String USER_FILE_PATH = "src/main/java/data/users.json";
 
     public User() {}
 
-    public User(String name, String password, String email, String address, Boolean isPremium) {
+    public User(String name, String password, Boolean isPremium) {
         this.name = name;
         this.password = password;
-        this.email = email;
-        this.address = address;
         this.isPremium = isPremium;
     }
 
@@ -32,14 +34,6 @@ public class User {
 
     public String getPassword() { return password; }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
     public Boolean getIsPremium() {return isPremium;}
 
     public void setName(String name) {
@@ -48,22 +42,37 @@ public class User {
 
     public void setPassword(String password) { this.password = password; }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public void setIsPremium(Boolean isPremium) {this.isPremium = isPremium;}
 
     public void setId(UUID id) {
         this.id = id;
     }
 
-    public boolean verifyPassword(String password) {
-        return this.getPassword().equals(password);
+    public User getUser(String name) {
+        return JsonDBUtil.findObjectInJson(USER_FILE_PATH,"name", name, User.class);
+    }
+
+    public void addUser(String name, String password, boolean isPremium) {
+        User newUser = new User(name, password, isPremium);
+        newUser.setId(UUID.randomUUID());
+        JsonDBUtil.addObjectToJson(USER_FILE_PATH, newUser, User.class);
+    }
+
+    public boolean checkPassword(String password) {
+        return this.password.equals(password);
+    }
+
+    public boolean isConnected() {
+        return UserSessionManager.getInstance().isUserConnected(this);
+    }
+
+    public void connect() {
+        UserSessionManager.getInstance().addConnectedUser(this);
+    }
+
+    public void disconnect() {
+        UserSessionManager.getInstance().removeConnectedUser(this);
+        UserSessionManager.currentUser = null;
     }
 
     @Override

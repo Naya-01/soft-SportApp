@@ -27,7 +27,7 @@ public class UserSessionManager {
         }
     }
 
-    public void removeUser(User user) {
+    public void removeConnectedUser(User user) {
         connectedUsers.remove(user);
     }
 

@@ -2,6 +2,7 @@ package controllers;
 
 import controllers.factories.ExerciceFactory;
 import models.Media;
+import models.User;
 import models.enums.Difficulty;
 import models.exercices.CustomExercice;
 import models.exercices.Exercice;
@@ -11,50 +12,50 @@ import utils.UserSessionManager;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ExerciceController implements ControllerInterface {
+    private Logger logger = Logger.getLogger("ExerciceController");
+    private Exercice exerciceModel;
 
-    private static final String EXERCICE_FILE_PATH = "src/main/java/data/exercices.json";
-    private static final String CUSTOM_EXERCICE_FILE_PATH = "src/main/java/data/custom-exercices.json";
+    public ExerciceController() {
+        exerciceModel = new Exercice();
+    }
 
     public Exercice addExercice(ExerciceType type, String name, String explanation, List<Media> medias, Difficulty difficulty, boolean isCustom, Object... extraParams) {
-
-        Exercice exercice = ExerciceFactory.createExercice(type, name, explanation, medias, difficulty, isCustom, extraParams);
-        if (isCustom) {
-            JsonDBUtil.addObjectToJson(CUSTOM_EXERCICE_FILE_PATH, new CustomExercice(UserSessionManager.currentUser.getId(), exercice.getId()), CustomExercice.class);
+        if (name == null || name.isEmpty()) {
+            logger.log(Level.WARNING, "Add Exercice failed: Fields missing or empty");
+            return null;
         }
 
-        JsonDBUtil.addObjectToJson(EXERCICE_FILE_PATH, exercice, Exercice.class);
+        if (exerciceModel.getExerciceByName(name) != null) {
+            logger.log(Level.WARNING, "Add Exercice failed: Exercice already exists - " + name);
+            return null;
+        }
 
-        return exercice;
+        Exercice ex = exerciceModel.addExercice(type, name, explanation, medias, difficulty, isCustom);
+        if (isCustom) {
+            exerciceModel.addCustomExercice(ex.getId());
+        }
+
+        return ex;
     }
 
     public List<Exercice> getAllExercices() {
-        return JsonDBUtil.readFromJson(EXERCICE_FILE_PATH, Exercice.class);
+        return exerciceModel.getAllExercices();
     }
 
     public List<Exercice> getExercicesByTypeAndDifficulty(Difficulty difficulty, ExerciceType exerciceType) {
-        List<Exercice> exercices = JsonDBUtil.readFromJson(EXERCICE_FILE_PATH, Exercice.class);
-        return exercices.stream()
-                .filter(exercice -> exercice.getDifficulty() != null && exercice.getDifficulty().equals(difficulty) &&
-                        exercice.getType() != null && exercice.getType().equals(exerciceType))
-                .toList();
+        return exerciceModel.getExercicesByTypeAndDifficulty(difficulty, exerciceType);
     }
 
     public List<Exercice> getExercicesByType(ExerciceType exerciceType) {
-        List<Exercice> exercices = JsonDBUtil.readFromJson(EXERCICE_FILE_PATH, Exercice.class);
-        return exercices.stream()
-                .filter(exercice -> exercice.getType() != null && exercice.getType().equals(exerciceType))
-                .toList();
+        return exerciceModel.getExercicesByType(exerciceType);
     }
 
     public boolean deleteExercice(String id) {
-        List<Exercice> exercices = JsonDBUtil.readFromJson(EXERCICE_FILE_PATH, Exercice.class);
-        boolean removed = exercices.removeIf(exercice -> exercice.getId().equals(UUID.fromString(id)));
-        if (removed) {
-            JsonDBUtil.writeToJson(EXERCICE_FILE_PATH, exercices);
-        }
-        return removed;
+        return exerciceModel.deleteExercice(id);
     }
 
     @Override
