@@ -1,10 +1,12 @@
 package models;
 
+import models.domains.ExerciceDTO;
 import models.domains.UserDTO;
 import models.domains.UserViewDTO;
 import utils.JsonDBUtil;
 import utils.UserSessionManager;
 
+import java.util.List;
 import java.util.UUID;
 
 public class User {
@@ -20,6 +22,10 @@ public class User {
 
     public UserDTO getUser(String name) {
         return JsonDBUtil.findObjectInJson(USER_FILE_PATH,"name", name, UserDTO.class);
+    }
+
+    public List<UserDTO> getAllUsers() {
+        return JsonDBUtil.readFromJson(USER_FILE_PATH, UserDTO.class);
     }
 
     public void addUser(String name, String password, boolean isPremium) {

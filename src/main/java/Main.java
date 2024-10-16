@@ -1,12 +1,15 @@
 import controllers.AuthController;
+import controllers.CustomExerciceController;
 import controllers.ExerciceController;
 import models.Media;
+import models.domains.CustomExerciceDetailsDTO;
 import models.domains.ExerciceDTO;
 import models.domains.UserDTO;
 import models.domains.UserViewDTO;
 import models.enums.Difficulty;
 import models.enums.ExerciceType;
 import models.enums.MediaType;
+import models.exercices.CustomExerciceDetails;
 import utils.Log;
 import utils.UserSessionManager;
 
@@ -127,6 +130,7 @@ public class Main {
 
     private static void testExercice() {
         ExerciceController exerciceController = new ExerciceController();
+        CustomExerciceController customExerciceController = new CustomExerciceController();
 
         // Créer des médias pour les exercices
         List<Media> medias = new ArrayList<>();
@@ -183,6 +187,10 @@ public class Main {
         List<ExerciceDTO> allExercices = exerciceController.getAllExercices();
         System.out.println("Liste de tous les exercices:");
         allExercices.forEach(ex -> System.out.println(ex.getId() + ": " + ex.getName() + " (" + ex.getType() + ")"));
+
+        // Récupérer tous les exercices
+        List<CustomExerciceDetailsDTO> allCustomExercices = customExerciceController.getCustomExercicesWithDetails();
+        System.out.println("Liste de tous les exercices custom:");
 
         // Récupérer les exercices de type Cardio et niveau INTERMEDIATE
         List<ExerciceDTO> cardioExercices = exerciceController.getExercicesByTypeAndDifficulty(Difficulty.INTERMEDIATE, ExerciceType.CARDIO);

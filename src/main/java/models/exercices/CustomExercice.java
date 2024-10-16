@@ -1,32 +1,24 @@
 package models.exercices;
 
+import models.domains.CustomExerciceDTO;
+import models.domains.ExerciceDTO;
+import utils.JsonDBUtil;
+import utils.UserSessionManager;
+
+import java.util.List;
 import java.util.UUID;
 
 public class CustomExercice {
 
-    private UUID userId;
-    private UUID exerciceId;
+    private static final String CUSTOM_EXERCICE_FILE_PATH = "src/main/java/data/custom-exercices.json";
 
     public CustomExercice() {}
 
-    public CustomExercice(UUID userId, UUID exerciceId) {
-        this.userId = userId;
-        this.exerciceId = exerciceId;
+    public void addCustomExercice(UUID id) {
+        JsonDBUtil.addObjectToJson(CUSTOM_EXERCICE_FILE_PATH, new CustomExerciceDTO(UserSessionManager.currentUser.getId(), id), CustomExerciceDTO.class);
     }
 
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
-    }
-
-    public UUID getExerciceId() {
-        return exerciceId;
-    }
-
-    public void setExerciceId(UUID exerciceId) {
-        this.exerciceId = exerciceId;
+    public List<CustomExerciceDTO> getAllCustomExercices() {
+        return JsonDBUtil.readFromJson(CUSTOM_EXERCICE_FILE_PATH, CustomExerciceDTO.class);
     }
 }

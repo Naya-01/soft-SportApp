@@ -97,8 +97,9 @@ public class AuthView extends JFrame {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
-        UserViewDTO success = authController.login(username, password);
-        if (success != null) {
+        UserViewDTO user = authController.login(username, password);
+        if (user != null) {
+            UserStore.setCurrentUser(user);
             JOptionPane.showMessageDialog(this, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
 
             this.dispose();

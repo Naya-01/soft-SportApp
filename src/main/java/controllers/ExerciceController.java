@@ -3,6 +3,7 @@ package controllers;
 import models.Media;
 import models.domains.ExerciceDTO;
 import models.enums.Difficulty;
+import models.exercices.CustomExercice;
 import models.exercices.Exercice;
 import models.enums.ExerciceType;
 
@@ -13,9 +14,11 @@ import java.util.logging.Logger;
 public class ExerciceController implements ControllerInterface {
     private Logger logger = Logger.getLogger("ExerciceController");
     private Exercice exerciceModel;
+    private CustomExercice customExerciceModel;
 
     public ExerciceController() {
         exerciceModel = new Exercice();
+        customExerciceModel = new CustomExercice();
     }
 
     public ExerciceDTO addExercice(ExerciceType type, String name, String explanation, List<Media> medias, Difficulty difficulty, boolean isCustom, Object... extraParams) {
@@ -31,7 +34,7 @@ public class ExerciceController implements ControllerInterface {
 
         ExerciceDTO ex = exerciceModel.addExercice(type, name, explanation, medias, difficulty, isCustom);
         if (isCustom) {
-            exerciceModel.addCustomExercice(ex.getId());
+            customExerciceModel.addCustomExercice(ex.getId());
         }
 
         return ex;

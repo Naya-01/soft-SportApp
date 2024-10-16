@@ -1,6 +1,5 @@
 package utils;
 
-import models.User;
 import models.domains.UserDTO;
 
 import java.util.ArrayList;
@@ -11,8 +10,7 @@ public class UserSessionManager {
     public static UserSessionManager instance = null;
     private static List<UserDTO> connectedUsers = new ArrayList<>();
 
-    private UserSessionManager() {
-    }
+    private UserSessionManager() {}
 
     public static UserSessionManager getInstance() {
         if (instance == null) {

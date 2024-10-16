@@ -28,9 +28,7 @@ public class ExerciceDTO {
     private Difficulty difficulty;
     private boolean isCustom;
 
-    public ExerciceDTO() {
-
-    }
+    public ExerciceDTO() {}
 
     public ExerciceDTO(UUID id, String name, ExerciceType type, String explanation, List<Media> medias, Difficulty difficulty, boolean isCustom) {
         this.id = id;

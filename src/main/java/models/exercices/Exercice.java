@@ -1,14 +1,11 @@
 package models.exercices;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import controllers.factories.ExerciceFactory;
 import models.Media;
 import models.domains.ExerciceDTO;
 import models.enums.Difficulty;
 import models.enums.ExerciceType;
 import utils.JsonDBUtil;
-import utils.UserSessionManager;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,7 +13,6 @@ import java.util.UUID;
 public class Exercice {
 
     private static final String EXERCICE_FILE_PATH = "src/main/java/data/exercices.json";
-    private static final String CUSTOM_EXERCICE_FILE_PATH = "src/main/java/data/custom-exercices.json";
     private ExerciceDTO exerciceDTO;
 
     public Exercice() {}
@@ -33,10 +29,6 @@ public class Exercice {
         ExerciceDTO exercice = ExerciceFactory.createExercice(type, name, explanation, medias, difficulty, isCustom, extraParams);
         JsonDBUtil.addObjectToJson(EXERCICE_FILE_PATH, exercice, ExerciceDTO.class);
         return exercice;
-    }
-
-    public void addCustomExercice(UUID id) {
-        JsonDBUtil.addObjectToJson(CUSTOM_EXERCICE_FILE_PATH, new CustomExercice(UserSessionManager.currentUser.getId(), id), CustomExercice.class);
     }
 
     public List<ExerciceDTO> getAllExercices() {
