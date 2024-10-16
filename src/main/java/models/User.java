@@ -5,7 +5,6 @@ import models.domains.UserViewDTO;
 import utils.JsonDBUtil;
 import utils.UserSessionManager;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public class User {

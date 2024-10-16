@@ -1,21 +1,17 @@
 import controllers.AuthController;
-import controllers.ControllerImpl;
-import controllers.ControllerInterface;
 import controllers.ExerciceController;
 import models.Media;
-import models.User;
+import models.domains.ExerciceDTO;
 import models.domains.UserDTO;
 import models.domains.UserViewDTO;
 import models.enums.Difficulty;
 import models.enums.ExerciceType;
 import models.enums.MediaType;
-import models.exercices.Exercice;
 import utils.Log;
 import utils.UserSessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,15 +22,17 @@ public class Main {
 
         AuthController authController = new AuthController();
 
-        /*System.out.println("Connexion de newUser...");
-        boolean loginSuccess = authController.login("newUser", "newPassword");
-        if (loginSuccess) {
+        System.out.println("Connexion de newUser...");
+        UserViewDTO user = authController.login("newUser", "newPassword");
+        if (user != null) {
             System.out.println("Connexion réussie.");
         } else {
             System.out.println("Connexion échouée.");
-        }*/
+        }
 
-        testAuth();
+        testExercice();
+
+        // testAuth();
 
         /*
         ControllerInterface controller = new ControllerImpl();
@@ -135,7 +133,7 @@ public class Main {
         medias.add(new Media("http://example.com/video-cardio", MediaType.VIDEO));
 
         // Ajouter un exercice de type Cardio
-        Exercice cardioExercice = exerciceController.addExercice(
+        ExerciceDTO cardioExercice = exerciceController.addExercice(
                 ExerciceType.CARDIO,
                 "Running",
                 "Run for 30 minutes",
@@ -144,10 +142,14 @@ public class Main {
                 true,
                 30, 5000  // extraParams : durée et distance pour Cardio
         );
-        System.out.println("Cardio Exercice ajouté: " + cardioExercice.getId());
+        if (cardioExercice != null) {
+            System.out.println("Cardio Exercice ajouté: " + cardioExercice.getId());
+        } else {
+            System.out.println("Cardio Exercice existe déjà");
+        }
 
         // Ajouter un exercice de type Strength
-        Exercice strengthExercice = exerciceController.addExercice(
+        ExerciceDTO strengthExercice = exerciceController.addExercice(
                 ExerciceType.STRENGTH,
                 "Push-ups",
                 "Do 20 push-ups",
@@ -156,10 +158,14 @@ public class Main {
                 true,
                 20, 3  // extraParams : répétitions et séries pour Strength
         );
-        System.out.println("Strength Exercice ajouté: " + strengthExercice.getId());
+        if (strengthExercice != null) {
+            System.out.println("Strength Exercice ajouté: " + strengthExercice.getId());
+        } else {
+            System.out.println("Strength Exercice existe déjà");
+        }
 
         // Ajouter un exercice de type Flexibility
-        Exercice flexibilityExercice = exerciceController.addExercice(
+        ExerciceDTO flexibilityExercice = exerciceController.addExercice(
                 ExerciceType.FLEXIBILITY,
                 "Stretching",
                 "Stretch for 15 minutes",
@@ -167,20 +173,24 @@ public class Main {
                 Difficulty.BEGINNER,
                 true
         );
-        System.out.println("Flexibility Exercice ajouté: " + flexibilityExercice.getId());
+        if (flexibilityExercice != null) {
+            System.out.println("Flexibility Exercice ajouté: " + flexibilityExercice.getId());
+        } else {
+            System.out.println("Flexibility Exercice existe déjà");
+        }
 
         // Récupérer tous les exercices
-        List<Exercice> allExercices = exerciceController.getAllExercices();
+        List<ExerciceDTO> allExercices = exerciceController.getAllExercices();
         System.out.println("Liste de tous les exercices:");
         allExercices.forEach(ex -> System.out.println(ex.getId() + ": " + ex.getName() + " (" + ex.getType() + ")"));
 
         // Récupérer les exercices de type Cardio et niveau INTERMEDIATE
-        List<Exercice> cardioExercices = exerciceController.getExercicesByTypeAndDifficulty(Difficulty.INTERMEDIATE, ExerciceType.CARDIO);
+        List<ExerciceDTO> cardioExercices = exerciceController.getExercicesByTypeAndDifficulty(Difficulty.INTERMEDIATE, ExerciceType.CARDIO);
         System.out.println("\nExercices de type Cardio et niveau INTERMEDIATE:");
         cardioExercices.forEach(ex -> System.out.println(ex.getId() + ": " + ex.getName()));
 
         // Récupérer les exercices de type Strength
-        List<Exercice> strengthExercices = exerciceController.getExercicesByType(ExerciceType.STRENGTH);
+        List<ExerciceDTO> strengthExercices = exerciceController.getExercicesByType(ExerciceType.STRENGTH);
         System.out.println("\nExercices de type Strength:");
         strengthExercices.forEach(ex -> System.out.println(ex.getId() + ": " + ex.getName()));
 
@@ -189,7 +199,7 @@ public class Main {
         System.out.println("\nExercice de type Flexibility supprimé: " + isDeleted);
 
         // Vérifier la suppression
-        List<Exercice> remainingExercices = exerciceController.getAllExercices();
+        List<ExerciceDTO> remainingExercices = exerciceController.getAllExercices();
         System.out.println("\nListe des exercices après suppression:");
         remainingExercices.forEach(ex -> System.out.println(ex.getId() + ": " + ex.getName()));
 

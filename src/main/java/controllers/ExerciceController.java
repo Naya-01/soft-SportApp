@@ -1,17 +1,12 @@
 package controllers;
 
-import controllers.factories.ExerciceFactory;
 import models.Media;
-import models.User;
+import models.domains.ExerciceDTO;
 import models.enums.Difficulty;
-import models.exercices.CustomExercice;
 import models.exercices.Exercice;
 import models.enums.ExerciceType;
-import utils.JsonDBUtil;
-import utils.UserSessionManager;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,7 +18,7 @@ public class ExerciceController implements ControllerInterface {
         exerciceModel = new Exercice();
     }
 
-    public Exercice addExercice(ExerciceType type, String name, String explanation, List<Media> medias, Difficulty difficulty, boolean isCustom, Object... extraParams) {
+    public ExerciceDTO addExercice(ExerciceType type, String name, String explanation, List<Media> medias, Difficulty difficulty, boolean isCustom, Object... extraParams) {
         if (name == null || name.isEmpty()) {
             logger.log(Level.WARNING, "Add Exercice failed: Fields missing or empty");
             return null;
@@ -34,7 +29,7 @@ public class ExerciceController implements ControllerInterface {
             return null;
         }
 
-        Exercice ex = exerciceModel.addExercice(type, name, explanation, medias, difficulty, isCustom);
+        ExerciceDTO ex = exerciceModel.addExercice(type, name, explanation, medias, difficulty, isCustom);
         if (isCustom) {
             exerciceModel.addCustomExercice(ex.getId());
         }
@@ -42,15 +37,15 @@ public class ExerciceController implements ControllerInterface {
         return ex;
     }
 
-    public List<Exercice> getAllExercices() {
+    public List<ExerciceDTO> getAllExercices() {
         return exerciceModel.getAllExercices();
     }
 
-    public List<Exercice> getExercicesByTypeAndDifficulty(Difficulty difficulty, ExerciceType exerciceType) {
+    public List<ExerciceDTO> getExercicesByTypeAndDifficulty(Difficulty difficulty, ExerciceType exerciceType) {
         return exerciceModel.getExercicesByTypeAndDifficulty(difficulty, exerciceType);
     }
 
-    public List<Exercice> getExercicesByType(ExerciceType exerciceType) {
+    public List<ExerciceDTO> getExercicesByType(ExerciceType exerciceType) {
         return exerciceModel.getExercicesByType(exerciceType);
     }
 

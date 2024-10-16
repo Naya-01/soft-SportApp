@@ -1,7 +1,5 @@
 package models.domains;
 
-import models.User;
-
 import java.util.Objects;
 import java.util.UUID;
 

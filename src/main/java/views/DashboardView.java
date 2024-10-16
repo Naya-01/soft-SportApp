@@ -1,6 +1,7 @@
 package views;
 
 import controllers.ExerciceController;
+import models.domains.ExerciceDTO;
 import models.exercices.Exercice;
 
 import javax.swing.*;
@@ -40,8 +41,8 @@ public class DashboardView extends JFrame {
         JPanel exercicesPanel = new JPanel();
         exercicesPanel.setLayout(new BoxLayout(exercicesPanel, BoxLayout.Y_AXIS));
 
-        List<Exercice> exercices = exerciceController.getAllExercices();
-        for (Exercice exercice : exercices) {
+        List<ExerciceDTO> exercices = exerciceController.getAllExercices();
+        for (ExerciceDTO exercice : exercices) {
             JLabel exerciceLabel = new JLabel(exercice.getName());
             exercicesPanel.add(exerciceLabel);
         }
