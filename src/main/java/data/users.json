@@ -19,4 +19,11 @@
   "email" : "ffefe",
   "address" : "fefefe",
   "isPremium" : true
+}, {
+  "id" : "c316c9fd-322f-443e-bef2-0e457b6dd876",
+  "name" : "nico",
+  "password" : "nico",
+  "email" : "ffefe",
+  "address" : "fefefe",
+  "isPremium" : true
 } ]
