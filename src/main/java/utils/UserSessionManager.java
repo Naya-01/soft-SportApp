@@ -1,17 +1,17 @@
 package utils;
 
 import models.User;
+import models.domains.UserDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserSessionManager {
-    public static User currentUser = null;
+    public static UserDTO currentUser = null;
     public static UserSessionManager instance = null;
-    private List<User> connectedUsers;
+    private static List<UserDTO> connectedUsers = new ArrayList<>();
 
     private UserSessionManager() {
-        connectedUsers = new ArrayList<>();
     }
 
     public static UserSessionManager getInstance() {
@@ -21,30 +21,29 @@ public class UserSessionManager {
         return instance;
     }
 
-    public void addConnectedUser(User user) {
+    public static void addConnectedUser(UserDTO user) {
         if (!connectedUsers.contains(user)) {
             connectedUsers.add(user);
         }
     }
 
-    public void removeConnectedUser(User user) {
+    public static void removeConnectedUser(UserDTO user) {
         connectedUsers.remove(user);
     }
 
-    public List<User> getConnectedUsers() {
+    public static List<UserDTO> getConnectedUsers() {
         return new ArrayList<>(connectedUsers);
     }
 
-    public boolean isUserConnected(User user) {
+    public static boolean isUserConnected(UserDTO user) {
         return connectedUsers.contains(user);
     }
 
-    public static User setUserConnected(User user) {
+    public static void setUserConnected(UserDTO user) {
         currentUser = user;
-        return currentUser;
     }
 
-    public void clearSessions() {
+    public static void clearSessions() {
         connectedUsers.clear();
     }
 }

@@ -1,10 +1,16 @@
-[
-  {
-  "id" : "2d07714b-651a-4381-8715-eb6fc645bcea",
+[ {
+  "id" : "6ba1a29f-4ba2-440e-a9d3-06b82eb4c511",
   "name" : "newUser",
   "password" : "newPassword",
-  "email" : "newuser@example.com",
-  "address" : "789 Third St",
   "isPremium" : false
-  }
-]
+}, {
+  "id" : "d4250c80-6b56-4553-b554-cef7080d41bc",
+  "name" : "newUser2",
+  "password" : "newPassword5",
+  "isPremium" : false
+}, {
+  "id" : "cf513fc7-e737-4548-b665-da5b763e4252",
+  "name" : "papa",
+  "password" : "papa",
+  "isPremium" : true
+} ]

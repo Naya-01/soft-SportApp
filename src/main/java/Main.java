@@ -4,6 +4,7 @@ import controllers.ControllerInterface;
 import controllers.ExerciceController;
 import models.Media;
 import models.User;
+import models.domains.UserDTO;
 import models.enums.Difficulty;
 import models.enums.ExerciceType;
 import models.enums.MediaType;
@@ -24,15 +25,15 @@ public class Main {
 
         AuthController authController = new AuthController();
 
-        System.out.println("Connexion de newUser...");
+        /*System.out.println("Connexion de newUser...");
         boolean loginSuccess = authController.login("newUser", "newPassword");
         if (loginSuccess) {
             System.out.println("Connexion réussie.");
         } else {
             System.out.println("Connexion échouée.");
-        }
+        }*/
 
-        testExercice();
+        testAuth();
 
         /*
         ControllerInterface controller = new ControllerImpl();
@@ -73,7 +74,7 @@ public class Main {
 
         // Test de l'inscription
         System.out.println("Inscription de newUser...");
-        boolean registrationSuccess = authController.register("newUser", "newPassword", false);
+        boolean registrationSuccess = authController.register("newUser2", "newPassword5", false);
         if (registrationSuccess) {
             System.out.println("Inscription réussie.");
         } else {
@@ -108,8 +109,8 @@ public class Main {
 
         // Vérifier les utilisateurs connectés
         System.out.println("Utilisateurs connectés :");
-        List<User> connectedUsers = UserSessionManager.getInstance().getConnectedUsers();
-        for (User user : connectedUsers) {
+        List<UserDTO> connectedUsers = UserSessionManager.getConnectedUsers();
+        for (UserDTO user : connectedUsers) {
             System.out.println(user.getName() + " (" + (user.getIsPremium() ? "Premium" : "Standard") + ")");
         }
 
@@ -119,8 +120,8 @@ public class Main {
 
         // Affichage après déconnexion
         System.out.println("Utilisateurs connectés après déconnexion :");
-        connectedUsers = UserSessionManager.getInstance().getConnectedUsers();
-        for (User user : connectedUsers) {
+        connectedUsers = UserSessionManager.getConnectedUsers();
+        for (UserDTO user : connectedUsers) {
             System.out.println(user.getName() + " (" + (user.getIsPremium() ? "Premium" : "Standard") + ")");
         }
     }

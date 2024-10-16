@@ -1,6 +1,7 @@
 package controllers;
 
 import models.User;
+import models.domains.UserDTO;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,24 +16,24 @@ public class AuthController implements ControllerInterface {
     }
 
     public boolean login(String name, String password) {
-        User user = userModel.getUser(name);
+        UserDTO user = userModel.getUser(name);
 
         if (user == null) {
             logger.log(Level.WARNING, "Login failed: User not found - " + name);
             return false;
         }
 
-        if (!user.checkPassword(password)) {
+        if (!userModel.checkPassword(user, password)) {
             logger.log(Level.WARNING, "Login failed: Incorrect password - " + name);
             return false;
         }
 
-        if (user.isConnected()) {
+        if (userModel.isConnected()) {
             logger.log(Level.WARNING, "Login failed: User already connected - " + name);
             return false;
         }
 
-        user.connect();
+        userModel.connect(user);
         logger.log(Level.INFO, "Login successful for user: " + name);
         return true;
     }

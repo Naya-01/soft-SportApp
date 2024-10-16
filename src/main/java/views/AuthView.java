@@ -114,7 +114,7 @@ public class AuthView extends JFrame {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
-        boolean success = authController.register(username, password, "ffefe", "fefefe", true);
+        boolean success = authController.register(username, password, true);
         if (success) {
             JOptionPane.showMessageDialog(this, "Registration successful", "Success", JOptionPane.INFORMATION_MESSAGE);
         } else {

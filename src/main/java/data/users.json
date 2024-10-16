@@ -1,29 +1,21 @@
 [ {
-  "id" : "2d07714b-651a-4381-8715-eb6fc645bcea",
+  "id" : "6ba1a29f-4ba2-440e-a9d3-06b82eb4c511",
   "name" : "newUser",
   "password" : "newPassword",
-  "email" : "newuser@example.com",
-  "address" : "789 Third St",
   "isPremium" : false
 }, {
-  "id" : "5cd0932f-e7c9-4b28-9b11-4b78ec079f13",
-  "name" : "rayan",
-  "password" : "rayan",
-  "email" : "ntm",
-  "address" : "ntm",
+  "id" : "d4250c80-6b56-4553-b554-cef7080d41bc",
+  "name" : "newUser2",
+  "password" : "newPassword5",
   "isPremium" : false
 }, {
-  "id" : "ffb72392-3507-4f68-a170-e136b6168b0f",
-  "name" : "",
-  "password" : "",
-  "email" : "ffefe",
-  "address" : "fefefe",
+  "id" : "cf513fc7-e737-4548-b665-da5b763e4252",
+  "name" : "papa",
+  "password" : "papa",
   "isPremium" : true
 }, {
-  "id" : "c316c9fd-322f-443e-bef2-0e457b6dd876",
-  "name" : "nico",
-  "password" : "nico",
-  "email" : "ffefe",
-  "address" : "fefefe",
+  "id" : "c3d46eaf-46f9-49c7-877f-fe6e43e536b8",
+  "name" : "noel",
+  "password" : "noel",
   "isPremium" : true
 } ]
