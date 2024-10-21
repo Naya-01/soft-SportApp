@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import views.utils.UserStore;
 
 public class DashboardView extends JFrame {
 

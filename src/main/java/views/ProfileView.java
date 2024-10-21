@@ -5,6 +5,7 @@ import models.domains.UserViewDTO;
 
 import javax.swing.*;
 import java.awt.*;
+import views.utils.UserStore;
 
 public class ProfileView extends JFrame {
 
