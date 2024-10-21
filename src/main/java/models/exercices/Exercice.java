@@ -35,6 +35,12 @@ public class Exercice {
         return JsonDBUtil.readFromJson(EXERCICE_FILE_PATH, ExerciceDTO.class);
     }
 
+    public List<ExerciceDTO> getAllNoCustomExercices() {
+        List<ExerciceDTO> list =  JsonDBUtil.readFromJson(EXERCICE_FILE_PATH, ExerciceDTO.class);
+
+        return list.stream().filter(exerciceDTO -> !exerciceDTO.isCustom()).toList();
+    }
+
     public List<ExerciceDTO> getExercicesByTypeAndDifficulty(Difficulty difficulty, ExerciceType exerciceType) {
         List<ExerciceDTO> exercices = JsonDBUtil.readFromJson(EXERCICE_FILE_PATH, ExerciceDTO.class);
         return exercices.stream()

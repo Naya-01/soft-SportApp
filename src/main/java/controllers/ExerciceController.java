@@ -44,6 +44,10 @@ public class ExerciceController implements ControllerInterface {
         return exerciceModel.getAllExercices();
     }
 
+    public List<ExerciceDTO> getAllNoCustomExercices() {
+        return exerciceModel.getAllNoCustomExercices();
+    }
+
     public List<ExerciceDTO> getExercicesByTypeAndDifficulty(Difficulty difficulty, ExerciceType exerciceType) {
         return exerciceModel.getExercicesByTypeAndDifficulty(difficulty, exerciceType);
     }

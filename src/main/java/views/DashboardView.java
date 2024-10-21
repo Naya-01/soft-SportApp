@@ -1,5 +1,6 @@
 package views;
 
+import controllers.CustomExerciceController;
 import controllers.ExerciceController;
 import controllers.UserController;
 import models.domains.ExerciceDTO;
@@ -14,10 +15,12 @@ public class DashboardView extends JFrame {
 
     private ExerciceController exerciceController;
     private UserController userController;
+    private CustomExerciceController customExerciceController;
 
-    public DashboardView(ExerciceController exerciceController) {
-        this.exerciceController = exerciceController;
+    public DashboardView() {
+        this.exerciceController = new ExerciceController();
         this.userController = new UserController();
+        this.customExerciceController = new CustomExerciceController();
         initComponents();
     }
 
@@ -34,7 +37,7 @@ public class DashboardView extends JFrame {
         JPanel exercicesPanel = new JPanel();
         exercicesPanel.setLayout(new BoxLayout(exercicesPanel, BoxLayout.Y_AXIS));
 
-        List<ExerciceDTO> exercices = exerciceController.getAllExercices();
+        List<ExerciceDTO> exercices = exerciceController.getAllNoCustomExercices();
         for (ExerciceDTO exercice : exercices) {
             JButton exerciceButton = new JButton(exercice.getName());
             exerciceButton.addActionListener(new ActionListener() {
@@ -76,8 +79,18 @@ public class DashboardView extends JFrame {
 
         premiumButton.setVisible(!UserStore.getCurrentUser().getPremium());
 
+        JButton communityButton = new JButton("Community");
+        communityButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new CommunityView().setVisible(true);
+                dispose();
+            }
+        });
+
         navBar.add(profileButton);
         navBar.add(premiumButton);
+        navBar.add(communityButton);
         return navBar;
     }
 }

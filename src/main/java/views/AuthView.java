@@ -1,7 +1,6 @@
 package views;
 
 import controllers.AuthController;
-import controllers.ExerciceController;
 import models.domains.UserViewDTO;
 
 import javax.swing.*;
@@ -103,8 +102,7 @@ public class AuthView extends JFrame {
             JOptionPane.showMessageDialog(this, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
 
             this.dispose();
-            ExerciceController exerciceController = new ExerciceController();
-            new DashboardView(exerciceController).setVisible(true);
+            new DashboardView().setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Login failed", "Error", JOptionPane.ERROR_MESSAGE);
         }

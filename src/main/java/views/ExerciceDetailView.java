@@ -59,7 +59,7 @@ public class ExerciceDetailView extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new DashboardView(exerciceController).setVisible(true);
+                new DashboardView().setVisible(true);
                 dispose();
             }
         });
