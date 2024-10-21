@@ -2,6 +2,8 @@ package views;
 
 import controllers.AuthController;
 
+import controllers.ControllerImpl;
+import controllers.ControllerInterface;
 import java.awt.Color;
 import java.util.Scanner;
 
@@ -16,75 +18,35 @@ public class Main{
         AuthView authView = new AuthView(new AuthController());
         authView.setVisible(true);
 
-//        // Create window with title "application" that stop the program when closed
-//        JFrame frame = new JFrame("Application");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//
-//        // Creating a panel that will hold the buttons
-//        JPanel panel = new JPanel();
-//
-//        // Setup frame with the panel
-//        frame.add(panel);
-//        frame.setSize(200, 200);
-//        frame.setVisible(true); // show the window
-//
-//        // Creation of a button that will be shown dynamically
-//        JButton buttonTemp = new JButton("Dynamic click me");
-//        buttonTemp.addActionListener((actionEvent) -> {
-//            System.out.println("dynamic click");
-//        });
-//
-//        // Main loop
-//        Scanner in = new Scanner(System.in);
-//        while (true) {
-//            String line = in.nextLine();
-//            String[] cutLine = line.split(" ");
-//
-//            switch (cutLine[0]) {
-//                // Change the title
-//                case "title":
-//                    String title = line.replace("title ", "");
-//                    frame.setTitle(title);
-//                    break;
-//
-//                // Make the button appear
-//                case "add":
-//                    panel.add(buttonTemp);
-//                    break;
-//
-//                // Remove the button
-//                case "remove":
-//                    panel.remove(buttonTemp);
-//                    break;
-//
-//                // Enable dark mode
-//                case "dark":
-//                    panel.setBackground(Color.BLACK);
-//                    break;
-//
-//                // Disable dark mode
-//                case "light":
-//                    panel.setBackground(Color.WHITE);
-//                    break;
-//
-//                // Stop the program
-//                case "stop":
-//                    in.close();
-//                    System.exit(0);
-//                    break;
-//
-//                // Unknown command
-//                default:
-//                    System.out.println("Unknown command " + cutLine[0]);
-//                    break;
-//            }
-//
-//            /*
-//             * These lines update the UI
-//             * Repaint holds for all graphical changes (like color changes)
-//             * Revalidate holds for UI change (like button add/remove)
-//             */
-//            frame.repaint();
-//            frame.revalidate();
+
+        ControllerInterface controller = new ControllerImpl();
+        while(true){
+            Scanner sc = new Scanner(System.in);
+            System.out.println("What do you want to do ? (deactivations, activations, enableUIView, disableUIView, getStateAsLog) ");
+            String feature = sc.nextLine();
+            switch (feature){
+                case "deactivations":
+                    System.out.println("Enter a list of features you want to deactivate separated by whitespace : ");
+                    String deactivations = sc.nextLine();
+                    controller.activate(deactivations.split(" "),null);
+                    break;
+                case "activations":
+                    System.out.println("Enter a list of features you want to activate separated by whitespace : ");
+                    String activations = sc.nextLine();
+                    controller.activate(null, activations.split(" "));
+                    break;
+                case "enableUIView":
+                    System.out.println("UI View enabled");
+                    break;
+                case "disableUIView":
+                    System.out.println("UI View disabled");
+                    break;
+                case "getStateAsLog":
+                    System.out.println("System's state in the form of logs");
+                    break;
+                default:
+                    System.out.println("Invalid entry");
+            }
+        }
         }
     }

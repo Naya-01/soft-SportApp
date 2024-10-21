@@ -1,5 +1,6 @@
 package models;
 
+import jdk.jshell.execution.Util;
 import models.domains.ExerciceDTO;
 import models.domains.UserDTO;
 import models.domains.UserViewDTO;
@@ -14,7 +15,9 @@ public class User {
     private static final String USER_FILE_PATH = "src/main/java/data/users.json";
     private UserDTO userDTO;
 
-    public User() {}
+    public User() {
+        userDTO = UserSessionManager.currentUser;
+    }
 
     public User(UserDTO userDTO) {
         this.userDTO = userDTO;
@@ -60,6 +63,17 @@ public class User {
 
     public UserDTO getUserDTO() {
         return userDTO;
+    }
+
+    public boolean upgradeAccount(){
+        List<UserDTO> users = JsonDBUtil.readFromJson(USER_FILE_PATH, UserDTO.class);
+        boolean removed = users.removeIf(user -> user.getId().equals(UUID.fromString(userDTO.getId().toString())));
+        if (removed) {
+            userDTO.setIsPremium(true);
+            users.add(userDTO);
+            JsonDBUtil.writeToJson(USER_FILE_PATH, users);
+        }
+        return removed;
     }
 
     public UserViewDTO parseToUserViewDTO(UserDTO userDTO) {

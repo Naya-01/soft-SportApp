@@ -1,6 +1,7 @@
 package views;
 
 import controllers.ExerciceController;
+import controllers.UserController;
 import models.domains.ExerciceDTO;
 import models.exercices.Exercice;
 
@@ -13,9 +14,11 @@ import java.util.List;
 public class DashboardView extends JFrame {
 
     private ExerciceController exerciceController;
+    private UserController userController;
 
     public DashboardView(ExerciceController exerciceController) {
         this.exerciceController = exerciceController;
+        this.userController = new UserController();
         initComponents();
     }
 
@@ -30,13 +33,25 @@ public class DashboardView extends JFrame {
         JPanel navBar = new JPanel();
         navBar.setLayout(new FlowLayout(FlowLayout.LEFT));
         JButton profileButton = new JButton("Voir Profil");
+        JButton premiumButton = new JButton("Become Premium");
         profileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ProfileView(exerciceController).setVisible(true);
             }
         });
+
+        premiumButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                userController.upgradeAccount();
+                premiumButton.setVisible(false);
+            }
+        });
+
+        premiumButton.setVisible(!UserStore.getCurrentUser().getPremium());
         navBar.add(profileButton);
+        navBar.add(premiumButton);
 
         JPanel exercicesPanel = new JPanel();
         exercicesPanel.setLayout(new BoxLayout(exercicesPanel, BoxLayout.Y_AXIS));
