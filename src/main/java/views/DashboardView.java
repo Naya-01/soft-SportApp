@@ -43,7 +43,7 @@ public class DashboardView extends JFrame {
             exerciceButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    new ExerciceDetailView(exerciceController, exercice).setVisible(true);
+                    new ExerciceDetailView(exercice).setVisible(true);
                     dispose();
                 }
             });

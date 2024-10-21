@@ -11,11 +11,9 @@ import java.awt.event.ActionListener;
 
 public class ExerciceDetailView extends JFrame {
 
-    private ExerciceController exerciceController;
     private ExerciceDTO exercice;
 
-    public ExerciceDetailView(ExerciceController exerciceController, ExerciceDTO exercice) {
-        this.exerciceController = exerciceController;
+    public ExerciceDetailView(ExerciceDTO exercice) {
         this.exercice = exercice;
         initComponents();
     }
