@@ -1,16 +1,14 @@
-package models;
+package models.domains;
 
 import models.enums.MediaType;
 
-import java.io.File;
-
-public class Media {
+public class MediaDTO {
     private String url;
     private MediaType type;
 
-    public Media() {}
+    public MediaDTO() {}
 
-    public Media(String url, MediaType type) {
+    public MediaDTO(String url, MediaType type) {
         this.url = url;
         this.type = type;
     }

@@ -1,6 +1,5 @@
 package models.domains;
 
-import models.Media;
 import models.enums.Difficulty;
 import models.enums.ExerciceType;
 
@@ -16,7 +15,7 @@ public class CardioDTO extends ExerciceDTO {
         super.setType(ExerciceType.CARDIO);
     }
 
-    public CardioDTO(UUID id, String name, ExerciceType type, String explanation, List<Media> medias, Difficulty difficulty, boolean isCustom, int duration, int distance) {
+    public CardioDTO(UUID id, String name, ExerciceType type, String explanation, List<MediaDTO> medias, Difficulty difficulty, boolean isCustom, int duration, int distance) {
         super(id, name, type, explanation, medias, difficulty, isCustom);
         this.duration = duration;
         this.distance = distance;

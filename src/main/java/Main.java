@@ -1,7 +1,7 @@
 import controllers.AuthController;
 import controllers.CustomExerciceController;
 import controllers.ExerciceController;
-import models.Media;
+import models.domains.MediaDTO;
 import models.domains.CustomExerciceDetailsDTO;
 import models.domains.ExerciceDTO;
 import models.domains.UserDTO;
@@ -9,7 +9,6 @@ import models.domains.UserViewDTO;
 import models.enums.Difficulty;
 import models.enums.ExerciceType;
 import models.enums.MediaType;
-import models.exercices.CustomExerciceDetails;
 import utils.Log;
 import utils.UserSessionManager;
 
@@ -133,8 +132,8 @@ public class Main {
         CustomExerciceController customExerciceController = new CustomExerciceController();
 
         // Créer des médias pour les exercices
-        List<Media> medias = new ArrayList<>();
-        medias.add(new Media("http://example.com/video-cardio", MediaType.VIDEO));
+        List<MediaDTO> medias = new ArrayList<>();
+        medias.add(new MediaDTO("http://example.com/video-cardio", MediaType.VIDEO));
 
         // Ajouter un exercice de type Cardio
         ExerciceDTO cardioExercice = exerciceController.addExercice(

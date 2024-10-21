@@ -1,6 +1,6 @@
 package controllers.factories;
 
-import models.Media;
+import models.domains.MediaDTO;
 import models.domains.CardioDTO;
 import models.domains.ExerciceDTO;
 import models.domains.FlexibilityDTO;
@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class ExerciceFactory {
 
-    public static ExerciceDTO createExercice(ExerciceType type, String name, String explanation, List<Media> medias, Difficulty difficulty, boolean isCustom, Object... extraParams) {
+    public static ExerciceDTO createExercice(ExerciceType type, String name, String explanation, List<MediaDTO> medias, Difficulty difficulty, boolean isCustom, Object... extraParams) {
         switch (type) {
             case CARDIO:
                 int duration = (int) extraParams[0];

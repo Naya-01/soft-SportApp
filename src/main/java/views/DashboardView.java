@@ -3,7 +3,6 @@ package views;
 import controllers.ExerciceController;
 import controllers.UserController;
 import models.domains.ExerciceDTO;
-import models.exercices.Exercice;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,10 +29,35 @@ public class DashboardView extends JFrame {
 
         JPanel mainPanel = new JPanel(new BorderLayout());
 
+        JPanel navBar = createNavBar();
+
+        JPanel exercicesPanel = new JPanel();
+        exercicesPanel.setLayout(new BoxLayout(exercicesPanel, BoxLayout.Y_AXIS));
+
+        List<ExerciceDTO> exercices = exerciceController.getAllExercices();
+        for (ExerciceDTO exercice : exercices) {
+            JButton exerciceButton = new JButton(exercice.getName());
+            exerciceButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    new ExerciceDetailView(exerciceController, exercice).setVisible(true);
+                    dispose();
+                }
+            });
+            exercicesPanel.add(exerciceButton);
+        }
+
+        mainPanel.add(navBar, BorderLayout.NORTH);
+        mainPanel.add(new JScrollPane(exercicesPanel), BorderLayout.CENTER);
+
+        add(mainPanel);
+    }
+
+    private JPanel createNavBar() {
         JPanel navBar = new JPanel();
         navBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+
         JButton profileButton = new JButton("Voir Profil");
-        JButton premiumButton = new JButton("Become Premium");
         profileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -41,6 +65,7 @@ public class DashboardView extends JFrame {
             }
         });
 
+        JButton premiumButton = new JButton("Become Premium");
         premiumButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -50,21 +75,9 @@ public class DashboardView extends JFrame {
         });
 
         premiumButton.setVisible(!UserStore.getCurrentUser().getPremium());
+
         navBar.add(profileButton);
         navBar.add(premiumButton);
-
-        JPanel exercicesPanel = new JPanel();
-        exercicesPanel.setLayout(new BoxLayout(exercicesPanel, BoxLayout.Y_AXIS));
-
-        List<ExerciceDTO> exercices = exerciceController.getAllExercices();
-        for (ExerciceDTO exercice : exercices) {
-            JLabel exerciceLabel = new JLabel(exercice.getName());
-            exercicesPanel.add(exerciceLabel);
-        }
-
-        mainPanel.add(navBar, BorderLayout.NORTH);
-        mainPanel.add(new JScrollPane(exercicesPanel), BorderLayout.CENTER);
-
-        add(mainPanel);
+        return navBar;
     }
 }

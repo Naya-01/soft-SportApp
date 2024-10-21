@@ -2,7 +2,6 @@ package models.domains;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import models.Media;
 import models.enums.Difficulty;
 import models.enums.ExerciceType;
 
@@ -24,13 +23,13 @@ public class ExerciceDTO {
     private String name;
     private ExerciceType type;
     private String explanation;
-    private List<Media> medias;
+    private List<MediaDTO> medias;
     private Difficulty difficulty;
     private boolean isCustom;
 
     public ExerciceDTO() {}
 
-    public ExerciceDTO(UUID id, String name, ExerciceType type, String explanation, List<Media> medias, Difficulty difficulty, boolean isCustom) {
+    public ExerciceDTO(UUID id, String name, ExerciceType type, String explanation, List<MediaDTO> medias, Difficulty difficulty, boolean isCustom) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -56,7 +55,7 @@ public class ExerciceDTO {
         return explanation;
     }
 
-    public List<Media> getMedias() {
+    public List<MediaDTO> getMedias() {
         return medias;
     }
 
@@ -78,7 +77,7 @@ public class ExerciceDTO {
         this.type = type;
     }
 
-    public void setMedias(List<Media> medias) {
+    public void setMedias(List<MediaDTO> medias) {
         this.medias = medias;
     }
 

@@ -1,6 +1,6 @@
 package controllers;
 
-import models.Media;
+import models.domains.MediaDTO;
 import models.domains.ExerciceDTO;
 import models.enums.Difficulty;
 import models.exercices.CustomExercice;
@@ -21,7 +21,7 @@ public class ExerciceController implements ControllerInterface {
         customExerciceModel = new CustomExercice();
     }
 
-    public ExerciceDTO addExercice(ExerciceType type, String name, String explanation, List<Media> medias, Difficulty difficulty, boolean isCustom, Object... extraParams) {
+    public ExerciceDTO addExercice(ExerciceType type, String name, String explanation, List<MediaDTO> medias, Difficulty difficulty, boolean isCustom, Object... extraParams) {
         if (name == null || name.isEmpty()) {
             logger.log(Level.WARNING, "Add Exercice failed: Fields missing or empty");
             return null;
