@@ -1,5 +1,5 @@
 import controllers.AuthController;
-import controllers.CustomExerciceController;
+import controllers.CommunityController;
 import controllers.ExerciceController;
 import models.domains.MediaDTO;
 import models.domains.CustomExerciceDetailsDTO;
@@ -129,7 +129,7 @@ public class Main {
 
     private static void testExercice() {
         ExerciceController exerciceController = new ExerciceController();
-        CustomExerciceController customExerciceController = new CustomExerciceController();
+        CommunityController customExerciceController = new CommunityController();
 
         // Créer des médias pour les exercices
         List<MediaDTO> medias = new ArrayList<>();

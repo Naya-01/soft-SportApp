@@ -1,6 +1,6 @@
 package views;
 
-import controllers.CustomExerciceController;
+import controllers.CommunityController;
 import models.domains.CustomExerciceDetailsDTO;
 
 import javax.swing.*;
@@ -11,10 +11,10 @@ import java.util.List;
 
 public class CommunityView extends JFrame {
 
-    private CustomExerciceController customExerciceController;
+    private CommunityController customExerciceController;
 
     public CommunityView() {
-        this.customExerciceController = new CustomExerciceController();
+        this.customExerciceController = new CommunityController();
         initComponents();
     }
 

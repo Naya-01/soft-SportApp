@@ -1,13 +1,10 @@
 package views;
 
 import controllers.AuthController;
+import controllers.ControllerImpl;
+import controllers.ControllerInterface;
 
-import java.awt.Color;
 import java.util.Scanner;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class Main{
     public static void main(String[] args){
@@ -17,7 +14,7 @@ public class Main{
         authView.setVisible(true);
 
 
-      /*
+
         ControllerInterface controller = new ControllerImpl();
         while(true){
             Scanner sc = new Scanner(System.in);
@@ -47,6 +44,6 @@ public class Main{
                     System.out.println("Invalid entry");
             }
         }
-        */
+
         }
     }

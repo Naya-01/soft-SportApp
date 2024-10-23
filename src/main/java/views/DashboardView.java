@@ -1,6 +1,6 @@
 package views;
 
-import controllers.CustomExerciceController;
+import controllers.CommunityController;
 import controllers.ExerciceController;
 import controllers.UserController;
 import models.domains.ExerciceDTO;
@@ -16,12 +16,12 @@ public class DashboardView extends JFrame {
 
     private ExerciceController exerciceController;
     private UserController userController;
-    private CustomExerciceController customExerciceController;
+    private CommunityController customExerciceController;
 
     public DashboardView() {
         this.exerciceController = new ExerciceController();
         this.userController = new UserController();
-        this.customExerciceController = new CustomExerciceController();
+        this.customExerciceController = new CommunityController();
         initComponents();
     }
 
