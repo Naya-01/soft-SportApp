@@ -12,10 +12,14 @@ public class FeatureManager {
     private Logger logger = Logger.getLogger("FeatureManager");
     private static FeatureManager instance = null;
     private Map<String, Boolean> featureStates;
+    private Map<String, FeatureStrategy> featureStrategies;
 
     private FeatureManager() {
         featureStates = new HashMap<>();
         loadFeatureStates();
+
+        featureStrategies = new HashMap<>();
+        loadFeatureStrategies();
     }
 
     public static FeatureManager getInstance() {
@@ -26,9 +30,14 @@ public class FeatureManager {
     }
 
     public boolean activateFeature(String featureName) {
-        Boolean exist = featureStates.get(featureName);
+        String[] splitted = featureName.split("-");
+        String startsWith = splitted[0] + "-" + splitted[1] + "-";
 
-        if(exist != null){
+        if (featureStrategies.containsKey(startsWith)) {
+            featureStrategies.get(startsWith).activateFeature(featureStates, featureName, startsWith);
+            System.out.println(featureStates);
+            return true;
+        } else if (featureStates.get(featureName) != null) {
             featureStates.put(featureName, true);
             logger.info("Feature set to true: " + featureName);
             return true;
@@ -38,13 +47,20 @@ public class FeatureManager {
     }
 
     public boolean deactivateFeature(String featureName) {
-        boolean exist = featureStates.getOrDefault(featureName, false);
+        String[] splitted = featureName.split("-");
+        String startsWith = splitted[0] + "-" + splitted[1] + "-";
 
-        if(exist){
+        if (featureStrategies.containsKey(startsWith)) {
+            featureStrategies.get(startsWith).deactivateFeature(featureStates, featureName, startsWith);
+            System.out.println(featureStates);
+            return true;
+        } else if (featureStates.get(featureName) != null) {
             featureStates.put(featureName, false);
             logger.info("Feature set to false: " + featureName);
+            return true;
         }
-        return exist;
+
+        return false;
     }
 
     public boolean isFeatureActive(FeaturesEnum featureEnum) {
@@ -71,5 +87,12 @@ public class FeatureManager {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void loadFeatureStrategies() {
+        featureStrategies.put("exercice-difficulty-", new AlternativeFeatureStrategy());
+        featureStrategies.put("exercice-type-", new OrFeatureStrategy());
+        featureStrategies.put("exercice-media-", new OrFeatureStrategy());
+        featureStrategies.put("payment-method-", new OrFeatureStrategy());
     }
 }
