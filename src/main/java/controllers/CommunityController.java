@@ -9,6 +9,7 @@ import models.exercices.CustomExercice;
 import models.domains.CustomExerciceDetailsDTO;
 import models.exercices.CustomExerciceDetails;
 import models.exercices.Exercice;
+import utils.FeaturesEnum;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -33,8 +34,8 @@ public class CommunityController{
 
     public List<CustomExerciceDetailsDTO> getCustomExercicesWithDetails() {
 
-        if (!featureManager.isFeatureActive("exercice-custom-list")) {
-            logger.warning("exercice-custom feature is disabled.");
+        if (!featureManager.isFeatureActive(FeaturesEnum.EXERCICE_CUSTOM_LIST)) {
+            logger.warning("exercice-custom-list feature is disabled.");
             return null;
         }
 

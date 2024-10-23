@@ -7,6 +7,7 @@ import models.exercices.CustomExercice;
 import models.exercices.Exercice;
 import models.enums.ExerciceType;
 import utils.FeatureManager;
+import utils.FeaturesEnum;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -25,7 +26,7 @@ public class ExerciceController {
     }
 
     public ExerciceDTO addExercice(ExerciceType type, String name, String explanation, List<MediaDTO> medias, Difficulty difficulty, boolean isCustom, Object... extraParams) {
-        if (isCustom && !featureManager.isFeatureActive("exercice-custom-add")) {
+        if (isCustom && !featureManager.isFeatureActive(FeaturesEnum.EXERCICE_CUSTOM_ADD)) {
             logger.warning("exercice-custom-add feature is disabled.");
             return null;
         }

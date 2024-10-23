@@ -6,9 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.ServiceLoader;
+import java.util.logging.Logger;
 
 public class FeatureManager {
 
+    private Logger logger = Logger.getLogger("FeatureManager");
     private static FeatureManager instance = null;
     private Map<String, Boolean> featureStates;
 
@@ -29,6 +31,7 @@ public class FeatureManager {
 
         if(exist != null){
             featureStates.put(featureName, true);
+            logger.info("Feature set to true: " + featureName);
             return true;
         }
 
@@ -40,13 +43,13 @@ public class FeatureManager {
 
         if(exist){
             featureStates.put(featureName, false);
+            logger.info("Feature set to false: " + featureName);
         }
-
         return exist;
     }
 
-    public boolean isFeatureActive(String featureName) {
-        return featureStates.getOrDefault(featureName, false);
+    public boolean isFeatureActive(FeaturesEnum featureEnum) {
+        return featureStates.getOrDefault(featureEnum.getFeature(), false);
     }
 
     public Map<String, Boolean> getFeatureStates() {
