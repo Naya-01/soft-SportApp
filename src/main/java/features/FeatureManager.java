@@ -1,11 +1,10 @@
-package utils;
+package features;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.ServiceLoader;
 import java.util.logging.Logger;
 
 public class FeatureManager {

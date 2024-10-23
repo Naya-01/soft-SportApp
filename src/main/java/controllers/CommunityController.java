@@ -1,6 +1,6 @@
 package controllers;
 
-import utils.FeatureManager;
+import features.FeatureManager;
 import models.User;
 import models.domains.CustomExerciceDTO;
 import models.domains.ExerciceDTO;
@@ -9,7 +9,7 @@ import models.exercices.CustomExercice;
 import models.domains.CustomExerciceDetailsDTO;
 import models.exercices.CustomExerciceDetails;
 import models.exercices.Exercice;
-import utils.FeaturesEnum;
+import features.FeaturesEnum;
 
 import java.util.List;
 import java.util.logging.Logger;

@@ -183,11 +183,6 @@ public class Main {
         }
 
         // Récupérer tous les exercices
-        List<ExerciceDTO> allExercices = exerciceController.getAllExercices();
-        System.out.println("Liste de tous les exercices:");
-        allExercices.forEach(ex -> System.out.println(ex.getId() + ": " + ex.getName() + " (" + ex.getType() + ")"));
-
-        // Récupérer tous les exercices
         List<CustomExerciceDetailsDTO> allCustomExercices = customExerciceController.getCustomExercicesWithDetails();
         System.out.println("Liste de tous les exercices custom:");
 
@@ -204,11 +199,6 @@ public class Main {
         // Supprimer l'exercice de type Flexibility
         boolean isDeleted = exerciceController.deleteExercice(flexibilityExercice.getId().toString());
         System.out.println("\nExercice de type Flexibility supprimé: " + isDeleted);
-
-        // Vérifier la suppression
-        List<ExerciceDTO> remainingExercices = exerciceController.getAllExercices();
-        System.out.println("\nListe des exercices après suppression:");
-        remainingExercices.forEach(ex -> System.out.println(ex.getId() + ": " + ex.getName()));
 
     }
 }

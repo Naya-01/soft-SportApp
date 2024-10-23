@@ -1,6 +1,6 @@
 package controllers;
 
-import utils.FeatureManager;
+import features.FeatureManager;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

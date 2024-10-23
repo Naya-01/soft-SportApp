@@ -6,9 +6,10 @@ import models.enums.Difficulty;
 import models.exercices.CustomExercice;
 import models.exercices.Exercice;
 import models.enums.ExerciceType;
-import utils.FeatureManager;
-import utils.FeaturesEnum;
+import features.FeatureManager;
+import features.FeaturesEnum;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,7 +55,17 @@ public class ExerciceController {
     }
 
     public List<ExerciceDTO> getAllNoCustomExercices() {
-        return exerciceModel.getAllNoCustomExercices();
+        Difficulty difficulty = null;
+        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_DIFFICULTY_BEGINNER)) difficulty = Difficulty.BEGINNER;
+        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_DIFFICULTY_INTERMEDIATE)) difficulty = Difficulty.INTERMEDIATE;
+        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_DIFFICULTY_ADVANCED)) difficulty = Difficulty.ADVANCED;
+
+        List<ExerciceType> types = new ArrayList<>();
+        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_TYPE_CARDIO)) types.add(ExerciceType.CARDIO);
+        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_TYPE_STRENGTH)) types.add(ExerciceType.STRENGTH);
+        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_TYPE_FLEXIBILITY)) types.add(ExerciceType.FLEXIBILITY);
+
+        return exerciceModel.getAllNoCustomExercices(difficulty, types);
     }
 
     public List<ExerciceDTO> getExercicesByTypeAndDifficulty(Difficulty difficulty, ExerciceType exerciceType) {

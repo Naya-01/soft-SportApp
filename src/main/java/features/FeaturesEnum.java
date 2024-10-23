@@ -1,4 +1,4 @@
-package utils;
+package features;
 
 public enum FeaturesEnum {
 
