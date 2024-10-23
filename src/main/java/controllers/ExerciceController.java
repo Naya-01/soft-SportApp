@@ -6,22 +6,30 @@ import models.enums.Difficulty;
 import models.exercices.CustomExercice;
 import models.exercices.Exercice;
 import models.enums.ExerciceType;
+import utils.FeatureManager;
 
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ExerciceController implements ControllerInterface {
+public class ExerciceController {
     private Logger logger = Logger.getLogger("ExerciceController");
     private Exercice exerciceModel;
     private CustomExercice customExerciceModel;
+    private FeatureManager featureManager;
 
     public ExerciceController() {
         exerciceModel = new Exercice();
         customExerciceModel = new CustomExercice();
+        featureManager = FeatureManager.getInstance();
     }
 
     public ExerciceDTO addExercice(ExerciceType type, String name, String explanation, List<MediaDTO> medias, Difficulty difficulty, boolean isCustom, Object... extraParams) {
+        if (isCustom && !featureManager.isFeatureActive("exercice-custom-add")) {
+            logger.warning("exercice-custom-add feature is disabled.");
+            return null;
+        }
+
         if (name == null || name.isEmpty()) {
             logger.log(Level.WARNING, "Add Exercice failed: Fields missing or empty");
             return null;
@@ -58,25 +66,5 @@ public class ExerciceController implements ControllerInterface {
 
     public boolean deleteExercice(String id) {
         return exerciceModel.deleteExercice(id);
-    }
-
-    @Override
-    public int activate(String[] deactivations, String[] activations) {
-        return 0;
-    }
-
-    @Override
-    public boolean enableUIView() {
-        return false;
-    }
-
-    @Override
-    public boolean disableUIView() {
-        return false;
-    }
-
-    @Override
-    public String[] getStateAsLog() {
-        return new String[0];
     }
 }

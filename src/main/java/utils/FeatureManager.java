@@ -1,7 +1,11 @@
 package utils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
+import java.util.ServiceLoader;
 
 public class FeatureManager {
 
@@ -10,9 +14,7 @@ public class FeatureManager {
 
     private FeatureManager() {
         featureStates = new HashMap<>();
-
-        featureStates.put("exercice-custom-add", true);
-        featureStates.put("exercice-custom-list", true);
+        loadFeatureStates();
     }
 
     public static FeatureManager getInstance() {
@@ -49,5 +51,23 @@ public class FeatureManager {
 
     public Map<String, Boolean> getFeatureStates() {
         return new HashMap<>(featureStates);
+    }
+
+    private void loadFeatureStates() {
+        Properties properties = new Properties();
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("feature-states.properties")) {
+            if (input == null) {
+                System.out.println("Sorry, unable to find feature-states.properties");
+                return;
+            }
+
+            properties.load(input);
+
+            for (String key : properties.stringPropertyNames()) {
+                featureStates.put(key, Boolean.parseBoolean(properties.getProperty(key)));
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }

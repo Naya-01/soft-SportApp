@@ -7,10 +7,9 @@ import models.domains.UserViewDTO;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class AuthController implements ControllerInterface {
+public class AuthController {
     private Logger logger = Logger.getLogger("AuthController");
     private User userModel;
-    private boolean isUIEnabled = false;
 
     public AuthController() {
         userModel = new User();
@@ -63,55 +62,5 @@ public class AuthController implements ControllerInterface {
         userModel.addUser(name, password, isPremium);
         logger.log(Level.INFO, "Register successful for user: " + name);
         return true;
-    }
-
-    @Override
-    public int activate(String[] deactivations, String[] activations) {
-        logger.log(Level.INFO, "Activating/deactivating authentication...");
-        for (String activation : activations) {
-            if (activation.equalsIgnoreCase("Auth")) {
-                logger.log(Level.INFO, "Authentication feature activated.");
-                return 0;
-            }
-        }
-
-        for (String deactivation : deactivations) {
-            if (deactivation.equalsIgnoreCase("Auth")) {
-                logger.log(Level.INFO, "Authentication feature deactivated.");
-                logout();
-                return 0;
-            }
-        }
-
-        return 1; // Aucun changement
-    }
-
-    @Override
-    public boolean enableUIView() {
-        if (isUIEnabled) {
-            logger.log(Level.INFO, "Auth UI already enabled.");
-            return false;
-        }
-
-        logger.log(Level.INFO, "Enabling authentication UI...");
-        isUIEnabled = true;
-        return true;
-    }
-
-    @Override
-    public boolean disableUIView() {
-        if (!isUIEnabled) {
-            logger.log(Level.INFO, "Auth UI already disabled.");
-            return false;
-        }
-
-        logger.log(Level.INFO, "Disabling authentication UI...");
-        isUIEnabled = false;
-        return true;
-    }
-
-    @Override
-    public String[] getStateAsLog() {
-        return null;
     }
 }
