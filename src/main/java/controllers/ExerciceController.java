@@ -50,33 +50,42 @@ public class ExerciceController {
         return ex;
     }
 
-    public List<ExerciceDTO> getAllExercices() {
-        return exerciceModel.getAllExercices();
-    }
-
     public List<ExerciceDTO> getAllNoCustomExercices() {
-        Difficulty difficulty = null;
-        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_DIFFICULTY_BEGINNER)) difficulty = Difficulty.BEGINNER;
-        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_DIFFICULTY_INTERMEDIATE)) difficulty = Difficulty.INTERMEDIATE;
-        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_DIFFICULTY_ADVANCED)) difficulty = Difficulty.ADVANCED;
-
-        List<ExerciceType> types = new ArrayList<>();
-        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_TYPE_CARDIO)) types.add(ExerciceType.CARDIO);
-        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_TYPE_STRENGTH)) types.add(ExerciceType.STRENGTH);
-        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_TYPE_FLEXIBILITY)) types.add(ExerciceType.FLEXIBILITY);
-
-        return exerciceModel.getAllNoCustomExercices(difficulty, types);
-    }
-
-    public List<ExerciceDTO> getExercicesByTypeAndDifficulty(Difficulty difficulty, ExerciceType exerciceType) {
-        return exerciceModel.getExercicesByTypeAndDifficulty(difficulty, exerciceType);
-    }
-
-    public List<ExerciceDTO> getExercicesByType(ExerciceType exerciceType) {
-        return exerciceModel.getExercicesByType(exerciceType);
+        return exerciceModel.getAllNoCustomExercices(getCurrentDifficulty(), getCurrentTypes());
     }
 
     public boolean deleteExercice(String id) {
         return exerciceModel.deleteExercice(id);
+    }
+
+    public void setExerciceDifficulty(Difficulty difficulty) {
+        if(!getCurrentDifficulty().equals(difficulty))
+            featureManager.activateFeature("exercice-difficulty-" + difficulty.toString().toLowerCase());
+    }
+
+    public void setExerciceTypes(List<ExerciceType> types) {
+        for (ExerciceType type : ExerciceType.values()) {
+            if (types.contains(type)) {
+                featureManager.activateFeature("exercice-type-" + type.toString().toLowerCase());
+            } else {
+                featureManager.deactivateFeature("exercice-type-" + type.toString().toLowerCase());
+            }
+        }
+    }
+
+    public Difficulty getCurrentDifficulty() {
+        Difficulty difficulty = null;
+        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_DIFFICULTY_BEGINNER)) difficulty = Difficulty.BEGINNER;
+        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_DIFFICULTY_INTERMEDIATE)) difficulty = Difficulty.INTERMEDIATE;
+        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_DIFFICULTY_ADVANCED)) difficulty = Difficulty.ADVANCED;
+        return difficulty;
+    }
+
+    public List<ExerciceType> getCurrentTypes() {
+        List<ExerciceType> types = new ArrayList<>();
+        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_TYPE_CARDIO)) types.add(ExerciceType.CARDIO);
+        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_TYPE_STRENGTH)) types.add(ExerciceType.STRENGTH);
+        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_TYPE_FLEXIBILITY)) types.add(ExerciceType.FLEXIBILITY);
+        return types;
     }
 }

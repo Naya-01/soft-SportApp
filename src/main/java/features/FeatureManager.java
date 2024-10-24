@@ -35,7 +35,6 @@ public class FeatureManager {
 
         if (featureStrategies.containsKey(startsWith)) {
             featureStrategies.get(startsWith).activateFeature(featureStates, featureName, startsWith);
-            System.out.println(featureStates);
             return true;
         } else if (featureStates.get(featureName) != null) {
             featureStates.put(featureName, true);
@@ -52,7 +51,6 @@ public class FeatureManager {
 
         if (featureStrategies.containsKey(startsWith)) {
             featureStrategies.get(startsWith).deactivateFeature(featureStates, featureName, startsWith);
-            System.out.println(featureStates);
             return true;
         } else if (featureStates.get(featureName) != null) {
             featureStates.put(featureName, false);
@@ -65,6 +63,10 @@ public class FeatureManager {
 
     public boolean isFeatureActive(FeaturesEnum featureEnum) {
         return featureStates.getOrDefault(featureEnum.getFeature(), false);
+    }
+
+    public boolean isFeatureActive(String featureName) {
+        return featureStates.getOrDefault(featureName.toLowerCase(), false);
     }
 
     public Map<String, Boolean> getFeatureStates() {

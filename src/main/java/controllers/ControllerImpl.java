@@ -18,7 +18,7 @@ public class ControllerImpl implements ControllerInterface{
         boolean ok;
         int failed = 0;
 
-        if (deactivations != null) {
+        if (deactivations != null && !deactivations[0].isEmpty()) {
             for (String feature : deactivations) {
                 ok = featureManager.deactivateFeature(feature);
                 if(ok) {
@@ -29,7 +29,7 @@ public class ControllerImpl implements ControllerInterface{
             }
         }
 
-        if (activations != null) {
+        if (activations != null && !activations[0].isEmpty()) {
             for (String feature : activations) {
                 ok = featureManager.activateFeature(feature);
                 if(ok) {

@@ -1,16 +1,17 @@
 package models;
 
-import models.exercices.Exercice;
+import models.domains.ExerciceDTO;
+import models.domains.UserDTO;
 
 public class Performance {
 
     private String text;
-    private User user;
-    private Exercice exercice;
+    private UserDTO user;
+    private ExerciceDTO exercice;
 
     public Performance() {}
 
-    public Performance(String text, User user, Exercice exercice) {
+    public Performance(String text, UserDTO user, ExerciceDTO exercice) {
         this.text = text;
         this.user = user;
         this.exercice = exercice;
@@ -24,19 +25,19 @@ public class Performance {
         this.text = text;
     }
 
-    public User getUser() {
+    public UserDTO getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserDTO user) {
         this.user = user;
     }
 
-    public Exercice getExercice() {
+    public ExerciceDTO getExercice() {
         return exercice;
     }
 
-    public void setExercice(Exercice exercice) {
+    public void setExercice(ExerciceDTO exercice) {
         this.exercice = exercice;
     }
 }
