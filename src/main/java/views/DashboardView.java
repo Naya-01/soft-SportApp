@@ -2,10 +2,13 @@ package views;
 
 import controllers.CommunityController;
 import controllers.ExerciceController;
+import controllers.PaymentMethodController;
 import controllers.UserController;
+import models.PaymentMethod.PaymentMethod;
 import models.domains.ExerciceDTO;
 import models.enums.Difficulty;
 import models.enums.ExerciceType;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,15 +22,18 @@ public class DashboardView extends JFrame {
 
     private ExerciceController exerciceController;
     private UserController userController;
+    private PaymentMethodController paymentMethodController;
 
     private JComboBox<Difficulty> difficultyComboBox;
     private JCheckBox cardioCheckBox;
     private JCheckBox strengthCheckBox;
     private JCheckBox flexibilityCheckBox;
+    private JButton premiumButton;
 
     public DashboardView() {
         this.exerciceController = new ExerciceController();
         this.userController = new UserController();
+        this.paymentMethodController = new PaymentMethodController();
         initComponents();
     }
 
@@ -62,12 +68,11 @@ public class DashboardView extends JFrame {
             }
         });
 
-        JButton premiumButton = new JButton("Become Premium");
+        premiumButton = new JButton("Become Premium");
         premiumButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                userController.upgradeAccount();
-                premiumButton.setVisible(false);
+                showPaymentDialog();
             }
         });
 
@@ -98,9 +103,8 @@ public class DashboardView extends JFrame {
 
         difficultyComboBox = new JComboBox<>(Difficulty.values());
         difficultyComboBox.setSelectedItem(exerciceController.getCurrentDifficulty());
-
-        difficultyComboBox.setPreferredSize(new Dimension(125, 25));  // Largeur 100px, Hauteur 25px
-        difficultyComboBox.setMaximumSize(new Dimension(200, 25));  // Limiter la hauteur maximale
+        difficultyComboBox.setPreferredSize(new Dimension(125, 25));
+        difficultyComboBox.setMaximumSize(new Dimension(200, 25));
 
         difficultyComboBox.addActionListener(new ActionListener() {
             @Override
@@ -199,5 +203,38 @@ public class DashboardView extends JFrame {
 
         exerciceController.setExerciceTypes(selectedTypes);
         refreshExercicesPanel();
+    }
+
+    private void showPaymentDialog() {
+        List<PaymentMethod> availableMethods = paymentMethodController.getAvailablePaymentMethods();
+        if (availableMethods.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No payment methods are available.");
+            return;
+        }
+
+        String[] options = availableMethods.stream().map(PaymentMethod::getName).toArray(String[]::new);
+        int choice = JOptionPane.showOptionDialog(
+            this,
+            "Choose a payment method:",
+            "Payment Method",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.INFORMATION_MESSAGE,
+            null,
+            options,
+            options[0]
+        );
+
+        if (choice != -1) {
+            PaymentMethod selectedMethod = availableMethods.get(choice);
+            boolean success = paymentMethodController.upgradeAccount(selectedMethod);
+            if (success) {
+                JOptionPane.showMessageDialog(this, "Payment successful! You are now a premium user.");
+                UserStore.getCurrentUser().setPremium(true);
+
+                premiumButton.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "Payment failed. Please try again.");
+            }
+        }
     }
 }
