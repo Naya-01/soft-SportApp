@@ -1,6 +1,7 @@
 package views;
 
 import controllers.ExerciceController;
+import controllers.PerformanceController;
 import controllers.TimerController;
 import models.domains.MediaDTO;
 import models.domains.ExerciceDTO;
@@ -16,13 +17,15 @@ public class ExerciceDetailView extends JFrame {
     private ExerciceDTO exercice;
     private TimerController timerController;
     private ExerciceController exerciceController;
+    private PerformanceController performanceController;
     private JLabel timerLabel;
     private javax.swing.Timer swingTimer;
 
-    public ExerciceDetailView(ExerciceDTO exercice) {
+    public ExerciceDetailView(ExerciceDTO exercice) { // Update constructor to accept UserDTO
         this.exercice = exercice;
         this.timerController = new TimerController();
         this.exerciceController = new ExerciceController();
+        this.performanceController = new PerformanceController();
         initComponents();
     }
 
@@ -91,6 +94,10 @@ public class ExerciceDetailView extends JFrame {
                 exerciceDetailsPanel.add(new JLabel(media.getUrl()));
             }
         }
+
+        // Retrieve and display the performance text
+        String performanceText = performanceController.getExercicePerformanceTextOfUser(exercice.getId().toString());
+        exerciceDetailsPanel.add(new JLabel("Performance : " + performanceText));
 
         return exerciceDetailsPanel;
     }

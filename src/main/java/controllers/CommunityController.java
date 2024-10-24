@@ -18,7 +18,7 @@ import utils.ViewEnum;
 
 public class CommunityController extends AbstractController{
 
-    private Logger logger = Logger.getLogger("ExerciceController");
+    private Logger logger = Logger.getLogger("CommunityController");
 
     private User userModel;
     private Exercice exerciceModel;

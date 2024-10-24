@@ -4,4 +4,9 @@ out
 
 LogFile*.log*
 
+./target/
+.classpath
+.project
+.settings/
+target/*
 target/
