@@ -4,9 +4,7 @@ out
 
 LogFile*.log*
 
-./target/
+/target
 .classpath
 .project
 .settings/
-target/*
-target/
