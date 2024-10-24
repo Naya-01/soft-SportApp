@@ -1,26 +1,26 @@
 package controllers;
 
-import features.FeatureManager;
-
+import features.managers.FeatureManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ControllerImpl implements ControllerInterface{
+public abstract class AbstractController implements ControllerInterface {
+    protected Logger logger;
+    protected FeatureManager featureManager;
 
-    private Logger logger = Logger.getLogger("ControllerImpl");
-    private FeatureManager featureManager;
-
-    public ControllerImpl() {
+    public AbstractController() {
+        logger = Logger.getLogger(this.getClass().getName());
         featureManager = FeatureManager.getInstance();
     }
 
+    @Override
     public int activate(String[] deactivations, String[] activations){
         boolean ok;
         int failed = 0;
 
         if (deactivations != null && !deactivations[0].isEmpty()) {
             for (String feature : deactivations) {
-                ok = featureManager.deactivateFeature(feature);
+                ok = featureManager.deactivate(feature);
                 if(ok) {
                     logger.info("Feature deactivated: " + feature);
                 } else {
@@ -31,7 +31,7 @@ public class ControllerImpl implements ControllerInterface{
 
         if (activations != null && !activations[0].isEmpty()) {
             for (String feature : activations) {
-                ok = featureManager.activateFeature(feature);
+                ok = featureManager.activate(feature);
                 if(ok) {
                     logger.info("Feature activated: " + feature);
                 } else {
@@ -43,17 +43,12 @@ public class ControllerImpl implements ControllerInterface{
         return failed;
     }
 
-    public boolean enableUIView(){
-        Logger.getLogger("Log").log(Level.INFO, "ControllerImpl : enableUIView");
+    @Override
+    public abstract boolean enableUIView();
 
-        return true;
-    }
+    @Override
+    public abstract boolean disableUIView();
 
-    public boolean disableUIView(){
-        Logger.getLogger("Log").log(Level.INFO, "ControllerImpl : disableUIView");
-
-        return true;
-    }
 
     public String[] getStateAsLog(){
         Logger.getLogger("Log").log(Level.INFO, "ControllerImpl : getStateAsLog");

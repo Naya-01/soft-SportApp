@@ -1,5 +1,6 @@
 package controllers;
 
+import features.managers.ViewManager;
 import models.domains.MediaDTO;
 import models.domains.ExerciceDTO;
 import models.enums.Difficulty;
@@ -7,24 +8,41 @@ import models.enums.MediaType;
 import models.exercices.CustomExercice;
 import models.exercices.Exercice;
 import models.enums.ExerciceType;
-import features.FeatureManager;
+import features.managers.FeatureManager;
 import features.FeaturesEnum;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import utils.ViewEnum;
 
-public class ExerciceController {
+public class ExerciceController extends AbstractController{
     private Logger logger = Logger.getLogger("ExerciceController");
     private Exercice exerciceModel;
     private CustomExercice customExerciceModel;
     private FeatureManager featureManager;
+    private ViewManager viewManager;
 
     public ExerciceController() {
         exerciceModel = new Exercice();
         customExerciceModel = new CustomExercice();
         featureManager = FeatureManager.getInstance();
+        viewManager = ViewManager.getInstance();
+    }
+
+    @Override
+    public boolean enableUIView() {
+        return viewManager.activate(ViewEnum.EXERCICE.getViewName());
+    }
+
+    @Override
+    public boolean disableUIView() {
+        return viewManager.deactivate(ViewEnum.EXERCICE.getViewName());
+    }
+
+    public boolean isUIViewEnabled() {
+        return viewManager.isActive(ViewEnum.EXERCICE.getViewName());
     }
 
     public ExerciceDTO addExercice(ExerciceType type, String name, String explanation, List<MediaDTO> medias, Difficulty difficulty, boolean isCustom, Object... extraParams) {
@@ -61,15 +79,15 @@ public class ExerciceController {
 
     public void setExerciceDifficulty(Difficulty difficulty) {
         if(!getCurrentDifficulty().equals(difficulty))
-            featureManager.activateFeature("exercice-difficulty-" + difficulty.toString().toLowerCase());
+            featureManager.activate("exercice-difficulty-" + difficulty.toString().toLowerCase());
     }
 
     public void setExerciceTypes(List<ExerciceType> types) {
         for (ExerciceType type : ExerciceType.values()) {
             if (types.contains(type)) {
-                featureManager.activateFeature("exercice-type-" + type.toString().toLowerCase());
+                featureManager.activate("exercice-type-" + type.toString().toLowerCase());
             } else {
-                featureManager.deactivateFeature("exercice-type-" + type.toString().toLowerCase());
+                featureManager.deactivate("exercice-type-" + type.toString().toLowerCase());
             }
         }
     }

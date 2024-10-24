@@ -1,7 +1,7 @@
 package controllers;
 
 import models.Timer;
-import features.FeatureManager;
+import features.managers.FeatureManager;
 import features.FeaturesEnum;
 
 public class TimerController {

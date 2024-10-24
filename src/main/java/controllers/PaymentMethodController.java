@@ -1,6 +1,6 @@
 package controllers;
 
-import features.FeatureManager;
+import features.managers.FeatureManager;
 import features.FeaturesEnum;
 import java.util.ArrayList;
 import java.util.List;

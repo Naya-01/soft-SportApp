@@ -1,6 +1,5 @@
 package views;
 
-import controllers.CommunityController;
 import controllers.ExerciceController;
 import controllers.PaymentMethodController;
 import controllers.UserController;
@@ -17,12 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import views.utils.UserStore;
+import features.managers.ViewManager;
 
 public class DashboardView extends JFrame {
 
     private ExerciceController exerciceController;
     private UserController userController;
     private PaymentMethodController paymentMethodController;
+    private ViewManager viewManager;
 
     private JComboBox<Difficulty> difficultyComboBox;
     private JCheckBox cardioCheckBox;
@@ -34,6 +35,7 @@ public class DashboardView extends JFrame {
         this.exerciceController = new ExerciceController();
         this.userController = new UserController();
         this.paymentMethodController = new PaymentMethodController();
+        this.viewManager = ViewManager.getInstance();
         initComponents();
     }
 
@@ -50,8 +52,14 @@ public class DashboardView extends JFrame {
         JPanel exercicesPanel = createExercicesPanel();
 
         mainPanel.add(navBar, BorderLayout.NORTH);
-        mainPanel.add(filterPanel, BorderLayout.WEST);
-        mainPanel.add(new JScrollPane(exercicesPanel), BorderLayout.CENTER);
+
+        if (viewManager.isActive("exercice")) {
+            mainPanel.add(new JScrollPane(exercicesPanel), BorderLayout.CENTER);
+        }
+
+        if (viewManager.isActive("exercice-filter")) {
+            mainPanel.add(filterPanel, BorderLayout.WEST);
+        }
 
         add(mainPanel);
     }
@@ -60,36 +68,42 @@ public class DashboardView extends JFrame {
         JPanel navBar = new JPanel();
         navBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        JButton profileButton = new JButton("Voir Profil");
-        profileButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ProfileView(exerciceController).setVisible(true);
-            }
-        });
+        if (viewManager.isActive("account")) {
+            JButton profileButton = new JButton("Voir Profil");
+            profileButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    new ProfileView(exerciceController).setVisible(true);
+                }
+            });
+            navBar.add(profileButton);
+        }
 
-        premiumButton = new JButton("Become Premium");
-        premiumButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showPaymentDialog();
-            }
-        });
+        if (viewManager.isActive("payment-methods")) {
+            premiumButton = new JButton("Become Premium");
+            premiumButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    showPaymentDialog();
+                }
+            });
 
-        premiumButton.setVisible(!UserStore.getCurrentUser().getPremium());
+            premiumButton.setVisible(!UserStore.getCurrentUser().getPremium());
+            navBar.add(premiumButton);
+        }
 
-        JButton communityButton = new JButton("Community");
-        communityButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new CommunityView().setVisible(true);
-                dispose();
-            }
-        });
+        if (viewManager.isActive("community")) {
+            JButton communityButton = new JButton("Community");
+            communityButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    new CommunityView().setVisible(true);
+                    dispose();
+                }
+            });
+            navBar.add(communityButton);
+        }
 
-        navBar.add(profileButton);
-        navBar.add(premiumButton);
-        navBar.add(communityButton);
         return navBar;
     }
 
