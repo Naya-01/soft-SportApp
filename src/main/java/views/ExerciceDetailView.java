@@ -1,23 +1,28 @@
 package views;
 
+import controllers.ExerciceController;
 import controllers.TimerController;
+import models.domains.MediaDTO;
 import models.domains.ExerciceDTO;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class ExerciceDetailView extends JFrame {
 
     private ExerciceDTO exercice;
     private TimerController timerController;
+    private ExerciceController exerciceController;
     private JLabel timerLabel;
     private javax.swing.Timer swingTimer;
 
     public ExerciceDetailView(ExerciceDTO exercice) {
         this.exercice = exercice;
         this.timerController = new TimerController();
+        this.exerciceController = new ExerciceController();
         initComponents();
     }
 
@@ -68,6 +73,24 @@ public class ExerciceDetailView extends JFrame {
         exerciceDetailsPanel.add(new JLabel("Type : " + exercice.getType()));
         exerciceDetailsPanel.add(new JLabel("Explication : " + exercice.getExplanation()));
         exerciceDetailsPanel.add(new JLabel("Difficulté : " + exercice.getDifficulty()));
+
+        // Afficher les images
+        List<MediaDTO> filteredImages = exerciceController.getFilteredImages(exercice.getMedias());
+        if (!filteredImages.isEmpty()) {
+            exerciceDetailsPanel.add(new JLabel("Images :"));
+            for (MediaDTO media : filteredImages) {
+                exerciceDetailsPanel.add(new JLabel(media.getUrl()));
+            }
+        }
+
+        // Afficher les vidéos
+        List<MediaDTO> filteredVideos = exerciceController.getFilteredVideos(exercice.getMedias());
+        if (!filteredVideos.isEmpty()) {
+            exerciceDetailsPanel.add(new JLabel("Vidéos :"));
+            for (MediaDTO media : filteredVideos) {
+                exerciceDetailsPanel.add(new JLabel(media.getUrl()));
+            }
+        }
 
         return exerciceDetailsPanel;
     }

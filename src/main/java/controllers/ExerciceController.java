@@ -3,6 +3,7 @@ package controllers;
 import models.domains.MediaDTO;
 import models.domains.ExerciceDTO;
 import models.enums.Difficulty;
+import models.enums.MediaType;
 import models.exercices.CustomExercice;
 import models.exercices.Exercice;
 import models.enums.ExerciceType;
@@ -87,5 +88,46 @@ public class ExerciceController {
         if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_TYPE_STRENGTH)) types.add(ExerciceType.STRENGTH);
         if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_TYPE_FLEXIBILITY)) types.add(ExerciceType.FLEXIBILITY);
         return types;
+    }
+
+    public List<MediaDTO> getFilteredMedias(List<MediaDTO> medias) {
+        List<MediaDTO> filteredMedias = new ArrayList<>();
+
+        boolean imageActive = featureManager.isFeatureActive(FeaturesEnum.EXERCICE_MEDIA_IMAGE);
+        boolean videoActive = featureManager.isFeatureActive(FeaturesEnum.EXERCICE_MEDIA_VIDEO);
+
+        for (MediaDTO media : medias) {
+            if ((media.getType().equals(MediaType.IMAGE) && imageActive) || (media.getType().equals(MediaType.VIDEO) && videoActive)) {
+                filteredMedias.add(media);
+            }
+        }
+
+        return filteredMedias;
+    }
+
+    public List<MediaDTO> getFilteredImages(List<MediaDTO> medias) {
+        List<MediaDTO> filteredImages = new ArrayList<>();
+        boolean imageActive = featureManager.isFeatureActive(FeaturesEnum.EXERCICE_MEDIA_IMAGE);
+
+        for (MediaDTO media : medias) {
+            if (media.getType().equals(MediaType.IMAGE) && imageActive) {
+                filteredImages.add(media);
+            }
+        }
+
+        return filteredImages;
+    }
+
+    public List<MediaDTO> getFilteredVideos(List<MediaDTO> medias) {
+        List<MediaDTO> filteredVideos = new ArrayList<>();
+        boolean videoActive = featureManager.isFeatureActive(FeaturesEnum.EXERCICE_MEDIA_VIDEO);
+
+        for (MediaDTO media : medias) {
+            if (media.getType().equals(MediaType.VIDEO) && videoActive) {
+                filteredVideos.add(media);
+            }
+        }
+
+        return filteredVideos;
     }
 }
