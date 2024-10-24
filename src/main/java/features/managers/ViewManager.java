@@ -8,7 +8,7 @@ public class ViewManager extends StateManager {
     private static ViewManager instance = null;
 
     private ViewManager() {
-        super("ViewManager");
+        super();
         loadStates("view-states.properties");
 
     }

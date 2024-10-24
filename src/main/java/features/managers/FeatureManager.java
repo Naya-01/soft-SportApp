@@ -16,7 +16,7 @@ public class FeatureManager extends StateManager{
     private Map<String, FeatureStrategy> featureStrategies;
 
     public FeatureManager() {
-        super("FeatureManager");
+        super();
 
         featureStrategies = new HashMap<>();
         loadFeatureStrategies();

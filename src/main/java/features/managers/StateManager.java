@@ -12,10 +12,13 @@ public abstract class StateManager {
     protected Map<String, Boolean> states;
     protected Logger logger;
 
-    public StateManager(String loggerName) {
+    public StateManager() {
         states = new HashMap<>();
         loadStates("feature-states.properties");
-        logger = Logger.getLogger(loggerName);
+
+        logger =  Logger.getLogger("Log");
+        logger.info("Init StateManager");
+        logger.info(this.getClass().getName() + " initialized");
     }
 
     public abstract boolean activate(String featureName);
