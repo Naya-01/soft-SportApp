@@ -43,9 +43,13 @@
   "type" : "STRENGTH",
   "explanation" : "Do 20 push-ups",
   "medias" : [ {
-    "url" : "http://example.com/video-cardio",
+    "url" : "http://example.com/video-STRENGTH",
     "type" : "VIDEO"
-  } ],
+    },
+    {
+      "url" : "http://example.com/image-STRENGTH",
+      "type" : "IMAGE"
+    }],
   "difficulty" : "BEGINNER",
   "repetitions" : 20,
   "series" : 3,

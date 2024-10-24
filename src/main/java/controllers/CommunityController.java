@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class CommunityController{
 
-    private Logger logger = Logger.getLogger("ExerciceController");
+    private Logger logger = Logger.getLogger("CommunityController");
 
     private User userModel;
     private Exercice exerciceModel;
@@ -33,7 +33,6 @@ public class CommunityController{
     }
 
     public List<CustomExerciceDetailsDTO> getCustomExercicesWithDetails() {
-
         if (!featureManager.isFeatureActive(FeaturesEnum.EXERCICE_CUSTOM_LIST)) {
             logger.warning("exercice-custom-list feature is disabled.");
             return null;
