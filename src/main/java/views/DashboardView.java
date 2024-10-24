@@ -57,7 +57,7 @@ public class DashboardView extends JFrame {
             mainPanel.add(new JScrollPane(exercicesPanel), BorderLayout.CENTER);
         }
 
-        if (viewManager.isActive("exercice-filter")) {
+        if (viewManager.isActive("exercice_filter")) {
             mainPanel.add(filterPanel, BorderLayout.WEST);
         }
 
@@ -79,7 +79,7 @@ public class DashboardView extends JFrame {
             navBar.add(profileButton);
         }
 
-        if (viewManager.isActive("payment-methods")) {
+        if (viewManager.isActive("payment_methods")) {
             premiumButton = new JButton("Become Premium");
             premiumButton.addActionListener(new ActionListener() {
                 @Override

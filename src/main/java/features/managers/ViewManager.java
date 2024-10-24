@@ -53,7 +53,7 @@ public class ViewManager extends StateManager {
     }
 
     private boolean isParentFeatureActive(String featureName) {
-        String[] parts = featureName.split("-");
+        String[] parts = featureName.split("_");
         String parentFeature = parts[0];
 
         if(featureName.equals(parentFeature)){

@@ -30,8 +30,8 @@ public class FeatureManager extends StateManager{
     }
 
     public boolean activate(String featureName) {
-        String[] splitted = featureName.split("-");
-        String startsWith = splitted[0] + "-" + splitted[1] + "-";
+        String[] splitted = featureName.split("_");
+        String startsWith = splitted[0] + "_" + splitted[1] + "_";
 
         if (featureStrategies.containsKey(startsWith)) {
             featureStrategies.get(startsWith).activateFeature(super.states, featureName, startsWith);
@@ -46,8 +46,8 @@ public class FeatureManager extends StateManager{
     }
 
     public boolean deactivate(String featureName) {
-        String[] splitted = featureName.split("-");
-        String startsWith = splitted[0] + "-" + splitted[1] + "-";
+        String[] splitted = featureName.split("_");
+        String startsWith = splitted[0] + "_" + splitted[1] + "_";
 
         if (featureStrategies.containsKey(startsWith)) {
             featureStrategies.get(startsWith).deactivateFeature(super.states, featureName, startsWith);
@@ -74,9 +74,9 @@ public class FeatureManager extends StateManager{
     }
 
     private void loadFeatureStrategies() {
-        featureStrategies.put("exercice-difficulty-", new AlternativeFeatureStrategy());
-        featureStrategies.put("exercice-type-", new OrFeatureStrategy());
-        featureStrategies.put("exercice-media-", new OrFeatureStrategy());
-        featureStrategies.put("payment-method-", new OrFeatureStrategy());
+        featureStrategies.put("exercice_difficulty_", new AlternativeFeatureStrategy());
+        featureStrategies.put("exercice_type_", new OrFeatureStrategy());
+        featureStrategies.put("exercice_media_", new OrFeatureStrategy());
+        featureStrategies.put("payment_method_", new OrFeatureStrategy());
     }
 }

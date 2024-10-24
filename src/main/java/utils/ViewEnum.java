@@ -2,7 +2,7 @@ package utils;
 
 public enum ViewEnum {
     EXERCICE("exercice"),
-    PAYMENT_METHODS("payment-methods"),
+    PAYMENT_METHODS("payment_methods"),
     COMMUNITY("community");
 
     private final String viewName;
