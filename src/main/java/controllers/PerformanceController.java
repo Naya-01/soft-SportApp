@@ -23,7 +23,7 @@ public class PerformanceController {
     }
 
     public boolean addExercicePerformance(String exerciceId, String performanceText) {
-        if (!featureManager.isFeatureActive(FeaturesEnum.EXERCICE_PERFORMANCE)) {
+        if (!featureManager.isActive(FeaturesEnum.EXERCICE_PERFORMANCE.getFeature())) {
             logger.warning("exercice-performance feature is disabled.");
             return false;
         }
@@ -44,7 +44,7 @@ public class PerformanceController {
     }
 
     public String getExercicePerformanceTextOfUser(String exerciceId) {
-        if (!featureManager.isFeatureActive(FeaturesEnum.EXERCICE_PERFORMANCE)) {
+        if (!featureManager.isActive(FeaturesEnum.EXERCICE_PERFORMANCE.getFeature())) {
             logger.warning("exercice-performance feature is disabled.");
             return null;
         }

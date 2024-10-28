@@ -2,6 +2,11 @@ package features;
 
 public enum FeaturesEnum {
 
+    COMMUNITY("community"),
+    EXERCISE("exercise"),
+    PREMIUM("premium"),
+    PROFILE("profile"),
+    PAYMENT_METHODS("payment_methods"),
     EXERCICE_CUSTOM_ADD("exercice_custom_add"),
     EXERCICE_CUSTOM_LIST("exercice_custom_list"),
     EXERCICE_DIFFICULTY_BEGINNER("exercice_difficulty_beginner"),
@@ -14,7 +19,7 @@ public enum FeaturesEnum {
     EXERCICE_MEDIA_IMAGE("exercice_media_image"),
     EXERCICE_MEDIA_VIDEO("exercice_media_video"),
     EXERCICE_PERFORMANCE("exercice_performance"),
-    EXERCICE_TIMER("exercice_timer"),
+    EXERCICE_TIMER("timer"),
     PAYMENT_METHOD_BANCONTACT("payment_method_bancontact"),
     PAYMENT_METHOD_PAYPAL("payment_method_paypal");
 

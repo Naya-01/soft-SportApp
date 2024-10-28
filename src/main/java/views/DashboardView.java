@@ -3,6 +3,8 @@ package views;
 import controllers.ExerciceController;
 import controllers.PaymentMethodController;
 import controllers.UserController;
+import features.FeaturesEnum;
+import features.managers.FeatureManager;
 import models.PaymentMethod.PaymentMethod;
 import models.domains.ExerciceDTO;
 import models.enums.Difficulty;
@@ -25,6 +27,8 @@ public class DashboardView extends JFrame {
     private PaymentMethodController paymentMethodController;
     private ViewManager viewManager;
 
+    private FeatureManager featureManager;
+
     private JComboBox<Difficulty> difficultyComboBox;
     private JCheckBox cardioCheckBox;
     private JCheckBox strengthCheckBox;
@@ -36,6 +40,7 @@ public class DashboardView extends JFrame {
         this.userController = new UserController();
         this.paymentMethodController = new PaymentMethodController();
         this.viewManager = ViewManager.getInstance();
+        this.featureManager = FeatureManager.getInstance();
         initComponents();
     }
 
@@ -53,11 +58,8 @@ public class DashboardView extends JFrame {
 
         mainPanel.add(navBar, BorderLayout.NORTH);
 
-        if (viewManager.isActive("exercice")) {
+        if (featureManager.isActive(FeaturesEnum.EXERCISE.getFeature())) {
             mainPanel.add(new JScrollPane(exercicesPanel), BorderLayout.CENTER);
-        }
-
-        if (viewManager.isActive("exercice_filter")) {
             mainPanel.add(filterPanel, BorderLayout.WEST);
         }
 
@@ -68,7 +70,7 @@ public class DashboardView extends JFrame {
         JPanel navBar = new JPanel();
         navBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        if (viewManager.isActive("account")) {
+        if (featureManager.isActive(FeaturesEnum.PROFILE.getFeature())) {
             JButton profileButton = new JButton("Voir Profil");
             profileButton.addActionListener(new ActionListener() {
                 @Override
@@ -79,7 +81,7 @@ public class DashboardView extends JFrame {
             navBar.add(profileButton);
         }
 
-        if (viewManager.isActive("payment_methods")) {
+        if (featureManager.isActive(FeaturesEnum.PREMIUM.getFeature())) {
             premiumButton = new JButton("Become Premium");
             premiumButton.addActionListener(new ActionListener() {
                 @Override
@@ -92,7 +94,7 @@ public class DashboardView extends JFrame {
             navBar.add(premiumButton);
         }
 
-        if (viewManager.isActive("community")) {
+        if (viewManager.isViewActive(FeaturesEnum.COMMUNITY.getFeature())) {
             JButton communityButton = new JButton("Community");
             communityButton.addActionListener(new ActionListener() {
                 @Override
@@ -115,8 +117,22 @@ public class DashboardView extends JFrame {
         JLabel difficultyLabel = new JLabel("Filtrer par Difficulté:");
         filterPanel.add(difficultyLabel);
 
-        difficultyComboBox = new JComboBox<>(Difficulty.values());
-        difficultyComboBox.setSelectedItem(exerciceController.getCurrentDifficulty());
+        List<Difficulty> activeDifficulties = new ArrayList<>();
+        for (Difficulty difficulty : Difficulty.values()) {
+                activeDifficulties.add(difficulty);
+        }
+
+        difficultyComboBox = new JComboBox<>(activeDifficulties.toArray(new Difficulty[0]));
+        Difficulty currentDifficulty = exerciceController.getCurrentDifficulty();
+        if (activeDifficulties.contains(currentDifficulty)) {
+            difficultyComboBox.setSelectedItem(currentDifficulty);
+        } else {
+            if (!activeDifficulties.isEmpty()) {
+                difficultyComboBox.setSelectedItem(activeDifficulties.get(0));
+            } else {
+                difficultyComboBox.setSelectedItem(null);
+            }
+        }
         difficultyComboBox.setPreferredSize(new Dimension(125, 25));
         difficultyComboBox.setMaximumSize(new Dimension(200, 25));
 
@@ -133,35 +149,35 @@ public class DashboardView extends JFrame {
         JLabel typeLabel = new JLabel("Filtrer par Type:");
         filterPanel.add(typeLabel);
 
-        cardioCheckBox = new JCheckBox("Cardio");
-        cardioCheckBox.setSelected(exerciceController.getCurrentTypes().contains(ExerciceType.CARDIO));
-        cardioCheckBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateExerciceTypes();
-            }
-        });
-        filterPanel.add(cardioCheckBox);
+            cardioCheckBox = new JCheckBox(ExerciceType.CARDIO.getTypeName());
+            cardioCheckBox.setSelected(exerciceController.getCurrentTypes().contains(ExerciceType.CARDIO));
+            cardioCheckBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    updateExerciceTypes();
+                }
+            });
+            filterPanel.add(cardioCheckBox);
 
-        strengthCheckBox = new JCheckBox("Strength");
-        strengthCheckBox.setSelected(exerciceController.getCurrentTypes().contains(ExerciceType.STRENGTH));
-        strengthCheckBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateExerciceTypes();
-            }
-        });
-        filterPanel.add(strengthCheckBox);
+            strengthCheckBox = new JCheckBox(ExerciceType.STRENGTH.getTypeName());
+            strengthCheckBox.setSelected(exerciceController.getCurrentTypes().contains(ExerciceType.STRENGTH));
+            strengthCheckBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    updateExerciceTypes();
+                }
+            });
+            filterPanel.add(strengthCheckBox);
 
-        flexibilityCheckBox = new JCheckBox("Flexibility");
-        flexibilityCheckBox.setSelected(exerciceController.getCurrentTypes().contains(ExerciceType.FLEXIBILITY));
-        flexibilityCheckBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateExerciceTypes();
-            }
-        });
-        filterPanel.add(flexibilityCheckBox);
+            flexibilityCheckBox = new JCheckBox(ExerciceType.FLEXIBILITY.getTypeName());
+            flexibilityCheckBox.setSelected(exerciceController.getCurrentTypes().contains(ExerciceType.FLEXIBILITY));
+            flexibilityCheckBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    updateExerciceTypes();
+                }
+            });
+            filterPanel.add(flexibilityCheckBox);
 
         return filterPanel;
     }
@@ -205,13 +221,13 @@ public class DashboardView extends JFrame {
 
     private void updateExerciceTypes() {
         List<ExerciceType> selectedTypes = new ArrayList<>();
-        if (cardioCheckBox.isSelected()) {
+        if (cardioCheckBox != null && cardioCheckBox.isSelected()) {
             selectedTypes.add(ExerciceType.CARDIO);
         }
-        if (strengthCheckBox.isSelected()) {
+        if (strengthCheckBox != null && strengthCheckBox.isSelected()) {
             selectedTypes.add(ExerciceType.STRENGTH);
         }
-        if (flexibilityCheckBox.isSelected()) {
+        if (flexibilityCheckBox != null && flexibilityCheckBox.isSelected()) {
             selectedTypes.add(ExerciceType.FLEXIBILITY);
         }
 

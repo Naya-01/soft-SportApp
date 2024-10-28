@@ -1,16 +1,23 @@
 package features.managers;
 
-import java.util.HashMap;
-import java.util.Map;
+import features.ConstraintType;
+import features.Feature;
+import java.util.*;
+import java.util.logging.Logger;
 
-public class ViewManager extends StateManager {
-
+public class ViewManager {
     private static ViewManager instance = null;
+    private FeatureManager featureManager;
+    private boolean uiViewEnabled;
+    private Logger logger;
+    private Map<String, String> viewGroupMapping; // Map des vues vers les groupName
 
     private ViewManager() {
-        super();
-        loadStates("view-states.properties");
-
+        logger = Logger.getLogger(this.getClass().getName());
+        featureManager = FeatureManager.getInstance();
+        uiViewEnabled = true; // Par défaut, les vues UI sont activées
+        initializeViewGroupMapping();
+        logger.info("ViewManager initialisé");
     }
 
     public static ViewManager getInstance() {
@@ -20,46 +27,63 @@ public class ViewManager extends StateManager {
         return instance;
     }
 
-    public Map<String, Boolean> getViewStates() {
-        return new HashMap<>( super.states);
+    private void initializeViewGroupMapping() {
+        viewGroupMapping = new HashMap<>();
+
+        viewGroupMapping.put("difficultyView", "difficulty");
+        viewGroupMapping.put("typeView", "type");
+        viewGroupMapping.put("paymentView", "payment_method");
     }
 
-    @Override
-    public boolean activate(String featureName) {
-        if (isParentFeatureActive(featureName)) {
-            super.states.put(featureName, true);
-            logger.info("View activated: " + featureName);
-            return true;
-        }
-        return false;
+    public void setUIViewEnabled(boolean enabled) {
+        this.uiViewEnabled = enabled;
+        logger.info("UIView " + (enabled ? "activée" : "désactivée") + " dans ViewManager");
     }
 
-    @Override
-    public boolean deactivate(String featureName) {
-        if (super.states.containsKey(featureName)) {
-            super.states.put(featureName, false);
-            logger.info("View deactivated: " + featureName);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean isActive(String featureName) {
-        if (!isParentFeatureActive(featureName)) {
+    public boolean isViewActive(String viewName) {
+        if (!uiViewEnabled) {
+            logger.info("UIView est désactivée globalement");
             return false;
         }
-        return super.states.getOrDefault(featureName, false);
-    }
 
-    private boolean isParentFeatureActive(String featureName) {
-        String[] parts = featureName.split("_");
-        String parentFeature = parts[0];
+        String groupName = viewGroupMapping.get(viewName);
 
-        if(featureName.equals(parentFeature)){
+        if (groupName == null) {
+            logger.info("Vue " + viewName + " est active (aucun groupName associé)");
             return true;
         }
 
-        return super.states.getOrDefault(parentFeature, true);
+        List<Feature> groupFeatures = featureManager.getFeaturesByGroup(groupName);
+        ConstraintType constraintType = featureManager.getConstraintTypeByGroup(groupName);
+
+        if (groupFeatures.isEmpty()) {
+            logger.info("Vue " + viewName + " est active (groupe sans features)");
+            return true;
+        }
+
+        boolean isActive = false;
+
+        if (constraintType != null) {
+            switch (constraintType) {
+                case ALTERNATIVE:
+                case OR:
+                    isActive = groupFeatures.stream().anyMatch(Feature::isActive);
+                    break;
+                case MANDATORY:
+                    isActive = groupFeatures.stream().allMatch(Feature::isActive);
+                    break;
+                case OPTIONAL:
+                    isActive = groupFeatures.stream().anyMatch(Feature::isActive);
+                    break;
+                default:
+                    isActive = groupFeatures.stream().anyMatch(Feature::isActive);
+                    break;
+            }
+        } else {
+            isActive = groupFeatures.stream().anyMatch(Feature::isActive);
+        }
+
+        logger.info("Vue " + viewName + " est " + (isActive ? "active" : "inactive"));
+        return isActive;
     }
 }
