@@ -73,11 +73,13 @@ public class ExerciceController{
     }
 
     public void setExerciceTypes(List<ExerciceType> types) {
+        List<ExerciceType> currentTypes = getCurrentTypes();
+
         for (ExerciceType type : ExerciceType.values()) {
-            String featureName = type.getFeatureName(); // Ajoutez un getFeatureName() dans ExerciceType
-            if (types.contains(type)) {
+            String featureName = type.getFeatureName();
+            if (types.contains(type) && !currentTypes.contains(type)) {
                 featureManager.activate(featureName);
-            } else {
+            } else if (!types.contains(type) && currentTypes.contains(type)){
                 featureManager.deactivate(featureName);
             }
         }
