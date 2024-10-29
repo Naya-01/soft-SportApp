@@ -11,8 +11,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import views.utils.BaseView;
 
-public class ExerciceDetailView extends JFrame {
+public class ExerciceDetailView extends BaseView {
 
     private ExerciceDTO exercice;
     private TimerController timerController;

@@ -17,9 +17,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import views.utils.BaseView;
 import views.utils.UserStore;
 
-public class DashboardView extends JFrame {
+public class DashboardView extends BaseView {
 
     private ExerciceController exerciceController;
     private UserController userController;
