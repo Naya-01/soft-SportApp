@@ -21,4 +21,8 @@ public class Log {
             e.printStackTrace();
         }
     }
+
+    public static Logger getLogger() {
+        return logger;
+    }
 }

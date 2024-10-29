@@ -16,10 +16,6 @@ import views.AuthView;
 public class Main{
     public static void main(String[] args) {
 
-        Log.config();
-        Logger.getLogger("Log").log(Level.INFO, "Server started");
-
-
         ControllerInterface controller = new MainController();
 
         AuthView authView = new AuthView(new AuthController());

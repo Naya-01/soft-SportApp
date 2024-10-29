@@ -4,7 +4,9 @@ import features.Feature;
 import features.managers.FeatureManager;
 import features.managers.ViewManager;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import utils.Log;
 
 public class MainController implements ControllerInterface {
     private Logger logger;
@@ -12,7 +14,11 @@ public class MainController implements ControllerInterface {
     private ViewManager viewManager;
 
     public MainController() {
-        logger = Logger.getLogger(this.getClass().getName());
+        Log.config();
+        logger = Log.getLogger();
+        logger.log(Level.INFO, "Server started");
+
+
         featureManager = FeatureManager.getInstance();
         viewManager = ViewManager.getInstance();
         logger.info("MainController initialisé");

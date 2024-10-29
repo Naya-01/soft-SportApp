@@ -5,6 +5,7 @@ import features.observers.UIViewObserver;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import utils.Log;
 
 public class ViewManager {
     private static ViewManager instance = null;
@@ -13,10 +14,10 @@ public class ViewManager {
     private List<UIViewObserver> observers;
 
     private ViewManager() {
-        logger = Logger.getLogger(this.getClass().getName());
+        logger = Log.getLogger();
         uiViewEnabled = true;
         observers = new ArrayList<>();
-        logger.info("ViewManager initialisé avec uiViewEnabled = true");
+        logger.info("ViewManager initialisé avec uiViewEnabled = "+uiViewEnabled);
     }
 
     public static ViewManager getInstance() {

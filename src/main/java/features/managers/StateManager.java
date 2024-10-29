@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Logger;
+import utils.Log;
 
 public abstract class StateManager {
 
@@ -14,7 +15,7 @@ public abstract class StateManager {
 
     public StateManager() {
         states = new HashMap<>();
-        logger =  Logger.getLogger("Log");
+        logger =  Log.getLogger();
         logger.info("Init StateManager");
         logger.info(this.getClass().getName() + " initialized");
     }
