@@ -5,9 +5,10 @@ import models.domains.UserViewDTO;
 
 import javax.swing.*;
 import java.awt.*;
+import views.utils.BaseView;
 import views.utils.UserStore;
 
-public class ProfileView extends JFrame {
+public class ProfileView extends BaseView {
 
     private ExerciceController exerciceController;
     private UserViewDTO currentUser;

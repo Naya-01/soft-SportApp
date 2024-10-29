@@ -1,6 +1,5 @@
 package controllers;
 
-import features.managers.ViewManager;
 import models.domains.MediaDTO;
 import models.domains.ExerciceDTO;
 import models.enums.Difficulty;
@@ -17,36 +16,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.ViewEnum;
 
-public class ExerciceController extends AbstractController{
+public class ExerciceController{
     private Logger logger = Logger.getLogger("ExerciceController");
     private Exercice exerciceModel;
     private CustomExercice customExerciceModel;
     private FeatureManager featureManager;
-    private ViewManager viewManager;
 
     public ExerciceController() {
         exerciceModel = new Exercice();
         customExerciceModel = new CustomExercice();
         featureManager = FeatureManager.getInstance();
-        viewManager = ViewManager.getInstance();
-    }
-
-    @Override
-    public boolean enableUIView() {
-        return viewManager.activate(ViewEnum.EXERCICE.getViewName());
-    }
-
-    @Override
-    public boolean disableUIView() {
-        return viewManager.deactivate(ViewEnum.EXERCICE.getViewName());
-    }
-
-    public boolean isUIViewEnabled() {
-        return viewManager.isActive(ViewEnum.EXERCICE.getViewName());
     }
 
     public ExerciceDTO addExercice(ExerciceType type, String name, String explanation, List<MediaDTO> medias, Difficulty difficulty, boolean isCustom, Object... extraParams) {
-        if (isCustom && !featureManager.isFeatureActive(FeaturesEnum.EXERCICE_CUSTOM_ADD)) {
+        if (isCustom && !featureManager.isActive(FeaturesEnum.EXERCICE_CUSTOM_ADD.getFeature())) {
             logger.warning("exercice-custom-add feature is disabled.");
             return null;
         }
@@ -78,41 +61,47 @@ public class ExerciceController extends AbstractController{
     }
 
     public void setExerciceDifficulty(Difficulty difficulty) {
-        if(!getCurrentDifficulty().equals(difficulty))
-            featureManager.activate("exercice-difficulty-" + difficulty.toString().toLowerCase());
+        String featureName = difficulty.getFeatureName();
+        featureManager.activate(featureName);
     }
 
     public void setExerciceTypes(List<ExerciceType> types) {
+        List<ExerciceType> currentTypes = getCurrentTypes();
+
         for (ExerciceType type : ExerciceType.values()) {
-            if (types.contains(type)) {
-                featureManager.activate("exercice-type-" + type.toString().toLowerCase());
-            } else {
-                featureManager.deactivate("exercice-type-" + type.toString().toLowerCase());
+            String featureName = type.getFeatureName();
+            if (types.contains(type) && !currentTypes.contains(type)) {
+                featureManager.activate(featureName);
+            } else if (!types.contains(type) && currentTypes.contains(type)){
+                featureManager.deactivate(featureName);
             }
         }
     }
 
     public Difficulty getCurrentDifficulty() {
-        Difficulty difficulty = null;
-        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_DIFFICULTY_BEGINNER)) difficulty = Difficulty.BEGINNER;
-        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_DIFFICULTY_INTERMEDIATE)) difficulty = Difficulty.INTERMEDIATE;
-        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_DIFFICULTY_ADVANCED)) difficulty = Difficulty.ADVANCED;
-        return difficulty;
+        for (Difficulty difficulty : Difficulty.values()) {
+            if (featureManager.isActive(difficulty.getFeatureName())) {
+                return difficulty;
+            }
+        }
+        return null;
     }
 
     public List<ExerciceType> getCurrentTypes() {
         List<ExerciceType> types = new ArrayList<>();
-        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_TYPE_CARDIO)) types.add(ExerciceType.CARDIO);
-        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_TYPE_STRENGTH)) types.add(ExerciceType.STRENGTH);
-        if (featureManager.isFeatureActive(FeaturesEnum.EXERCICE_TYPE_FLEXIBILITY)) types.add(ExerciceType.FLEXIBILITY);
+        for (ExerciceType type : ExerciceType.values()) {
+            if (featureManager.isActive(type.getFeatureName())) {
+                types.add(type);
+            }
+        }
         return types;
     }
 
     public List<MediaDTO> getFilteredMedias(List<MediaDTO> medias) {
         List<MediaDTO> filteredMedias = new ArrayList<>();
 
-        boolean imageActive = featureManager.isFeatureActive(FeaturesEnum.EXERCICE_MEDIA_IMAGE);
-        boolean videoActive = featureManager.isFeatureActive(FeaturesEnum.EXERCICE_MEDIA_VIDEO);
+        boolean imageActive = featureManager.isActive(FeaturesEnum.MEDIA_IMAGE.getFeature());
+        boolean videoActive = featureManager.isActive(FeaturesEnum.MEDIA_VIDEO.getFeature());
 
         for (MediaDTO media : medias) {
             if ((media.getType().equals(MediaType.IMAGE) && imageActive) || (media.getType().equals(MediaType.VIDEO) && videoActive)) {
@@ -125,7 +114,7 @@ public class ExerciceController extends AbstractController{
 
     public List<MediaDTO> getFilteredImages(List<MediaDTO> medias) {
         List<MediaDTO> filteredImages = new ArrayList<>();
-        boolean imageActive = featureManager.isFeatureActive(FeaturesEnum.EXERCICE_MEDIA_IMAGE);
+        boolean imageActive = featureManager.isActive(FeaturesEnum.MEDIA_IMAGE.getFeature());
 
         for (MediaDTO media : medias) {
             if (media.getType().equals(MediaType.IMAGE) && imageActive) {
@@ -138,7 +127,7 @@ public class ExerciceController extends AbstractController{
 
     public List<MediaDTO> getFilteredVideos(List<MediaDTO> medias) {
         List<MediaDTO> filteredVideos = new ArrayList<>();
-        boolean videoActive = featureManager.isFeatureActive(FeaturesEnum.EXERCICE_MEDIA_VIDEO);
+        boolean videoActive = featureManager.isActive(FeaturesEnum.MEDIA_VIDEO.getFeature());
 
         for (MediaDTO media : medias) {
             if (media.getType().equals(MediaType.VIDEO) && videoActive) {

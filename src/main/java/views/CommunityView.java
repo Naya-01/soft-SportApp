@@ -8,8 +8,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import views.utils.BaseView;
 
-public class CommunityView extends JFrame {
+public class CommunityView extends BaseView {
 
     private CommunityController customExerciceController;
 

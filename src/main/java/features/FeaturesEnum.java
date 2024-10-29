@@ -2,21 +2,27 @@ package features;
 
 public enum FeaturesEnum {
 
+    COMMUNITY("community"),
+    EXERCISE("exercise"),
+    PREMIUM("premium"),
+    PROFILE("profile"),
+    PAYMENT_METHODS("payment_methods"),
+    TYPE("type"),
     EXERCICE_CUSTOM_ADD("exercice_custom_add"),
     EXERCICE_CUSTOM_LIST("exercice_custom_list"),
-    EXERCICE_DIFFICULTY_BEGINNER("exercice_difficulty_beginner"),
-    EXERCICE_DIFFICULTY_INTERMEDIATE("exercice_difficulty_intermediate"),
-    EXERCICE_DIFFICULTY_ADVANCED("exercice_difficulty_advanced"),
-    EXERCICE_TYPE_CARDIO("exercice_type_cardio"),
-    EXERCICE_TYPE_STRENGTH("exercice_type_strength"),
-    EXERCICE_TYPE_FLEXIBILITY("exercice_type_flexibility"),
-    EXERCICE_MEDIA("exercice_media"),
-    EXERCICE_MEDIA_IMAGE("exercice_media_image"),
-    EXERCICE_MEDIA_VIDEO("exercice_media_video"),
-    EXERCICE_PERFORMANCE("exercice_performance"),
-    EXERCICE_TIMER("exercice_timer"),
-    PAYMENT_METHOD_BANCONTACT("payment_method_bancontact"),
-    PAYMENT_METHOD_PAYPAL("payment_method_paypal");
+    EXERCICE_DIFFICULTY_BEGINNER("difficulty_beginner"),
+    EXERCICE_DIFFICULTY_INTERMEDIATE("difficulty_intermediate"),
+    EXERCICE_DIFFICULTY_ADVANCED("difficulty_advanced"),
+    EXERCICE_TYPE_CARDIO("type_cardio"),
+    EXERCICE_TYPE_STRENGTH("type_strength"),
+    EXERCICE_TYPE_FLEXIBILITY("type_flexibility"),
+    EXERCICE_MEDIA("media"),
+    MEDIA_IMAGE("media_image"),
+    MEDIA_VIDEO("media_video"),
+    PERFORMANCE("performance"),
+    EXERCICE_TIMER("timer"),
+    PAYMENT_METHOD_BANCONTACT("bancontact"),
+    PAYMENT_METHOD_PAYPAL("paypal");
 
     private String feature;
 

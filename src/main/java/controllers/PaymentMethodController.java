@@ -30,8 +30,8 @@ public class PaymentMethodController {
 
     public List<PaymentMethod> getAvailablePaymentMethods() {
         List<PaymentMethod> methods = new ArrayList<>();
-        if (featureManager.isFeatureActive(FeaturesEnum.PAYMENT_METHOD_PAYPAL)) methods.add(new Paypal());
-        if (featureManager.isFeatureActive(FeaturesEnum.PAYMENT_METHOD_BANCONTACT)) methods.add(new Bancontact());
+        if (featureManager.isActive(FeaturesEnum.PAYMENT_METHOD_PAYPAL.getFeature())) methods.add(new Paypal());
+        if (featureManager.isActive(FeaturesEnum.PAYMENT_METHOD_BANCONTACT.getFeature())) methods.add(new Bancontact());
         return methods;
     }
 }

@@ -1,16 +1,22 @@
 package features.managers;
 
-import java.util.HashMap;
-import java.util.Map;
+import features.observers.UIViewObserver;
 
-public class ViewManager extends StateManager {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 
+public class ViewManager {
     private static ViewManager instance = null;
+    private boolean uiViewEnabled;
+    private Logger logger;
+    private List<UIViewObserver> observers;
 
     private ViewManager() {
-        super();
-        loadStates("view-states.properties");
-
+        logger = Logger.getLogger(this.getClass().getName());
+        uiViewEnabled = true;
+        observers = new ArrayList<>();
+        logger.info("ViewManager initialisé avec uiViewEnabled = true");
     }
 
     public static ViewManager getInstance() {
@@ -20,46 +26,27 @@ public class ViewManager extends StateManager {
         return instance;
     }
 
-    public Map<String, Boolean> getViewStates() {
-        return new HashMap<>( super.states);
+    public void setUIViewEnabled(boolean enabled) {
+        this.uiViewEnabled = enabled;
+        logger.info("UIView " + (enabled ? "activée" : "désactivée") + " dans ViewManager");
+        notifyObservers();
     }
 
-    @Override
-    public boolean activate(String featureName) {
-        if (isParentFeatureActive(featureName)) {
-            super.states.put(featureName, true);
-            logger.info("View activated: " + featureName);
-            return true;
-        }
-        return false;
+    public boolean isUIViewEnabled() {
+        return uiViewEnabled;
     }
 
-    @Override
-    public boolean deactivate(String featureName) {
-        if (super.states.containsKey(featureName)) {
-            super.states.put(featureName, false);
-            logger.info("View deactivated: " + featureName);
-            return true;
-        }
-        return false;
+    public void addObserver(UIViewObserver observer) {
+        observers.add(observer);
     }
 
-    @Override
-    public boolean isActive(String featureName) {
-        if (!isParentFeatureActive(featureName)) {
-            return false;
-        }
-        return super.states.getOrDefault(featureName, false);
+    public void removeObserver(UIViewObserver observer) {
+        observers.remove(observer);
     }
 
-    private boolean isParentFeatureActive(String featureName) {
-        String[] parts = featureName.split("_");
-        String parentFeature = parts[0];
-
-        if(featureName.equals(parentFeature)){
-            return true;
+    private void notifyObservers() {
+        for (UIViewObserver observer : new ArrayList<>(observers)) {
+            observer.onUIViewStateChanged(uiViewEnabled);
         }
-
-        return super.states.getOrDefault(parentFeature, true);
     }
 }

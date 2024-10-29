@@ -14,8 +14,6 @@ public abstract class StateManager {
 
     public StateManager() {
         states = new HashMap<>();
-        loadStates("feature-states.properties");
-
         logger =  Logger.getLogger("Log");
         logger.info("Init StateManager");
         logger.info(this.getClass().getName() + " initialized");

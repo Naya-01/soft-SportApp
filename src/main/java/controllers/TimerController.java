@@ -39,7 +39,7 @@ public class TimerController {
     }
 
     public boolean isTimerActive() {
-        return featureManager.isFeatureActive(FeaturesEnum.EXERCICE_TIMER);
+        return featureManager.isActive(FeaturesEnum.EXERCICE_TIMER.getFeature());
     }
 
     public long getStartTime() {

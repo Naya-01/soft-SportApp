@@ -7,9 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import views.utils.BaseView;
 import views.utils.UserStore;
 
-public class AuthView extends JFrame {
+public class AuthView extends BaseView {
 
     private JTextField usernameField;
     private JPasswordField passwordField;

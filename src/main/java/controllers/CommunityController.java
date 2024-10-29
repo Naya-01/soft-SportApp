@@ -1,7 +1,6 @@
 package controllers;
 
 import features.managers.FeatureManager;
-import features.managers.ViewManager;
 import models.User;
 import models.domains.CustomExerciceDTO;
 import models.domains.ExerciceDTO;
@@ -14,9 +13,8 @@ import features.FeaturesEnum;
 
 import java.util.List;
 import java.util.logging.Logger;
-import utils.ViewEnum;
 
-public class CommunityController extends AbstractController{
+public class CommunityController{
 
     private Logger logger = Logger.getLogger("CommunityController");
 
@@ -25,7 +23,6 @@ public class CommunityController extends AbstractController{
     private CustomExercice customExerciceModel;
     private CustomExerciceDetails customExerciceDetailsModel;
     private FeatureManager featureManager;
-    private ViewManager viewManager;
 
     public CommunityController() {
         userModel = new User();
@@ -33,22 +30,11 @@ public class CommunityController extends AbstractController{
         customExerciceModel = new CustomExercice();
         customExerciceDetailsModel = new CustomExerciceDetails();
         featureManager = FeatureManager.getInstance();
-        viewManager = ViewManager.getInstance();
-    }
-
-    @Override
-    public boolean enableUIView() {
-        return viewManager.activate(ViewEnum.COMMUNITY.getViewName());
-    }
-
-    @Override
-    public boolean disableUIView() {
-        return viewManager.deactivate(ViewEnum.COMMUNITY.getViewName());
     }
 
     public List<CustomExerciceDetailsDTO> getCustomExercicesWithDetails() {
 
-        if (!featureManager.isFeatureActive(FeaturesEnum.EXERCICE_CUSTOM_LIST)) {
+        if (!featureManager.isActive(FeaturesEnum.EXERCICE_CUSTOM_LIST.getFeature())) {
             logger.warning("exercice-custom-list feature is disabled.");
             return null;
         }
