@@ -4,6 +4,7 @@ import controllers.ControllerInterface;
 import controllers.MainController;
 import java.io.File;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -47,7 +48,7 @@ public class Main{
                     controller.disableUIView();
                     break;
                 case "getStateAsLog":
-                    controller.getStateAsLog();
+                    System.out.println(Arrays.toString(controller.getStateAsLog()));
                     break;
                 default:
                     System.out.println("Invalid entry");

@@ -8,10 +8,10 @@ import features.ConstraintType;
 public class Premium extends AbstractFeature {
 
     public Premium() {
-        super(PREMIUM.getFeature(), true, false, ConstraintType.OPTIONAL, "premium", null);
+        super(PREMIUM.getFeature(), true, false, ConstraintType.OPTIONAL, "payment_methods", null);
     }
     public Premium(boolean active) {
-        super(PREMIUM.getFeature(), active, false, ConstraintType.OPTIONAL, "premium", null);
+        super(PREMIUM.getFeature(), active, false, ConstraintType.OPTIONAL, "payment_methods", null);
     }
 
 }
