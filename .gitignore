@@ -8,3 +8,5 @@ LogFile*.log*
 .classpath
 .project
 .settings/
+
+TestingTool*

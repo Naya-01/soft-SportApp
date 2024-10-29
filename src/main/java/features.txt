@@ -1,0 +1,10 @@
+Feature/Mandatory/exercise-profile-authentification
+Feature/Optional/payment_methods
+payment_methods/Or/bancontact-paypal
+exercise/Mandatory/type-difficulty-media
+difficulty/Alternative/difficulty_beginner-difficulty_intermediate-difficulty_advanced
+media/Or/media_image-media_video
+type/Or/type_cardio-type_strength-type_flexibility
+profile/Optional/premium
+
+

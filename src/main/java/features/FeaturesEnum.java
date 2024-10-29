@@ -7,6 +7,7 @@ public enum FeaturesEnum {
     PREMIUM("premium"),
     PROFILE("profile"),
     PAYMENT_METHODS("payment_methods"),
+    TYPE("type"),
     EXERCICE_CUSTOM_ADD("exercice_custom_add"),
     EXERCICE_CUSTOM_LIST("exercice_custom_list"),
     EXERCICE_DIFFICULTY_BEGINNER("difficulty_beginner"),
