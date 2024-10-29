@@ -5,12 +5,12 @@ import static features.FeaturesEnum.EXERCICE_DIFFICULTY_BEGINNER;
 import features.AbstractFeature;
 import features.ConstraintType;
 
-public class ExerciceDifficultyBeginnerFeature extends AbstractFeature {
+public class DifficultyBeginnerFeature extends AbstractFeature {
 
-    public ExerciceDifficultyBeginnerFeature() {
+    public DifficultyBeginnerFeature() {
         super(EXERCICE_DIFFICULTY_BEGINNER.getFeature(), true, true, ConstraintType.ALTERNATIVE, "difficulty", "exercise");
     }
-    public ExerciceDifficultyBeginnerFeature(boolean active) {
+    public DifficultyBeginnerFeature(boolean active) {
         super(EXERCICE_DIFFICULTY_BEGINNER.getFeature(), active, true, ConstraintType.ALTERNATIVE, "difficulty", "exercise");
     }
 }

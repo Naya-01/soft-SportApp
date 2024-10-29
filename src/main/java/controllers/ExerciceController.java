@@ -105,8 +105,8 @@ public class ExerciceController{
     public List<MediaDTO> getFilteredMedias(List<MediaDTO> medias) {
         List<MediaDTO> filteredMedias = new ArrayList<>();
 
-        boolean imageActive = featureManager.isActive(FeaturesEnum.EXERCICE_MEDIA_IMAGE.getFeature());
-        boolean videoActive = featureManager.isActive(FeaturesEnum.EXERCICE_MEDIA_VIDEO.getFeature());
+        boolean imageActive = featureManager.isActive(FeaturesEnum.MEDIA_IMAGE.getFeature());
+        boolean videoActive = featureManager.isActive(FeaturesEnum.MEDIA_VIDEO.getFeature());
 
         for (MediaDTO media : medias) {
             if ((media.getType().equals(MediaType.IMAGE) && imageActive) || (media.getType().equals(MediaType.VIDEO) && videoActive)) {
@@ -119,7 +119,7 @@ public class ExerciceController{
 
     public List<MediaDTO> getFilteredImages(List<MediaDTO> medias) {
         List<MediaDTO> filteredImages = new ArrayList<>();
-        boolean imageActive = featureManager.isActive(FeaturesEnum.EXERCICE_MEDIA_IMAGE.getFeature());
+        boolean imageActive = featureManager.isActive(FeaturesEnum.MEDIA_IMAGE.getFeature());
 
         for (MediaDTO media : medias) {
             if (media.getType().equals(MediaType.IMAGE) && imageActive) {
@@ -132,7 +132,7 @@ public class ExerciceController{
 
     public List<MediaDTO> getFilteredVideos(List<MediaDTO> medias) {
         List<MediaDTO> filteredVideos = new ArrayList<>();
-        boolean videoActive = featureManager.isActive(FeaturesEnum.EXERCICE_MEDIA_VIDEO.getFeature());
+        boolean videoActive = featureManager.isActive(FeaturesEnum.MEDIA_VIDEO.getFeature());
 
         for (MediaDTO media : medias) {
             if (media.getType().equals(MediaType.VIDEO) && videoActive) {
