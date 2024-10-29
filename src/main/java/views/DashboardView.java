@@ -18,15 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import views.utils.UserStore;
-import features.managers.ViewManager;
 
 public class DashboardView extends JFrame {
 
     private ExerciceController exerciceController;
     private UserController userController;
     private PaymentMethodController paymentMethodController;
-    private ViewManager viewManager;
-
     private FeatureManager featureManager;
 
     private JComboBox<Difficulty> difficultyComboBox;
@@ -39,7 +36,6 @@ public class DashboardView extends JFrame {
         this.exerciceController = new ExerciceController();
         this.userController = new UserController();
         this.paymentMethodController = new PaymentMethodController();
-        this.viewManager = ViewManager.getInstance();
         this.featureManager = FeatureManager.getInstance();
         initComponents();
     }
@@ -94,7 +90,7 @@ public class DashboardView extends JFrame {
             navBar.add(premiumButton);
         }
 
-        if (viewManager.isViewActive(FeaturesEnum.COMMUNITY.getFeature())) {
+        if (featureManager.isActive(FeaturesEnum.COMMUNITY.getFeature())) {
             JButton communityButton = new JButton("Community");
             communityButton.addActionListener(new ActionListener() {
                 @Override

@@ -4,20 +4,17 @@ import features.Feature;
 import features.managers.FeatureManager;
 import features.managers.ViewManager;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MainController implements ControllerInterface {
     private Logger logger;
     private FeatureManager featureManager;
     private ViewManager viewManager;
-    private boolean uiViewEnabled;
 
     public MainController() {
         logger = Logger.getLogger(this.getClass().getName());
         featureManager = FeatureManager.getInstance();
         viewManager = ViewManager.getInstance();
-        uiViewEnabled = true;
         logger.info("MainController initialisé");
     }
 
@@ -56,23 +53,16 @@ public class MainController implements ControllerInterface {
 
     @Override
     public boolean enableUIView() {
-        uiViewEnabled = true;
-        logger.info("Vue UI activée");
         viewManager.setUIViewEnabled(true);
         return true;
     }
 
     @Override
     public boolean disableUIView() {
-        uiViewEnabled = false;
-        logger.info("Vue UI désactivée");
         viewManager.setUIViewEnabled(false);
         return true;
     }
 
-    public boolean isUiViewEnabled() {
-        return uiViewEnabled;
-    }
 
     @Override
     public String[] getStateAsLog() {

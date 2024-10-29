@@ -41,14 +41,13 @@ public class Main{
                     controller.activate(null, activations.split(" "));
                     break;
                 case "enableUIView":
+                    controller.enableUIView();
                     break;
                 case "disableUIView":
+                    controller.disableUIView();
                     break;
                 case "getStateAsLog":
-                    String[] stateLogs = controller.getStateAsLog();
-                    for (String log : stateLogs) {
-                        System.out.println(log);
-                    }
+                    controller.getStateAsLog();
                     break;
                 default:
                     System.out.println("Invalid entry");

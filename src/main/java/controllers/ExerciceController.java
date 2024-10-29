@@ -1,6 +1,5 @@
 package controllers;
 
-import features.managers.ViewManager;
 import models.domains.MediaDTO;
 import models.domains.ExerciceDTO;
 import models.enums.Difficulty;
@@ -22,17 +21,11 @@ public class ExerciceController{
     private Exercice exerciceModel;
     private CustomExercice customExerciceModel;
     private FeatureManager featureManager;
-    private ViewManager viewManager;
 
     public ExerciceController() {
         exerciceModel = new Exercice();
         customExerciceModel = new CustomExercice();
         featureManager = FeatureManager.getInstance();
-        viewManager = ViewManager.getInstance();
-    }
-
-    public boolean isUIViewEnabled() {
-        return viewManager.isViewActive(ViewEnum.EXERCICE.getViewName());
     }
 
     public ExerciceDTO addExercice(ExerciceType type, String name, String explanation, List<MediaDTO> medias, Difficulty difficulty, boolean isCustom, Object... extraParams) {
