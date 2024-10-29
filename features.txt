@@ -6,5 +6,3 @@ difficulty/Alternative/difficulty_beginner-difficulty_intermediate-difficulty_ad
 media/Or/media_image-media_video
 type/Or/type_cardio-type_strength-type_flexibility
 profile/Optional/premium
-
-
