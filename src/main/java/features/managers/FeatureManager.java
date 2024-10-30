@@ -118,11 +118,12 @@ public class FeatureManager extends StateManager{
             return false;
         }
 
+        FeatureStrategy strategy = getStrategy(feature);
+        strategy.deactivateFeature(feature, features);
+
         if (!feature.isMandatory() && feature.getParentName() == null) {
             deactivateChildFeatures(feature);
         }
-        FeatureStrategy strategy = getStrategy(feature);
-        strategy.deactivateFeature(feature, features);
         return true;
     }
 
@@ -160,7 +161,7 @@ public class FeatureManager extends StateManager{
             if (parentFeature.getName().equals(feature.getParentName())) {
                 if (feature.isActive()) {
                     deactivate(feature.getName());
-                    logger.info("Feature enfant désactivée : " + feature.getName());
+                    //logger.info("Feature enfant désactivée : " + feature.getName());
                 }
             }
         }

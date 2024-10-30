@@ -22,7 +22,9 @@ public class OrStrategy implements FeatureStrategy {
             .filter(Feature::isActive)
             .count();
 
-        if (activeCount <= 1) {
+        Feature parent = features.get(feature.getParentName());
+
+        if (activeCount <= 1 && parent.isActive()) {
             logger.warning("Impossible de désactiver la seule feature active dans un groupe OR : " + feature.getName());
             return;
         }

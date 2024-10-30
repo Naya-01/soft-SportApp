@@ -33,7 +33,7 @@ public class MainController implements ControllerInterface {
             for (String feature : deactivations) {
                 ok = featureManager.deactivate(feature);
                 if (ok) {
-                    logger.info("Feature désactivée: " + feature);
+                    //logger.info("Feature désactivée: " + feature);
                 } else {
                     logger.warning("Échec de la désactivation de la feature: " + feature);
                     failed = -1;
