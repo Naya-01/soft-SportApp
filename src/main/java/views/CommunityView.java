@@ -8,14 +8,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.logging.Logger;
+
+import utils.Log;
 import views.utils.BaseView;
 
 public class CommunityView extends BaseView {
 
     private CommunityController customExerciceController;
+    private Logger logger;
 
     public CommunityView() {
         this.customExerciceController = new CommunityController();
+        logger = Log.getLogger();
+        logger.info("Community view rendered");
         initComponents();
     }
 

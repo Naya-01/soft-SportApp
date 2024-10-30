@@ -16,7 +16,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
+import utils.Log;
 import views.utils.BaseView;
 import views.utils.UserStore;
 
@@ -26,6 +28,7 @@ public class DashboardView extends BaseView {
     private UserController userController;
     private PaymentMethodController paymentMethodController;
     private FeatureManager featureManager;
+    private Logger logger;
 
     private JComboBox<Difficulty> difficultyComboBox;
     private JCheckBox cardioCheckBox;
@@ -38,6 +41,8 @@ public class DashboardView extends BaseView {
         this.userController = new UserController();
         this.paymentMethodController = new PaymentMethodController();
         this.featureManager = FeatureManager.getInstance();
+        logger = Log.getLogger();
+        logger.info("Dashboard view rendered");
         initComponents();
     }
 

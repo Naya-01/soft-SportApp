@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import utils.ViewEnum;
 
 public class ExerciceController{
     private Logger logger = Logger.getLogger("ExerciceController");

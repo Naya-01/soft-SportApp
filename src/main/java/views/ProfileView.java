@@ -5,6 +5,9 @@ import models.domains.UserViewDTO;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.logging.Logger;
+
+import utils.Log;
 import views.utils.BaseView;
 import views.utils.UserStore;
 
@@ -12,10 +15,13 @@ public class ProfileView extends BaseView {
 
     private ExerciceController exerciceController;
     private UserViewDTO currentUser;
+    private Logger logger;
 
     public ProfileView(ExerciceController exerciceController) {
         this.exerciceController = exerciceController;
         this.currentUser = UserStore.getCurrentUser();
+        logger = Log.getLogger();
+        logger.info("Profile view rendered");
         initComponents();
     }
 

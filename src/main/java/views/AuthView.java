@@ -7,6 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import utils.Log;
 import views.utils.BaseView;
 import views.utils.UserStore;
 
@@ -18,9 +22,13 @@ public class AuthView extends BaseView {
     private JButton registerButton;
 
     private AuthController authController;
+    private Logger logger;
+
 
     public AuthView(AuthController authController) {
         this.authController = authController;
+        logger = Log.getLogger();
+        logger.info("Auth view rendered");
         initComponents();
     }
 

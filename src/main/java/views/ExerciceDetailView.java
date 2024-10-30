@@ -11,6 +11,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.logging.Logger;
+
+import utils.Log;
 import views.utils.BaseView;
 
 public class ExerciceDetailView extends BaseView {
@@ -19,6 +22,8 @@ public class ExerciceDetailView extends BaseView {
     private TimerController timerController;
     private ExerciceController exerciceController;
     private PerformanceController performanceController;
+    private Logger logger;
+
     private JLabel timerLabel;
     private javax.swing.Timer swingTimer;
 
@@ -27,6 +32,8 @@ public class ExerciceDetailView extends BaseView {
         this.timerController = new TimerController();
         this.exerciceController = new ExerciceController();
         this.performanceController = new PerformanceController();
+        logger = Log.getLogger();
+        logger.info("Exercice detail view rendered");
         initComponents();
     }
 

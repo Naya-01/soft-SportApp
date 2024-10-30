@@ -2,15 +2,8 @@ import controllers.AuthController;
 import controllers.ControllerInterface;
 
 import controllers.MainController;
-import java.io.File;
-import java.lang.reflect.Modifier;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import utils.Log;
 import views.AuthView;
 
 public class Main{
