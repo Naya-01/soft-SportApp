@@ -18,6 +18,7 @@ public class OrStrategy implements FeatureStrategy {
         String groupName = feature.getGroupName();
         long activeCount = features.values().stream()
             .filter(f -> f.getGroupName() != null && f.getGroupName().equals(groupName))
+            .filter(f -> !f.getName().equals(f.getGroupName()))
             .filter(Feature::isActive)
             .count();
 

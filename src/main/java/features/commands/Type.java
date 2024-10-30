@@ -8,11 +8,11 @@ import features.ConstraintType;
 public class Type extends AbstractFeature {
 
     public Type() {
-        super(TYPE.getFeature(), true, true,  ConstraintType.MANDATORY, "exercise_type", "exercise");
+        super(TYPE.getFeature(), true, true,  ConstraintType.MANDATORY, TYPE.getFeature(), "exercise");
     }
 
     public Type(boolean active) {
-        super(TYPE.getFeature(), active, true,  ConstraintType.MANDATORY, "exercise_type", "exercise");
+        super(TYPE.getFeature(), active, true,  ConstraintType.MANDATORY, TYPE.getFeature(), "exercise");
     }
 
 }
