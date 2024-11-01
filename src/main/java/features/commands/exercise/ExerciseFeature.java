@@ -1,4 +1,4 @@
-package features.commands;
+package features.commands.exercise;
 
 import static features.FeaturesEnum.EXERCISE;
 
@@ -9,10 +9,10 @@ public class ExerciseFeature extends AbstractFeature {
 
 
     public ExerciseFeature() {
-        super(EXERCISE.getFeature(), true, true, ConstraintType.MANDATORY, "exercise", null);
+        super(EXERCISE.getFeature(), true, ConstraintType.MANDATORY, null);
     }
     public ExerciseFeature(boolean active) {
-        super(EXERCISE.getFeature(), active, true, ConstraintType.MANDATORY, "exercise", null);
+        super(EXERCISE.getFeature(), active, ConstraintType.MANDATORY, null);
     }
 
 }

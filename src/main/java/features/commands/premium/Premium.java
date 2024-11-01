@@ -1,4 +1,4 @@
-package features.commands;
+package features.commands.premium;
 
 import static features.FeaturesEnum.PREMIUM;
 
@@ -8,10 +8,10 @@ import features.ConstraintType;
 public class Premium extends AbstractFeature {
 
     public Premium() {
-        super(PREMIUM.getFeature(), true, false, ConstraintType.OPTIONAL, "premium", null);
+        super(PREMIUM.getFeature(), true, ConstraintType.OPTIONAL,  null);
     }
     public Premium(boolean active) {
-        super(PREMIUM.getFeature(), active, false, ConstraintType.OPTIONAL, "premium", null);
+        super(PREMIUM.getFeature(), active, ConstraintType.OPTIONAL, null);
     }
 
 }
