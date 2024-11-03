@@ -66,4 +66,9 @@ public class CommunityView extends BaseView {
         navBar.add(backButton);
         return navBar;
     }
+
+    @Override
+    public void onFeatureStateChanged(String featureName, boolean isActive) {
+
+    }
 }

@@ -7,6 +7,7 @@ import static features.ConstraintType.MANDATORY;
 import features.AbstractFeature;
 import features.ConstraintType;
 import features.Feature;
+import features.observers.UIViewObserver;
 import features.strategies.AlternativeStrategy;
 import features.strategies.DefaultStrategy;
 import features.strategies.FeatureStrategy;
@@ -24,9 +25,11 @@ public class FeatureManager extends StateManager{
     private Map<String, Feature> features;
     private static final String FEATURES_PACKAGE = "features.commands";
 
+    private List<UIViewObserver> observers;
+
     public FeatureManager() {
         super();
-
+        observers = new ArrayList<>();
         features  = new HashMap<>();
         fillFeaturesMap();
     }
@@ -37,6 +40,22 @@ public class FeatureManager extends StateManager{
         }
         return instance;
     }
+    public void addObserver(UIViewObserver observer) {
+        if (!observers.contains(observer)) {
+            observers.add(observer);
+        }
+    }
+
+    public void removeObserver(UIViewObserver observer) {
+        observers.remove(observer);
+    }
+
+    private void notifyObservers(String featureName, boolean isActive) {
+        for (UIViewObserver observer : new ArrayList<>(observers)) {
+            observer.onFeatureStateChanged(featureName, isActive);
+        }
+    }
+
 
     private void fillFeaturesMap() {
         try {
@@ -113,6 +132,8 @@ public class FeatureManager extends StateManager{
 
         FeatureStrategy strategy = getStrategy(feature);
         strategy.activateFeature(feature, features);
+
+        notifyObservers(featureName, true);
         return true;
     }
 
@@ -140,6 +161,8 @@ public class FeatureManager extends StateManager{
             deactivateChildFeatures(feature);
             deactivateDependents(feature);
         }
+
+        notifyObservers(featureName, false);
         return true;
     }
 

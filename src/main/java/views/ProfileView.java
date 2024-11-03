@@ -89,4 +89,9 @@ public class ProfileView extends BaseView {
 
         add(panel, BorderLayout.CENTER);
     }
+
+    @Override
+    public void onFeatureStateChanged(String featureName, boolean isActive) {
+
+    }
 }
