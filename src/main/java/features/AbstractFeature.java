@@ -5,16 +5,31 @@ public abstract class AbstractFeature implements Feature {
     protected boolean active;
     protected ConstraintType constraintType;
     protected String groupName;
-    protected boolean isMandatory;
     private String parentName;
 
-    public AbstractFeature(String name, boolean active, boolean isMandatory, ConstraintType constraintType, String groupName, String parentName) {
+    private String depend_on;
+
+    public AbstractFeature(String name, boolean active, ConstraintType constraintType, String depend_on) {
         this.name = name;
         this.active = active;
         this.constraintType = constraintType;
-        this.groupName = groupName;
-        this.isMandatory = isMandatory;
-        this.parentName = parentName;
+        this.depend_on = depend_on;
+        this.groupName = deriveName();
+        this.parentName = deriveName();
+    }
+
+    private String deriveName() {
+        String packageName = this.getClass().getPackage().getName();
+        String[] parts = packageName.split("\\.");
+        String currentPackage = parts[parts.length - 1];
+
+        if (name.equalsIgnoreCase(currentPackage)) {
+            if (parts.length > 2 && !parts[parts.length - 2].equals("commands")) {
+                return parts[parts.length - 2];
+            }
+            return null;
+        }
+        return currentPackage;
     }
 
     @Override
@@ -42,12 +57,11 @@ public abstract class AbstractFeature implements Feature {
         return groupName;
     }
 
-    @Override
-    public boolean isMandatory() {
-        return isMandatory;
-    }
-
     public String getParentName() {
         return parentName;
+    }
+
+    public String getDependOn() {
+        return depend_on;
     }
 }

@@ -2,10 +2,12 @@ package features.managers;
 
 
 import static features.ConstraintType.ALTERNATIVE;
+import static features.ConstraintType.MANDATORY;
 
 import features.AbstractFeature;
 import features.ConstraintType;
 import features.Feature;
+import features.observers.UIViewObserver;
 import features.strategies.AlternativeStrategy;
 import features.strategies.DefaultStrategy;
 import features.strategies.FeatureStrategy;
@@ -23,9 +25,11 @@ public class FeatureManager extends StateManager{
     private Map<String, Feature> features;
     private static final String FEATURES_PACKAGE = "features.commands";
 
+    private List<UIViewObserver> observers;
+
     public FeatureManager() {
         super();
-
+        observers = new ArrayList<>();
         features  = new HashMap<>();
         fillFeaturesMap();
     }
@@ -36,6 +40,22 @@ public class FeatureManager extends StateManager{
         }
         return instance;
     }
+    public void addObserver(UIViewObserver observer) {
+        if (!observers.contains(observer)) {
+            observers.add(observer);
+        }
+    }
+
+    public void removeObserver(UIViewObserver observer) {
+        observers.remove(observer);
+    }
+
+    private void notifyObservers(String featureName, boolean isActive) {
+        for (UIViewObserver observer : new ArrayList<>(observers)) {
+            observer.onFeatureStateChanged(featureName, isActive);
+        }
+    }
+
 
     private void fillFeaturesMap() {
         try {
@@ -47,29 +67,33 @@ public class FeatureManager extends StateManager{
                 return;
             }
 
-            for (File file : directory.listFiles()) {
-                if (file.getName().endsWith(".class")) {
-                    String className = file.getName().replace(".class", "");
-                    String fullClassName = FEATURES_PACKAGE + "." + className;
+            loadFeaturesRecursively(directory, FEATURES_PACKAGE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void loadFeaturesRecursively(File directory, String packageName) {
+        for (File file : directory.listFiles()) {
+            if (file.isDirectory()) {
+                loadFeaturesRecursively(file, packageName + "." + file.getName());
+            } else if (file.getName().endsWith(".class")) {
+                String className = file.getName().replace(".class", "");
+                String fullClassName = packageName + "." + className;
+
+                try {
                     Class<?> clazz = Class.forName(fullClassName);
 
                     if (!Modifier.isAbstract(clazz.getModifiers()) && AbstractFeature.class.isAssignableFrom(clazz)) {
-                        try {
-                            if (clazz.getDeclaredConstructor() != null) {
-                                Feature featureInstance = (Feature) clazz.getDeclaredConstructor().newInstance();
-                                String featureName = featureInstance.getName();
-                                features.put(featureName, featureInstance);
-                                logger.info("Feature chargée : " + featureName);
-                            }
-                        } catch (NoSuchMethodException e) {
-                            logger.warning("Aucun constructeur par défaut trouvé pour la classe : " + className);
-                        }
+                        Feature featureInstance = (Feature) clazz.getDeclaredConstructor().newInstance();
+                        String featureName = featureInstance.getName();
+                        features.put(featureName, featureInstance);
+                        logger.info("Feature chargée : " + featureName);
                     }
+                } catch (Exception e) {
+                    logger.warning("Erreur lors du chargement de la feature : " + fullClassName);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -96,8 +120,20 @@ public class FeatureManager extends StateManager{
             return true;
         }
 
+        if(!CheckFeatureIsActive(feature.getDependOn())){
+            logger.warning("Impossible d'activer la feature : " + featureName + " car elle dépend de la feature : " + feature.getDependOn());
+            return false;
+        }
+
+        if(!CheckFeatureIsActive(feature.getParentName())){
+            logger.warning("Impossible d'activer la feature : " + featureName + " car elle est une sous-feature de la feature : " + feature.getParentName());
+            return false;
+        }
+
         FeatureStrategy strategy = getStrategy(feature);
         strategy.activateFeature(feature, features);
+
+        notifyObservers(featureName, true);
         return true;
     }
 
@@ -113,7 +149,7 @@ public class FeatureManager extends StateManager{
             return true;
         }
 
-        if (feature.isMandatory() && feature.getParentName() == null) {
+        if (feature.getConstraintType().equals(MANDATORY) && feature.getParentName() == null) {
             logger.warning("Impossible de désactiver une feature MANDATORY : " + featureName);
             return false;
         }
@@ -121,9 +157,12 @@ public class FeatureManager extends StateManager{
         FeatureStrategy strategy = getStrategy(feature);
         strategy.deactivateFeature(feature, features);
 
-        if (!feature.isMandatory() && feature.getParentName() == null) {
+        if (!feature.getConstraintType().equals(MANDATORY) && feature.getParentName() == null) {
             deactivateChildFeatures(feature);
+            deactivateDependents(feature);
         }
+
+        notifyObservers(featureName, false);
         return true;
     }
 
@@ -131,6 +170,16 @@ public class FeatureManager extends StateManager{
         List<Feature> groupFeatures = new ArrayList<>();
         for (Feature feature : features.values()) {
             if (groupName.equals(feature.getGroupName())) {
+                groupFeatures.add(feature);
+            }
+        }
+        return groupFeatures;
+    }
+
+    public List<Feature> getFeaturesByDependOn(String depend_on) {
+        List<Feature> groupFeatures = new ArrayList<>();
+        for (Feature feature : features.values()) {
+            if (depend_on.equals(feature.getDependOn())) {
                 groupFeatures.add(feature);
             }
         }
@@ -156,6 +205,10 @@ public class FeatureManager extends StateManager{
         return features;
     }
 
+    public static Feature getFeature(String featureName) {
+        return getInstance().getFeatures().get(featureName);
+    }
+
     private void deactivateChildFeatures(Feature parentFeature) {
         for (Feature feature : getFeaturesByGroup(parentFeature.getName())) {
             if (parentFeature.getName().equals(feature.getParentName())) {
@@ -165,5 +218,32 @@ public class FeatureManager extends StateManager{
                 }
             }
         }
+    }
+
+    private void deactivateDependents(Feature feature) {
+        for (Feature f : getFeaturesByDependOn(feature.getName())) {
+            if (feature.getName().equals(f.getDependOn())) {
+                if (f.isActive()) {
+                    deactivate(f.getName());
+                }
+            }
+        }
+    }
+
+    private void deactivateDependents(String featureName) {
+        for (Feature f : features.values()) {
+            if (f.getDependOn() != null && f.getDependOn().contains(featureName) && f.isActive()) {
+                logger.info("Désactivation de la dépendance : " + f.getName() + " car elle dépend de " + featureName);
+                deactivate(f.getName());
+            }
+        }
+    }
+
+    private boolean CheckFeatureIsActive(String featureName) {
+        if(featureName == null){
+            return false;
+        }
+        Feature feature = features.get(featureName);
+        return feature.isActive();
     }
 }

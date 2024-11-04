@@ -1,4 +1,4 @@
-package features.commands;
+package features.commands.community;
 
 import static features.FeaturesEnum.COMMUNITY;
 
@@ -8,10 +8,10 @@ import features.ConstraintType;
 public class CommunityFeature extends AbstractFeature {
 
     public CommunityFeature() {
-        super(COMMUNITY.getFeature(), true, false, ConstraintType.OPTIONAL, "community", null);
+        super(COMMUNITY.getFeature(), true,  ConstraintType.OPTIONAL, null);
     }
     public CommunityFeature(boolean active) {
-        super(COMMUNITY.getFeature(), active, false, ConstraintType.OPTIONAL, "community", null);
+        super(COMMUNITY.getFeature(), active, ConstraintType.OPTIONAL, null);
     }
 
 }

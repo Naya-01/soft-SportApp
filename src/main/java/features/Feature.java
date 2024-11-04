@@ -6,7 +6,8 @@ public interface Feature {
     void setActive(boolean active);
     ConstraintType getConstraintType();
     String getGroupName();
-    boolean isMandatory();
 
     public String getParentName();
+
+    public String getDependOn();
 }

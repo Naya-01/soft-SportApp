@@ -29,18 +29,6 @@ public class MainController implements ControllerInterface {
         boolean ok;
         int failed = 0;
 
-        if (deactivations != null && deactivations.length > 0 && !deactivations[0].isEmpty()) {
-            for (String feature : deactivations) {
-                ok = featureManager.deactivate(feature);
-                if (ok) {
-                    //logger.info("Feature désactivée: " + feature);
-                } else {
-                    logger.warning("Échec de la désactivation de la feature: " + feature);
-                    failed = -1;
-                }
-            }
-        }
-
         if (activations != null && activations.length > 0 && !activations[0].isEmpty()) {
             for (String feature : activations) {
                 ok = featureManager.activate(feature);
@@ -48,6 +36,18 @@ public class MainController implements ControllerInterface {
                     logger.info("Feature activée: " + feature);
                 } else {
                     logger.warning("Échec de l'activation de la feature: " + feature);
+                    failed = -1;
+                }
+            }
+        }
+
+        if (deactivations != null && deactivations.length > 0 && !deactivations[0].isEmpty()) {
+            for (String feature : deactivations) {
+                ok = featureManager.deactivate(feature);
+                if (ok) {
+                    //logger.info("Feature désactivée: " + feature);
+                } else {
+                    logger.warning("Échec de la désactivation de la feature: " + feature);
                     failed = -1;
                 }
             }
