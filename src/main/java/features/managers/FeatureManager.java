@@ -240,7 +240,10 @@ public class FeatureManager extends StateManager{
     }
 
     private boolean CheckFeatureIsActive(String featureName) {
+        if(featureName == null){
+            return false;
+        }
         Feature feature = features.get(featureName);
-        return feature == null || feature.isActive();
+        return feature.isActive();
     }
 }
