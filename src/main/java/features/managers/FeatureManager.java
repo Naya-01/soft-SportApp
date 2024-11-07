@@ -57,7 +57,7 @@ public class FeatureManager extends StateManager{
     }
 
 
-    private void fillFeaturesMap() {
+    public void fillFeaturesMap() {
         try {
             String path = getClass().getClassLoader().getResource(FEATURES_PACKAGE.replace(".", "/")).getPath();
             File directory = new File(path);
