@@ -3,7 +3,14 @@ package controllers;
 import features.Feature;
 import features.managers.FeatureManager;
 import features.managers.ViewManager;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.Log;
@@ -30,7 +37,7 @@ public class MainController implements ControllerInterface {
         int failed = 0;
 
         if (activations != null && activations.length > 0 && !activations[0].isEmpty()) {
-            for (String feature : activations) {
+            for (String feature : sortFeatures(activations)) {
                 ok = featureManager.activate(feature);
                 if (ok) {
                     logger.info("Feature activée: " + feature);
@@ -81,5 +88,62 @@ public class MainController implements ControllerInterface {
             i++;
         }
         return logs;
+    }
+
+    private List<String> sortFeatures(String[] features) {
+        List<String> featureList = Arrays.asList(features);
+
+        Map<String, List<String>> dependencyGraph = new HashMap<>();
+        Map<String, Integer> inDegree = new HashMap<>();
+
+        for (String featureName : featureList) {
+            dependencyGraph.put(featureName, new ArrayList<>());
+            inDegree.put(featureName, 0);
+        }
+
+        for (String featureName : featureList) {
+            Feature feature = featureManager.getFeature(featureName);
+            if (feature == null) {
+                continue;
+            }
+
+            String dependOn = feature.getDependOn();
+            if (dependOn != null && dependencyGraph.containsKey(dependOn)) {
+                dependencyGraph.get(dependOn).add(featureName);
+                inDegree.put(featureName, inDegree.get(featureName) + 1);
+            }
+
+            String parent = feature.getParentName();
+            if (parent != null && dependencyGraph.containsKey(parent)) {
+                dependencyGraph.get(parent).add(featureName);
+                inDegree.put(featureName, inDegree.get(featureName) + 1);
+            }
+        }
+
+        Queue<String> queue = new LinkedList<>();
+        for (String featureName : inDegree.keySet()) {
+            if (inDegree.get(featureName) == 0) {
+                queue.add(featureName);
+            }
+        }
+
+        List<String> sortedList = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            String current = queue.poll();
+            sortedList.add(current);
+
+            for (String dependent : dependencyGraph.get(current)) {
+                inDegree.put(dependent, inDegree.get(dependent) - 1);
+                if (inDegree.get(dependent) == 0) {
+                    queue.add(dependent);
+                }
+            }
+        }
+
+        if (sortedList.size() != featureList.size()) {
+            return null;
+        }
+
+        return sortedList;
     }
 }

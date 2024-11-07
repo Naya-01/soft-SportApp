@@ -120,12 +120,12 @@ public class FeatureManager extends StateManager{
             return true;
         }
 
-        if(!CheckFeatureIsActive(feature.getDependOn())){
+        if(feature.getDependOn()!=null && !CheckFeatureIsActive(feature.getDependOn())){
             logger.warning("Impossible d'activer la feature : " + featureName + " car elle dépend de la feature : " + feature.getDependOn());
             return false;
         }
 
-        if(!CheckFeatureIsActive(feature.getParentName())){
+        if(feature.getParentName()!=null &&!CheckFeatureIsActive(feature.getParentName())){
             logger.warning("Impossible d'activer la feature : " + featureName + " car elle est une sous-feature de la feature : " + feature.getParentName());
             return false;
         }
@@ -240,9 +240,6 @@ public class FeatureManager extends StateManager{
     }
 
     private boolean CheckFeatureIsActive(String featureName) {
-        if(featureName == null){
-            return false;
-        }
         Feature feature = features.get(featureName);
         return feature.isActive();
     }

@@ -1,15 +1,18 @@
 package features.commands.authentication;
 
+import static features.FeaturesEnum.AUTHENTICATION;
+
 import features.AbstractFeature;
 import features.ConstraintType;
+import features.FeaturesEnum;
 
 public class AuthenticationFeature extends AbstractFeature {
 
         public AuthenticationFeature() {
-            super("authentication", true, ConstraintType.MANDATORY, null);
+            super(AUTHENTICATION.getFeature(), true, ConstraintType.MANDATORY, null);
         }
 
         public AuthenticationFeature(boolean active) {
-            super("authentication", active, ConstraintType.MANDATORY,  null);
+            super(AUTHENTICATION.getFeature(), active, ConstraintType.MANDATORY,  null);
         }
 }

@@ -112,8 +112,6 @@ public class DashboardView extends BaseView implements UIViewObserver {
         Consumer<Boolean> handler = featureUpdateHandlers.get(featureName);
         if (handler != null) {
             SwingUtilities.invokeLater(() -> handler.accept(isActive));
-        } else {
-            logger.warning("No handler found for feature: " + featureName);
         }
     }
 
