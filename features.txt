@@ -1,4 +1,4 @@
-Feature/Mandatory/exercise-profile-authentification
+Feature/Mandatory/exercise-profile-authentication
 Feature/Optional/payment_methods
 payment_methods/Or/bancontact-paypal
 exercise/Mandatory/type-difficulty-media

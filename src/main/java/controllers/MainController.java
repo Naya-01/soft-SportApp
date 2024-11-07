@@ -37,10 +37,11 @@ public class MainController implements ControllerInterface {
         int failed = 0;
 
         if (activations != null && activations.length > 0 && !activations[0].isEmpty()) {
-            for (String feature : sortFeatures(activations)) {
+            List<String> sortedFeatures = sortFeatures(activations);
+            for (String feature : sortedFeatures) {
                 ok = featureManager.activate(feature);
                 if (ok) {
-                    logger.info("Feature activée: " + feature);
+                    //logger.info("Feature activée: " + feature);
                 } else {
                     logger.warning("Échec de l'activation de la feature: " + feature);
                     failed = -1;
@@ -49,7 +50,8 @@ public class MainController implements ControllerInterface {
         }
 
         if (deactivations != null && deactivations.length > 0 && !deactivations[0].isEmpty()) {
-            for (String feature : deactivations) {
+            List<String> sortedFeatures = sortFeatures(deactivations);
+            for (String feature : sortedFeatures) {
                 ok = featureManager.deactivate(feature);
                 if (ok) {
                     //logger.info("Feature désactivée: " + feature);
