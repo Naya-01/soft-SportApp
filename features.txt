@@ -1,8 +1,8 @@
 Feature/Mandatory/exercise-profile-authentication
-Feature/Optional/payment_methods
-payment_methods/Or/bancontact-paypal
+Feature/Optional/premium
 exercise/Mandatory/type-difficulty-media
 difficulty/Alternative/difficulty_beginner-difficulty_intermediate-difficulty_advanced
 media/Or/media_image-media_video
 type/Or/type_cardio-type_strength-type_flexibility
-profile/Optional/premium
+premium/Optional/payment_methods
+payment_methods/Or/bancontact-paypal
