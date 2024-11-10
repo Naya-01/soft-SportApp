@@ -36,7 +36,6 @@ public class DashboardView extends BaseView implements UIViewObserver {
     private JCheckBox cardioCheckBox;
     private JCheckBox strengthCheckBox;
     private JCheckBox flexibilityCheckBox;
-    private JButton premiumButton;
 
     private JPanel mainPanel;
     private JPanel navBar;
@@ -47,6 +46,8 @@ public class DashboardView extends BaseView implements UIViewObserver {
 
     private JButton profileButton;
     private JButton communityButton;
+    private JButton premiumButton;
+    private JButton customExerciceButton;
 
     public DashboardView() {
         super();
@@ -208,7 +209,7 @@ public class DashboardView extends BaseView implements UIViewObserver {
         profileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ProfileView(exerciceController).setVisible(true);
+                new ProfileView().setVisible(true);
             }
         });
         navBar.add(profileButton);
@@ -222,6 +223,17 @@ public class DashboardView extends BaseView implements UIViewObserver {
         });
         premiumButton.setVisible(!UserStore.getCurrentUser().getPremium());
         navBar.add(premiumButton);
+
+        customExerciceButton = new JButton("Add Custom Exercice");
+        customExerciceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new CustomExerciceCreationView().setVisible(true);
+                dispose();
+            }
+        });
+        customExerciceButton.setVisible(UserStore.getCurrentUser().getPremium());
+        navBar.add(customExerciceButton);
 
         communityButton = new JButton("Community");
         communityButton.addActionListener(new ActionListener() {
