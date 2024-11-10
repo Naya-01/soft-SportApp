@@ -1,12 +1,12 @@
 package controllers;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.User;
 
 public class UserController {
     private Logger logger = Logger.getLogger("AuthController");
     private User userModel;
-    private boolean isUIEnabled = false;
 
     public UserController() {
         this.userModel = new User();
@@ -16,7 +16,12 @@ public class UserController {
         return userModel.upgradeAccount();
     }
 
-    public boolean updateProfile(String username, String password){
-        return true;
+    public boolean updateProfile(String username, String password) {
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+            logger.log(Level.WARNING, "Add Exercice failed: Fields missing or empty");
+            return false;
+        }
+
+        return userModel.updateProfile(username, password);
     }
 }

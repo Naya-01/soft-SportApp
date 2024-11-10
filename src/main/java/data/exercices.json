@@ -45,13 +45,25 @@
   "medias" : [ {
     "url" : "http://example.com/video-STRENGTH",
     "type" : "VIDEO"
-    },
-    {
-      "url" : "http://example.com/image-STRENGTH",
-      "type" : "IMAGE"
-    }],
+  }, {
+    "url" : "http://example.com/image-STRENGTH",
+    "type" : "IMAGE"
+  } ],
   "difficulty" : "BEGINNER",
   "repetitions" : 20,
   "series" : 3,
   "custom" : false
+}, {
+  "id" : "650fd8e2-d774-4337-aa34-a63ed8d740fb",
+  "name" : "TEST",
+  "type" : "CARDIO",
+  "explanation" : "TEST",
+  "medias" : [ {
+    "url" : "http://test.com",
+    "type" : "VIDEO"
+  } ],
+  "difficulty" : "BEGINNER",
+  "duration" : 3,
+  "distance" : 5,
+  "custom" : true
 } ]

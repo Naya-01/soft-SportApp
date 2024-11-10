@@ -43,7 +43,7 @@ public class ExerciceController{
             return null;
         }
 
-        ExerciceDTO ex = exerciceModel.addExercice(type, name, explanation, medias, difficulty, isCustom);
+        ExerciceDTO ex = exerciceModel.addExercice(type, name, explanation, medias, difficulty, isCustom, extraParams);
         if (isCustom) {
             customExerciceModel.addCustomExercice(ex.getId());
         }

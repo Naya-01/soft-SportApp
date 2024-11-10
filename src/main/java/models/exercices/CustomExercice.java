@@ -1,7 +1,6 @@
 package models.exercices;
 
 import models.domains.CustomExerciceDTO;
-import models.domains.ExerciceDTO;
 import utils.JsonDBUtil;
 import utils.UserSessionManager;
 

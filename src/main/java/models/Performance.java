@@ -1,6 +1,5 @@
 package models;
 
-import models.domains.ExerciceDTO;
 import models.domains.PerformanceDTO;
 import models.domains.UserDTO;
 import utils.JsonDBUtil;
@@ -20,8 +19,19 @@ public class Performance {
     }
 
     public void addExercicePerformance(String exerciceId, String performanceText) {
+        List<PerformanceDTO> list = JsonDBUtil.readFromJson(PERFORMANCE_FILE_PATH, PerformanceDTO.class);
+
+        Optional<PerformanceDTO> existingPerformanceOpt = list.stream()
+                .filter(performanceDTO -> performanceDTO.getExerciceId().toString().equals(exerciceId) &&
+                        performanceDTO.getUserId().equals(this.userDTO.getId()))
+                .findFirst();
+
+        existingPerformanceOpt.ifPresent(list::remove);
+
         PerformanceDTO newPerformance = new PerformanceDTO(performanceText, this.userDTO.getId(), UUID.fromString(exerciceId));
-        JsonDBUtil.addObjectToJson(PERFORMANCE_FILE_PATH, newPerformance, PerformanceDTO.class);
+        list.add(newPerformance);
+
+        JsonDBUtil.writeToJson(PERFORMANCE_FILE_PATH, list);
     }
 
     public String getExercicePerformanceTextOfUser(String exerciceId) {

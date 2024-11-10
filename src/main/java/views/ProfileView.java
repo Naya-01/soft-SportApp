@@ -19,7 +19,6 @@ public class ProfileView extends BaseView {
     private UserViewDTO currentUser;
     private Logger logger;
 
-    // New components for editing profile
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JButton saveButton;
@@ -37,7 +36,7 @@ public class ProfileView extends BaseView {
 
     private void initComponents() {
         setTitle("User Profile");
-        setSize(500, 400); // Increased size for more space
+        setSize(500, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -47,7 +46,6 @@ public class ProfileView extends BaseView {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        // Header Label
         JLabel headerLabel = new JLabel("User Profile");
         headerLabel.setFont(new Font("Arial", Font.BOLD, 20));
         headerLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -57,7 +55,6 @@ public class ProfileView extends BaseView {
         gbc.anchor = GridBagConstraints.CENTER;
         panel.add(headerLabel, gbc);
 
-        // Name Label
         JLabel nameLabel = new JLabel("Name:");
         nameLabel.setFont(new Font("Arial", Font.BOLD, 14));
         gbc.gridx = 0;
@@ -72,7 +69,6 @@ public class ProfileView extends BaseView {
         gbc.gridy = 1;
         panel.add(nameValueLabel, gbc);
 
-        // Premium Label
         JLabel premiumLabel = new JLabel("Is Premium:");
         premiumLabel.setFont(new Font("Arial", Font.BOLD, 14));
         gbc.gridx = 0;
@@ -85,7 +81,6 @@ public class ProfileView extends BaseView {
         gbc.gridy = 2;
         panel.add(premiumValueLabel, gbc);
 
-        // Edit Profile Button
         editButton = new JButton("Edit Profile");
         editButton.setBackground(new Color(59, 89, 182));
         editButton.setForeground(Color.WHITE);
@@ -97,7 +92,6 @@ public class ProfileView extends BaseView {
         gbc.anchor = GridBagConstraints.CENTER;
         panel.add(editButton, gbc);
 
-        // Add action listener for edit button
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -105,16 +99,15 @@ public class ProfileView extends BaseView {
             }
         });
 
-        // Input fields and Save button (initially hidden)
         usernameLabel = new JLabel("New Username:");
         usernameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         usernameField = new JTextField(currentUser.getName(), 20);
-        usernameField.setPreferredSize(new Dimension(200, 25)); // Set preferred size for larger fields
+        usernameField.setPreferredSize(new Dimension(200, 25));
 
         passwordLabel = new JLabel("New Password:");
         passwordLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         passwordField = new JPasswordField(20);
-        passwordField.setPreferredSize(new Dimension(200, 25)); // Set preferred size for larger fields
+        passwordField.setPreferredSize(new Dimension(200, 25));
 
         saveButton = new JButton("Save Changes");
         saveButton.setBackground(new Color(59, 89, 182));
@@ -169,16 +162,14 @@ public class ProfileView extends BaseView {
         String newUsername = usernameField.getText();
         String newPassword = new String(passwordField.getPassword());
 
-        // Validate and submit changes using UserController
         if (newUsername.isEmpty() || newPassword.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Username and password cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             try {
-                // Assuming UserController has a method to update user details
                 userController.updateProfile(newUsername, newPassword);
-                currentUser.setName(newUsername); // Update current user info locally
+                currentUser.setName(newUsername);
                 JOptionPane.showMessageDialog(this, "Profile updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                dispose(); // Close the profile view
+                dispose();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Error updating profile: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }

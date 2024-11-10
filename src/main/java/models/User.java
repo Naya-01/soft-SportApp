@@ -76,6 +76,27 @@ public class User {
         return removed;
     }
 
+    public boolean updateProfile(String newUsername, String newPassword) {
+        List<UserDTO> users = JsonDBUtil.readFromJson(USER_FILE_PATH, UserDTO.class);
+
+        boolean userFound = false;
+        for (UserDTO user : users) {
+            if (user.getId().equals(UserSessionManager.currentUser.getId())) {
+                user.setName(newUsername);
+                user.setPassword(newPassword);
+                userFound = true;
+                break;
+            }
+        }
+
+        if (userFound) {
+            JsonDBUtil.writeToJson(USER_FILE_PATH, users);
+        }
+
+        return userFound;
+    }
+
+
     public UserViewDTO parseToUserViewDTO(UserDTO userDTO) {
         UserViewDTO viewDTO = new UserViewDTO();
         viewDTO.setId(userDTO.getId());

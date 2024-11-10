@@ -40,7 +40,7 @@ public class Exercice {
     }
 
     public List<ExerciceDTO> getAllNoCustomExercices(Difficulty difficulty, List<ExerciceType> types) {
-        List<ExerciceDTO> list =  JsonDBUtil.readFromJson(EXERCICE_FILE_PATH, ExerciceDTO.class);
+        List<ExerciceDTO> list = JsonDBUtil.readFromJson(EXERCICE_FILE_PATH, ExerciceDTO.class);
 
         return list.stream()
                 .filter(exerciceDTO -> !exerciceDTO.isCustom() &&

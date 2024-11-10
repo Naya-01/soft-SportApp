@@ -27,7 +27,14 @@ public class ExerciceDetailView extends BaseView {
     private JLabel timerLabel;
     private javax.swing.Timer swingTimer;
 
-    public ExerciceDetailView(ExerciceDTO exercice) { // Update constructor to accept UserDTO
+    private JTextArea performanceTextArea;
+    private JButton editPerformanceButton;
+    private JButton savePerformanceButton;
+    private JButton cancelPerformanceButton;
+
+    private String originalPerformanceText;
+
+    public ExerciceDetailView(ExerciceDTO exercice) {
         this.exercice = exercice;
         this.timerController = new TimerController();
         this.exerciceController = new ExerciceController();
@@ -49,7 +56,7 @@ public class ExerciceDetailView extends BaseView {
         JPanel exerciceDetailsPanel = createExerciceDetailsPanel();
 
         mainPanel.add(navBar, BorderLayout.NORTH);
-        mainPanel.add(new JScrollPane(exerciceDetailsPanel), BorderLayout.CENTER);
+        mainPanel.add(exerciceDetailsPanel, BorderLayout.CENTER);
 
         if (timerController.isTimerActive()) {
             JPanel timerPanel = createTimerPanel();
@@ -80,12 +87,13 @@ public class ExerciceDetailView extends BaseView {
         JPanel exerciceDetailsPanel = new JPanel();
         exerciceDetailsPanel.setLayout(new BoxLayout(exerciceDetailsPanel, BoxLayout.Y_AXIS));
 
+        exerciceDetailsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         exerciceDetailsPanel.add(new JLabel("Nom : " + exercice.getName()));
         exerciceDetailsPanel.add(new JLabel("Type : " + exercice.getType()));
         exerciceDetailsPanel.add(new JLabel("Explication : " + exercice.getExplanation()));
         exerciceDetailsPanel.add(new JLabel("Difficulté : " + exercice.getDifficulty()));
 
-        // Afficher les images
         List<MediaDTO> filteredImages = exerciceController.getFilteredImages(exercice.getMedias());
         if (!filteredImages.isEmpty()) {
             exerciceDetailsPanel.add(new JLabel("Images :"));
@@ -94,7 +102,6 @@ public class ExerciceDetailView extends BaseView {
             }
         }
 
-        // Afficher les vidéos
         List<MediaDTO> filteredVideos = exerciceController.getFilteredVideos(exercice.getMedias());
         if (!filteredVideos.isEmpty()) {
             exerciceDetailsPanel.add(new JLabel("Vidéos :"));
@@ -103,9 +110,81 @@ public class ExerciceDetailView extends BaseView {
             }
         }
 
-        // Retrieve and display the performance text
         String performanceText = performanceController.getExercicePerformanceTextOfUser(exercice.getId().toString());
-        exerciceDetailsPanel.add(new JLabel("Performance : " + performanceText));
+        originalPerformanceText = performanceText;
+
+        exerciceDetailsPanel.add(new JLabel("Performance :"));
+
+        JLabel performanceLabel = new JLabel(performanceText);
+        exerciceDetailsPanel.add(performanceLabel);
+
+        performanceTextArea = new JTextArea(5, 20);
+        performanceTextArea.setText(performanceText);
+        performanceTextArea.setEditable(false);
+        performanceTextArea.setLineWrap(true);
+        performanceTextArea.setWrapStyleWord(true);
+        performanceTextArea.setPreferredSize(new Dimension(400, 100));
+        performanceTextArea.setVisible(false);
+        exerciceDetailsPanel.add(new JScrollPane(performanceTextArea));
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
+
+        editPerformanceButton = new JButton("Edit performance");
+        editPerformanceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                performanceLabel.setVisible(false);
+                performanceTextArea.setVisible(true);
+                performanceTextArea.setEditable(true);
+                performanceTextArea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+
+                editPerformanceButton.setVisible(false);
+                savePerformanceButton.setVisible(true);
+                cancelPerformanceButton.setVisible(true);
+            }
+        });
+
+        savePerformanceButton = new JButton("Save performance");
+        savePerformanceButton.setVisible(false);
+        savePerformanceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String updatedPerformanceText = performanceTextArea.getText();
+                performanceController.addExercicePerformance(exercice.getId().toString(), updatedPerformanceText);
+                originalPerformanceText = updatedPerformanceText;
+                performanceTextArea.setEditable(false);
+                performanceTextArea.setVisible(false);
+                performanceLabel.setText(updatedPerformanceText);
+                performanceLabel.setVisible(true);
+
+                savePerformanceButton.setVisible(false);
+                cancelPerformanceButton.setVisible(false);
+                editPerformanceButton.setVisible(true);
+            }
+        });
+
+        cancelPerformanceButton = new JButton("Cancel modifications");
+        cancelPerformanceButton.setVisible(false);
+        cancelPerformanceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                performanceTextArea.setText(originalPerformanceText);
+                performanceTextArea.setEditable(false);
+                performanceTextArea.setVisible(false);
+                performanceLabel.setText(originalPerformanceText);
+                performanceLabel.setVisible(true);
+
+                savePerformanceButton.setVisible(false);
+                cancelPerformanceButton.setVisible(false);
+                editPerformanceButton.setVisible(true);
+            }
+        });
+
+        buttonPanel.add(editPerformanceButton);
+        buttonPanel.add(savePerformanceButton);
+        buttonPanel.add(cancelPerformanceButton);
+        exerciceDetailsPanel.add(buttonPanel);
 
         return exerciceDetailsPanel;
     }
@@ -184,9 +263,9 @@ public class ExerciceDetailView extends BaseView {
 
     private void updateTimerLabel() {
         if (timerController.getStartTime() > 0) {
-            long elapsedTime = timerController.getElapsedTime();
-            long seconds = (elapsedTime / 1000) % 60;
-            long minutes = (elapsedTime / 1000) / 60;
+            long elapsed = (System.currentTimeMillis() - timerController.getStartTime()) / 1000;
+            long minutes = elapsed / 60;
+            long seconds = elapsed % 60;
             timerLabel.setText(String.format("%02d:%02d", minutes, seconds));
         }
     }
