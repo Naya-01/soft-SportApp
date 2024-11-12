@@ -6,69 +6,69 @@ import models.domains.CustomExerciceDetailsDTO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.logging.Logger;
 
 import utils.Log;
+import views.components.ExercicesPanel;
 import views.utils.BaseView;
 
 public class CommunityView extends BaseView {
 
-    private CommunityController customExerciceController;
-    private Logger logger;
+    private CommunityController communityController;
+
+    private ExercicesPanel exercicesPanel;
+
+    private JPanel mainPanel;
+    private JPanel navBar;
+
+    private JButton backButton;
 
     public CommunityView() {
-        this.customExerciceController = new CommunityController();
-        logger = Log.getLogger();
+        this.communityController = new CommunityController();
+        this.logger = Log.getLogger();
         logger.info("Community view rendered");
         initComponents();
     }
 
     private void initComponents() {
         setTitle("Community - Custom Exercises");
-        setSize(600, 400);
+        setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        JPanel mainPanel = new JPanel(new BorderLayout());
-
-        JPanel navBar = createNavBar();
-
-        JPanel exercicesPanel = new JPanel();
-        exercicesPanel.setLayout(new BoxLayout(exercicesPanel, BoxLayout.Y_AXIS));
-
-        List<CustomExerciceDetailsDTO> customExercices = customExerciceController.getCustomExercicesWithDetails();
-        for (CustomExerciceDetailsDTO customExercice : customExercices) {
-            JLabel exerciceLabel = new JLabel(customExercice.getExercice().getName() + " by " + customExercice.getUser().getName());
-            exercicesPanel.add(exerciceLabel);
-        }
+        mainPanel = new JPanel(new BorderLayout());
+        navBar = createNavBar();
 
         mainPanel.add(navBar, BorderLayout.NORTH);
+
+        List<CustomExerciceDetailsDTO> customExercices = communityController.getCustomExercicesWithDetails();
+        exercicesPanel = new ExercicesPanel(this::openExerciceDetail);
+        exercicesPanel.initComponents(customExercices,
+            "Exercices Custom",
+            ce -> ce.getExercice().getName() + " by " + ce.getUser().getName()
+        );
         mainPanel.add(new JScrollPane(exercicesPanel), BorderLayout.CENTER);
 
         add(mainPanel);
     }
 
     private JPanel createNavBar() {
-        JPanel navBar = new JPanel();
-        navBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+        JPanel navBar = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        JButton backButton = new JButton("Retour");
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new DashboardView().setVisible(true);
-                dispose();
-            }
+        backButton = new JButton("Retour");
+        backButton.addActionListener(e -> {
+            new DashboardView().setVisible(true);
+            dispose();
         });
-
         navBar.add(backButton);
+
         return navBar;
     }
 
-    @Override
-    public void onFeatureStateChanged(String featureName, boolean isActive) {
-
+    private void openExerciceDetail(ActionEvent event) {
+        CustomExerciceDetailsDTO customExercice = (CustomExerciceDetailsDTO) event.getSource();
+        new ExerciceDetailView(customExercice.getExercice()).setVisible(true);
+        dispose();
     }
 }

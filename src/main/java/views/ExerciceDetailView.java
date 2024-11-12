@@ -269,9 +269,4 @@ public class ExerciceDetailView extends BaseView {
             timerLabel.setText(String.format("%02d:%02d", minutes, seconds));
         }
     }
-
-    @Override
-    public void onFeatureStateChanged(String featureName, boolean isActive) {
-
-    }
 }

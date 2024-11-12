@@ -130,9 +130,4 @@ public class AuthView extends BaseView {
             JOptionPane.showMessageDialog(this, "Registration failed", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    @Override
-    public void onFeatureStateChanged(String featureName, boolean isActive) {
-
-    }
 }

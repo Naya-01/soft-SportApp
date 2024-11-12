@@ -257,9 +257,4 @@ public class CustomExerciceCreationView extends BaseView {
         navBar.add(backButton);
         return navBar;
     }
-
-    @Override
-    public void onFeatureStateChanged(String featureName, boolean isActive) {
-
-    }
 }

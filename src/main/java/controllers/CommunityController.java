@@ -35,7 +35,7 @@ public class CommunityController{
     public List<CustomExerciceDetailsDTO> getCustomExercicesWithDetails() {
 
         if (!featureManager.isActive(FeaturesEnum.EXERCICE_CUSTOM_LIST.getFeature())) {
-            logger.warning("exercice-custom-list feature is disabled.");
+            logger.warning(FeaturesEnum.EXERCICE_CUSTOM_LIST.getFeature());
             return null;
         }
 

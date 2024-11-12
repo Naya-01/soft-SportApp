@@ -175,9 +175,4 @@ public class ProfileView extends BaseView {
             }
         }
     }
-
-    @Override
-    public void onFeatureStateChanged(String featureName, boolean isActive) {
-
-    }
 }

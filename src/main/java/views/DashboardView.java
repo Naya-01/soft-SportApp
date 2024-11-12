@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import models.PaymentMethod.PaymentMethod;
+import models.domains.CustomExerciceDetailsDTO;
 import models.domains.ExerciceDTO;
 import models.enums.Difficulty;
 import models.enums.ExerciceType;
@@ -22,6 +23,7 @@ import java.util.function.Consumer;
 import java.util.logging.Logger;
 
 import utils.Log;
+import views.components.ExercicesPanel;
 import views.utils.BaseView;
 import views.utils.UserStore;
 
@@ -30,8 +32,6 @@ public class DashboardView extends BaseView implements UIViewObserver {
     private ExerciceController exerciceController;
     private PaymentMethodController paymentMethodController;
     private FeatureManager featureManager;
-    private Logger logger;
-
     private JComboBox<Difficulty> difficultyComboBox;
     private JCheckBox cardioCheckBox;
     private JCheckBox strengthCheckBox;
@@ -41,8 +41,6 @@ public class DashboardView extends BaseView implements UIViewObserver {
     private JPanel navBar;
     private JPanel filterPanel;
     private JPanel exercicesPanel;
-
-    private Map<String, Consumer<Boolean>> featureUpdateHandlers;
 
     private JButton profileButton;
     private JButton communityButton;
@@ -105,15 +103,6 @@ public class DashboardView extends BaseView implements UIViewObserver {
     @Override
     public void onUIViewStateChanged(boolean enabled) {
         SwingUtilities.invokeLater(() -> setVisible(enabled));
-    }
-
-    @Override
-    public void onFeatureStateChanged(String featureName, boolean isActive) {
-        logger.info("Feature state changed: " + featureName + " to " + isActive);
-        Consumer<Boolean> handler = featureUpdateHandlers.get(featureName);
-        if (handler != null) {
-            SwingUtilities.invokeLater(() -> handler.accept(isActive));
-        }
     }
 
     private void toggleCardioCheckbox(boolean isActive) {
@@ -321,20 +310,20 @@ public class DashboardView extends BaseView implements UIViewObserver {
     }
 
     private JPanel createExercicesPanel() {
-        JPanel exercicesPanel = new JPanel();
-        exercicesPanel.setLayout(new BoxLayout(exercicesPanel, BoxLayout.Y_AXIS));
+        ExercicesPanel exercicesPanel = new ExercicesPanel(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ExerciceDTO exercice = (ExerciceDTO) e.getSource();
+                new ExerciceDetailView(exercice).setVisible(true);
+                dispose();
+            }
+        });
 
         List<ExerciceDTO> exercices = exerciceController.getAllNoCustomExercices();
-        for (ExerciceDTO exercice : exercices) {
-            JButton exerciceButton = new JButton(exercice.getName());
-            exerciceButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    new ExerciceDetailView(exercice).setVisible(true);
-                    dispose();
-                }
-            });
-            exercicesPanel.add(exerciceButton);
+        if (exercices != null) {
+            exercicesPanel.initComponents(exercices,
+                "Exercices",
+                ExerciceDTO::getName);
         }
 
         return exercicesPanel;
