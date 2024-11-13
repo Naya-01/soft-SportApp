@@ -133,6 +133,9 @@ public class FeatureManager extends StateManager{
         FeatureStrategy strategy = getStrategy(feature);
         strategy.activateFeature(feature, features);
 
+        activateChildFeatures(feature.getName());
+        activateDependents(feature.getName());
+
         notifyObservers(featureName, true);
         return true;
     }
@@ -170,6 +173,16 @@ public class FeatureManager extends StateManager{
         List<Feature> groupFeatures = new ArrayList<>();
         for (Feature feature : features.values()) {
             if (groupName.equals(feature.getGroupName())) {
+                groupFeatures.add(feature);
+            }
+        }
+        return groupFeatures;
+    }
+
+    public List<Feature> getFeaturesByParent(String parentName) {
+        List<Feature> groupFeatures = new ArrayList<>();
+        for (Feature feature : features.values()) {
+            if (parentName.equals(feature.getParentName())) {
                 groupFeatures.add(feature);
             }
         }
@@ -230,11 +243,18 @@ public class FeatureManager extends StateManager{
         }
     }
 
-    private void deactivateDependents(String featureName) {
-        for (Feature f : features.values()) {
-            if (f.getDependOn() != null && f.getDependOn().contains(featureName) && f.isActive()) {
-                logger.info("Désactivation de la dépendance : " + f.getName() + " car elle dépend de " + featureName);
-                deactivate(f.getName());
+    private void activateChildFeatures(String featureName) {
+        for (Feature feature : getFeaturesByParent(featureName)) {
+            if (!feature.isActive() && feature.getConstraintType() == MANDATORY) {
+                activate(feature.getName());
+            }
+        }
+    }
+
+    private void activateDependents(String featureName) {
+        for (Feature feature : getFeaturesByDependOn(featureName)) {
+            if (!feature.isActive() && feature.getConstraintType() == MANDATORY && getFeature(feature.getParentName()).isActive()) {
+                activate(feature.getName());
             }
         }
     }

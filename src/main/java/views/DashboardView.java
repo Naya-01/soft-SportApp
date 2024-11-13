@@ -218,6 +218,7 @@ public class DashboardView extends BaseView implements UIViewObserver {
             public void actionPerformed(ActionEvent e) {
                 showPaymentDialog();
                 customExerciceButton.setVisible(UserStore.getCurrentUser().getPremium());
+                communityButton.setVisible(UserStore.getCurrentUser().getPremium());
             }
         });
         premiumButton.setVisible(!UserStore.getCurrentUser().getPremium());
@@ -242,6 +243,7 @@ public class DashboardView extends BaseView implements UIViewObserver {
                 dispose();
             }
         });
+        communityButton.setVisible(UserStore.getCurrentUser().getPremium());
         navBar.add(communityButton);
 
         return navBar;
