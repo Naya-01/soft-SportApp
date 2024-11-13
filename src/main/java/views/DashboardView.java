@@ -89,6 +89,7 @@ public class DashboardView extends BaseView implements UIViewObserver {
         featureUpdateHandlers.put(FeaturesEnum.PREMIUM.getFeature(), this::togglePremiumButton);
         featureUpdateHandlers.put(FeaturesEnum.COMMUNITY.getFeature(), this::toggleCommunityButton);
         featureUpdateHandlers.put(FeaturesEnum.EXERCISE.getFeature(), this::toggleExercisePanel);
+        featureUpdateHandlers.put(FeaturesEnum.EXERCICE_CUSTOM_ADD.getFeature(), this::toggleCustomExerciceButton);
     }
 
     private void initializeFeatureStates() {
@@ -169,6 +170,14 @@ public class DashboardView extends BaseView implements UIViewObserver {
         }
     }
 
+
+    private void toggleCustomExerciceButton(boolean isActive) {
+        logger.info("Toggling community button to " + isActive);
+        if (customExerciceButton != null) {
+            customExerciceButton.setVisible(isActive);
+        }
+    }
+
     private void toggleExercisePanel(boolean isActive) {
         logger.info("Toggling exercise panel to " + isActive);
         filterPanel.setVisible(isActive);
@@ -208,6 +217,7 @@ public class DashboardView extends BaseView implements UIViewObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showPaymentDialog();
+                customExerciceButton.setVisible(UserStore.getCurrentUser().getPremium());
             }
         });
         premiumButton.setVisible(!UserStore.getCurrentUser().getPremium());
