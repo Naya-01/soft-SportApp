@@ -2,6 +2,7 @@ package views.utils;
 
 import features.managers.ViewManager;
 import features.observers.UIViewObserver;
+import utils.Log;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -14,6 +15,7 @@ public abstract class BaseView extends JFrame implements UIViewObserver {
     protected Logger logger;
     public BaseView() {
         ViewManager.getInstance().addObserver(this);
+        logger = Log.getLogger();
         if (!ViewManager.getInstance().isUIViewEnabled()) {
             this.setVisible(false);
         }
