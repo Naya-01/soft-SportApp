@@ -1,12 +1,17 @@
 package views;
 
 import controllers.UserController;
+import features.FeaturesEnum;
+import features.managers.FeatureManager;
 import models.domains.UserViewDTO;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 import java.util.logging.Logger;
 
 import utils.Log;
@@ -16,12 +21,13 @@ import views.utils.UserStore;
 public class ProfileView extends BaseView {
 
     private UserController userController;
+    private FeatureManager featureManager;
     private UserViewDTO currentUser;
     private Logger logger;
 
     private JTextField usernameField;
     private JPasswordField passwordField;
-    private JButton saveButton;
+    private JButton saveChangesButton;
     private JButton editButton;
     private JLabel usernameLabel;
     private JLabel passwordLabel;
@@ -29,9 +35,35 @@ public class ProfileView extends BaseView {
     public ProfileView() {
         this.userController = new UserController();
         this.currentUser = UserStore.getCurrentUser();
+        this.featureManager = FeatureManager.getInstance();
         logger = Log.getLogger();
         logger.info("Profile view rendered");
         initComponents();
+        featureManager.addObserver(this);
+        initFeatureUpdateHandlers();
+        initializeFeatureStates();
+    }
+
+    private void initFeatureUpdateHandlers() {
+        featureUpdateHandlers = new HashMap<>();
+
+        featureUpdateHandlers.put(FeaturesEnum.EXERCICE_TYPE_CARDIO.getFeature(), this::toggleCardioCheckbox);
+        featureUpdateHandlers.put(FeaturesEnum.EXERCICE_TYPE_STRENGTH.getFeature(), this::toggleStrengthCheckbox);
+        featureUpdateHandlers.put(FeaturesEnum.EXERCICE_TYPE_FLEXIBILITY.getFeature(), this::toggleFlexibilityCheckbox);
+
+        featureUpdateHandlers.put(FeaturesEnum.PROFILE.getFeature(), this::toggleProfileButton);
+        featureUpdateHandlers.put(FeaturesEnum.PREMIUM.getFeature(), this::togglePremiumButton);
+        featureUpdateHandlers.put(FeaturesEnum.COMMUNITY.getFeature(), this::toggleCommunityButton);
+        featureUpdateHandlers.put(FeaturesEnum.EXERCISE.getFeature(), this::toggleExercisePanel);
+    }
+
+    private void initializeFeatureStates() {
+        for (Map.Entry<String, Consumer<Boolean>> entry : featureUpdateHandlers.entrySet()) {
+            String featureName = entry.getKey();
+            boolean isActive = featureManager.isActive(featureName);
+            Consumer<Boolean> handler = entry.getValue();
+            handler.accept(isActive);
+        }
     }
 
     private void initComponents() {
@@ -109,12 +141,12 @@ public class ProfileView extends BaseView {
         passwordField = new JPasswordField(20);
         passwordField.setPreferredSize(new Dimension(200, 25));
 
-        saveButton = new JButton("Save Changes");
-        saveButton.setBackground(new Color(59, 89, 182));
-        saveButton.setForeground(Color.WHITE);
-        saveButton.setFocusPainted(false);
-        saveButton.setFont(new Font("Arial", Font.BOLD, 14));
-        saveButton.addActionListener(new ActionListener() {
+        saveChangesButton = new JButton("Save changes");
+        saveChangesButton.setBackground(new Color(59, 89, 182));
+        saveChangesButton.setForeground(Color.WHITE);
+        saveChangesButton.setFocusPainted(false);
+        saveChangesButton.setFont(new Font("Arial", Font.BOLD, 14));
+        saveChangesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 saveChanges();
@@ -137,14 +169,15 @@ public class ProfileView extends BaseView {
 
         gbc.gridx = 0;
         gbc.gridy = 6;
-        gbc.gridwidth = 2;
-        panel.add(saveButton, gbc);
+        gbc.gridwidth = 1;
+        gbc.gridx = 1;
+        panel.add(saveChangesButton, gbc);
 
         usernameLabel.setVisible(false);
         usernameField.setVisible(false);
         passwordLabel.setVisible(false);
         passwordField.setVisible(false);
-        saveButton.setVisible(false);
+        saveChangesButton.setVisible(false);
 
         add(panel, BorderLayout.CENTER);
     }
@@ -155,7 +188,7 @@ public class ProfileView extends BaseView {
         usernameField.setVisible(true);
         passwordLabel.setVisible(true);
         passwordField.setVisible(true);
-        saveButton.setVisible(true);
+        saveChangesButton.setVisible(true);
     }
 
     private void saveChanges() {
@@ -163,15 +196,16 @@ public class ProfileView extends BaseView {
         String newPassword = new String(passwordField.getPassword());
 
         if (newUsername.isEmpty() || newPassword.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Username and password cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Username or password cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             try {
-                userController.updateProfile(newUsername, newPassword);
+                userController.setUsername(newUsername);
+                userController.setPassword(newPassword);
                 currentUser.setName(newUsername);
-                JOptionPane.showMessageDialog(this, "Profile updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Username or password updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
                 dispose();
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error updating profile: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Error updating username or password: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

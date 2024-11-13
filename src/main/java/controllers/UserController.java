@@ -16,12 +16,21 @@ public class UserController {
         return userModel.upgradeAccount();
     }
 
-    public boolean updateProfile(String username, String password) {
-        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
-            logger.log(Level.WARNING, "Add Exercice failed: Fields missing or empty");
+    public boolean setUsername(String username) {
+        if (username == null || username.isEmpty()) {
+            logger.log(Level.WARNING, "Set username failed: Fields missing or empty");
             return false;
         }
 
-        return userModel.updateProfile(username, password);
+        return userModel.setUsername(username);
+    }
+
+    public boolean setPassword(String password) {
+        if (password == null || password.isEmpty()) {
+            logger.log(Level.WARNING, "Set password failed: Fields missing or empty");
+            return false;
+        }
+
+        return userModel.setPassword(password);
     }
 }

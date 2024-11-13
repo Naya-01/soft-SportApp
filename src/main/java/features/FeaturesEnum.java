@@ -24,7 +24,9 @@ public enum FeaturesEnum {
     PERFORMANCE("performance"),
     EXERCICE_TIMER("timer"),
     PAYMENT_METHOD_BANCONTACT("bancontact"),
-    PAYMENT_METHOD_PAYPAL("paypal");
+    PAYMENT_METHOD_PAYPAL("paypal"),
+    SET_USERNAME("set_username"),
+    SET_PASSWORD("set_password");
 
     private String feature;
 

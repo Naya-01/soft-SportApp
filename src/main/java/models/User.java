@@ -76,13 +76,31 @@ public class User {
         return removed;
     }
 
-    public boolean updateProfile(String newUsername, String newPassword) {
+    public boolean setUsername(String newUsername) {
         List<UserDTO> users = JsonDBUtil.readFromJson(USER_FILE_PATH, UserDTO.class);
 
         boolean userFound = false;
         for (UserDTO user : users) {
             if (user.getId().equals(UserSessionManager.currentUser.getId())) {
                 user.setName(newUsername);
+                userFound = true;
+                break;
+            }
+        }
+
+        if (userFound) {
+            JsonDBUtil.writeToJson(USER_FILE_PATH, users);
+        }
+
+        return userFound;
+    }
+
+    public boolean setPassword(String newPassword) {
+        List<UserDTO> users = JsonDBUtil.readFromJson(USER_FILE_PATH, UserDTO.class);
+
+        boolean userFound = false;
+        for (UserDTO user : users) {
+            if (user.getId().equals(UserSessionManager.currentUser.getId())) {
                 user.setPassword(newPassword);
                 userFound = true;
                 break;
