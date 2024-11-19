@@ -91,7 +91,7 @@ public class ExerciceDetailView extends BaseView {
 
         exerciceDetailsPanel.add(new JLabel("Nom : " + exercice.getName()));
         exerciceDetailsPanel.add(new JLabel("Type : " + exercice.getType()));
-        exerciceDetailsPanel.add(new JLabel("Explication : " + exercice.getExplanation()));
+        exerciceDetailsPanel.add(new JLabel("<html>Explication : " + exercice.getExplanation() + "</html>"));
         exerciceDetailsPanel.add(new JLabel("Difficulté : " + exercice.getDifficulty()));
 
         List<MediaDTO> filteredImages = exerciceController.getFilteredImages(exercice.getMedias());

@@ -230,7 +230,8 @@ public class CustomExerciceCreationView extends BaseView {
 
             if (exercice != null) {
                 JOptionPane.showMessageDialog(this, "Exercice created successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                dispose(); // Close the creation view
+                new DashboardView().setVisible(true);
+                dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Error creating exercice.", "Error", JOptionPane.ERROR_MESSAGE);
             }

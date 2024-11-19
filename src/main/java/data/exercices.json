@@ -1,30 +1,4 @@
 [ {
-  "id" : "66f8dd3d-2b3a-4962-8be6-2fa557e11293",
-  "name" : "Running",
-  "type" : "CARDIO",
-  "explanation" : "Run for 30 minutes",
-  "medias" : [ {
-    "url" : "http://example.com/video-cardio",
-    "type" : "VIDEO"
-  } ],
-  "difficulty" : "INTERMEDIATE",
-  "duration" : 30,
-  "distance" : 5000,
-  "custom" : true
-}, {
-  "id" : "5fec4526-bb6e-4f8b-895d-74d7068df232",
-  "name" : "Push-ups",
-  "type" : "STRENGTH",
-  "explanation" : "Do 20 push-ups",
-  "medias" : [ {
-    "url" : "http://example.com/video-cardio",
-    "type" : "VIDEO"
-  } ],
-  "difficulty" : "BEGINNER",
-  "repetitions" : 20,
-  "series" : 3,
-  "custom" : false
-}, {
   "id" : "749c0e77-1740-41c2-bc33-0cadca249dea",
   "name" : "Running",
   "type" : "CARDIO",
@@ -43,10 +17,10 @@
   "type" : "STRENGTH",
   "explanation" : "Do 20 push-ups",
   "medias" : [ {
-    "url" : "http://example.com/video-STRENGTH",
+    "url" : "http://example.com/video-strength",
     "type" : "VIDEO"
   }, {
-    "url" : "http://example.com/image-STRENGTH",
+    "url" : "http://example.com/image-strength",
     "type" : "IMAGE"
   } ],
   "difficulty" : "BEGINNER",
@@ -54,16 +28,219 @@
   "series" : 3,
   "custom" : false
 }, {
-  "id" : "650fd8e2-d774-4337-aa34-a63ed8d740fb",
-  "name" : "TEST",
+  "id" : "fa3dc04a-2d4d-4c4f-832b-e8f5367c8b2f",
+  "name" : "Jumping Jacks",
   "type" : "CARDIO",
-  "explanation" : "TEST",
+  "explanation" : "Perform jumping jacks for 10 minutes",
   "medias" : [ {
-    "url" : "http://test.com",
+    "url" : "http://example.com/video-jumpingjacks",
     "type" : "VIDEO"
   } ],
   "difficulty" : "BEGINNER",
-  "duration" : 3,
-  "distance" : 5,
+  "duration" : 10,
+  "distance" : 0,
+  "custom" : false
+}, {
+  "id" : "8b749d37-429d-4d91-918c-8ffad38a0cdd",
+  "name" : "Cycling",
+  "type" : "CARDIO",
+  "explanation" : "Cycle for 20 km",
+  "medias" : [ {
+    "url" : "http://example.com/video-cycling",
+    "type" : "VIDEO"
+  } ],
+  "difficulty" : "INTERMEDIATE",
+  "duration" : 60,
+  "distance" : 20000,
+  "custom" : false
+}, {
+  "id" : "c41dd624-6b8f-487f-9f8e-60f84e3a0f7a",
+  "name" : "Burpees",
+  "type" : "STRENGTH",
+  "explanation" : "Do 15 burpees",
+  "medias" : [ {
+    "url" : "http://example.com/video-burpees",
+    "type" : "VIDEO"
+  } ],
+  "difficulty" : "INTERMEDIATE",
+  "repetitions" : 15,
+  "series" : 3,
+  "custom" : false
+}, {
+  "id" : "e33b8d9f-4ae8-48ea-9de6-d1a5b2ec8d3f",
+  "name" : "Plank",
+  "type" : "STRENGTH",
+  "explanation" : "Hold a plank position for 2 minutes",
+  "medias" : [ {
+    "url" : "http://example.com/video-plank",
+    "type" : "VIDEO"
+  } ],
+  "difficulty" : "ADVANCED",
+  "repetitions" : 1,
+  "series" : 3,
   "custom" : true
+}, {
+  "id" : "1e5260d3-08b2-46f0-91c4-896f9d4f8d2e",
+  "name" : "Mountain Climbers",
+  "type" : "CARDIO",
+  "explanation" : "Do mountain climbers for 5 minutes",
+  "medias" : [ {
+    "url" : "http://example.com/video-mountainclimbers",
+    "type" : "VIDEO"
+  } ],
+  "difficulty" : "ADVANCED",
+  "duration" : 5,
+  "distance" : 0,
+  "custom" : false
+}, {
+  "id" : "3f9de6b8-c1f5-4d3e-a8e5-207e788f3620",
+  "name" : "Squats",
+  "type" : "STRENGTH",
+  "explanation" : "Perform 30 squats",
+  "medias" : [ {
+    "url" : "http://example.com/video-squats",
+    "type" : "VIDEO"
+  } ],
+  "difficulty" : "INTERMEDIATE",
+  "repetitions" : 30,
+  "series" : 3,
+  "custom" : false
+}, {
+  "id" : "2a15d67a-20d9-4b3b-8cf2-7f1c5cb6dabe",
+  "name" : "Sprint Intervals",
+  "type" : "CARDIO",
+  "explanation" : "Sprint for 1 minute, walk for 2 minutes, repeat 5 times",
+  "medias" : [ {
+    "url" : "http://example.com/video-sprintintervals",
+    "type" : "VIDEO"
+  } ],
+  "difficulty" : "ADVANCED",
+  "duration" : 15,
+  "distance" : 2000,
+  "custom" : true
+}, {
+  "id" : "4a9e243e-2357-42b8-9a96-98f4f6e11c60",
+  "name" : "Lunges",
+  "type" : "STRENGTH",
+  "explanation" : "Perform 20 lunges per leg",
+  "medias" : [ {
+    "url" : "http://example.com/video-lunges",
+    "type" : "VIDEO"
+  } ],
+  "difficulty" : "BEGINNER",
+  "repetitions" : 20,
+  "series" : 3,
+  "custom" : false
+}, {
+  "id" : "b4cd1e0d-df88-40c1-b4b5-bef20bcdc428",
+  "name" : "Deadlifts",
+  "type" : "STRENGTH",
+  "explanation" : "Perform 15 deadlifts",
+  "medias" : [ {
+    "url" : "http://example.com/video-deadlifts",
+    "type" : "VIDEO"
+  } ],
+  "difficulty" : "ADVANCED",
+  "repetitions" : 15,
+  "series" : 3,
+  "custom" : false
+}, {
+  "id" : "d1f11c8f-8652-4f34-9ae3-5d6f68c6c88a",
+  "name" : "Hamstring Stretch",
+  "type" : "FLEXIBILITY",
+  "explanation" : "Stretch your hamstrings by reaching for your toes while keeping your legs straight.",
+  "medias" : [ {
+    "url" : "http://example.com/video-hamstringstretch",
+    "type" : "VIDEO"
+  } ],
+  "difficulty" : "BEGINNER",
+  "custom" : false
+}, {
+  "id" : "e9e0f8c4-4eb8-4f8c-88f4-03d4f5c82d56",
+  "name" : "Quadriceps Stretch",
+  "type" : "FLEXIBILITY",
+  "explanation" : "Stretch your quadriceps by pulling your foot towards your buttock while standing on one leg.",
+  "medias" : [ {
+    "url" : "http://example.com/video-quadricepsstretch",
+    "type" : "VIDEO"
+  } ],
+  "difficulty" : "BEGINNER",
+  "custom" : false
+}, {
+  "id" : "fa4d6e4b-36db-4ff4-9897-94d8d1f4c1d3",
+  "name" : "Shoulder Stretch",
+  "type" : "FLEXIBILITY",
+  "explanation" : "Stretch your shoulders by pulling one arm across your chest and holding it with the opposite arm.",
+  "medias" : [ {
+    "url" : "http://example.com/video-shoulderstretch",
+    "type" : "VIDEO"
+  } ],
+  "difficulty" : "BEGINNER",
+  "custom" : false
+}, {
+  "id" : "0b8d98e2-dc5b-4f7c-9a6e-77d7b6f3c4e2",
+  "name" : "Hip Flexor Stretch",
+  "type" : "FLEXIBILITY",
+  "explanation" : "Stretch your hip flexors by kneeling on one knee and pushing your hips forward.",
+  "medias" : [ {
+    "url" : "http://example.com/video-hipflexorstretch",
+    "type" : "VIDEO"
+  } ],
+  "difficulty" : "INTERMEDIATE",
+  "custom" : false
+}, {
+  "id" : "c67d3452-3f8b-4a2f-8e9b-7fd5c8f6d8b7",
+  "name" : "Calf Stretch",
+  "type" : "FLEXIBILITY",
+  "explanation" : "Stretch your calves by leaning against a wall and pressing your heel into the ground.",
+  "medias" : [ {
+    "url" : "http://example.com/video-calfstretch",
+    "type" : "VIDEO"
+  } ],
+  "difficulty" : "INTERMEDIATE",
+  "custom" : false
+}, {
+  "id" : "a9d8e0f8-4d4b-4f8a-88f4-03d4f5c82d78",
+  "name" : "Triceps Stretch",
+  "type" : "FLEXIBILITY",
+  "explanation" : "Stretch your triceps by reaching one arm behind your head and pulling on the elbow with the opposite hand.",
+  "medias" : [ {
+    "url" : "http://example.com/video-tricepsstretch",
+    "type" : "VIDEO"
+  } ],
+  "difficulty" : "INTERMEDIATE",
+  "custom" : false
+}, {
+  "id" : "c3e11f4d-8f4e-4d8b-9a4d-6f3e7e8c6f2a",
+  "name" : "Full Body Stretch",
+  "type" : "FLEXIBILITY",
+  "explanation" : "Perform a full body stretch by standing and reaching your arms up to the sky while keeping your body aligned.",
+  "medias" : [ {
+    "url" : "http://example.com/video-fullbodystretch",
+    "type" : "VIDEO"
+  } ],
+  "difficulty" : "ADVANCED",
+  "custom" : false
+}, {
+  "id" : "f1d9e6f2-4f4e-4b4a-9e3c-6f3d8f7c9e2a",
+  "name" : "Butterfly Stretch",
+  "type" : "FLEXIBILITY",
+  "explanation" : "Sit on the ground, bring your feet together, and press your knees down towards the floor.",
+  "medias" : [ {
+    "url" : "http://example.com/video-butterflystretch",
+    "type" : "VIDEO"
+  } ],
+  "difficulty" : "ADVANCED",
+  "custom" : false
+}, {
+  "id" : "b2d4f6e9-4e7d-4c3b-9d5f-6f2c8e6f3a1b",
+  "name" : "Pigeon Pose",
+  "type" : "FLEXIBILITY",
+  "explanation" : "Stretch your hips and glutes by performing the pigeon pose.",
+  "medias" : [ {
+    "url" : "http://example.com/video-pigeonpose",
+    "type" : "VIDEO"
+  } ],
+  "difficulty" : "ADVANCED",
+  "custom" : false
 } ]
