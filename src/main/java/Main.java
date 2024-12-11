@@ -1,4 +1,5 @@
 import controllers.AuthController;
+import controllers.CLIController;
 import controllers.ControllerInterface;
 
 import controllers.MainController;
@@ -9,40 +10,12 @@ import views.AuthView;
 public class Main{
     public static void main(String[] args) {
 
-        ControllerInterface controller = new MainController();
+        CLIController cliController = new CLIController();
 
         AuthView authView = new AuthView(new AuthController());
         authView.setVisible(true);
 
-        Scanner sc = new Scanner(System.in);
-        while (true) {
-            System.out.println("What do you want to do ? (deactivations, activations, enableUIView, disableUIView, getStateAsLog) ");
-            String feature = sc.nextLine();
-
-            switch (feature) {
-                case "deactivations":
-                    System.out.println("Enter a list of features you want to deactivate separated by whitespace: ");
-                    String deactivations = sc.nextLine();
-                    controller.activate(deactivations.split(" "), null);
-                    break;
-                case "activations":
-                    System.out.println("Enter a list of features you want to activate separated by whitespace: ");
-                    String activations = sc.nextLine();
-                    controller.activate(null, activations.split(" "));
-                    break;
-                case "enableUIView":
-                    controller.enableUIView();
-                    break;
-                case "disableUIView":
-                    controller.disableUIView();
-                    break;
-                case "getStateAsLog":
-                    System.out.println(Arrays.toString(controller.getStateAsLog()));
-                    break;
-                default:
-                    System.out.println("Invalid entry");
-            }
-        }
+        cliController.run();
     }
 
 }
