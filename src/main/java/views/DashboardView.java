@@ -217,11 +217,11 @@ public class DashboardView extends BaseView implements UIViewObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showPaymentDialog();
-                customExerciceButton.setVisible(UserStore.getCurrentUser().getPremium());
-                communityButton.setVisible(UserStore.getCurrentUser().getPremium());
+                customExerciceButton.setVisible(UserStore.getCurrentUser().getPremium() && featureManager.isActive(FeaturesEnum.EXERCICE_CUSTOM_ADD.getFeature()));
+                communityButton.setVisible(UserStore.getCurrentUser().getPremium() && featureManager.isActive(FeaturesEnum.COMMUNITY.getFeature()));
             }
         });
-        premiumButton.setVisible(!UserStore.getCurrentUser().getPremium());
+        premiumButton.setVisible(!UserStore.getCurrentUser().getPremium() && featureManager.isActive(FeaturesEnum.PREMIUM.getFeature()));
         navBar.add(premiumButton);
 
         customExerciceButton = new JButton("Add Custom Exercice");
@@ -232,7 +232,7 @@ public class DashboardView extends BaseView implements UIViewObserver {
                 dispose();
             }
         });
-        customExerciceButton.setVisible(UserStore.getCurrentUser().getPremium());
+        customExerciceButton.setVisible(UserStore.getCurrentUser().getPremium() && featureManager.isActive(FeaturesEnum.EXERCICE_CUSTOM_ADD.getFeature()));
         navBar.add(customExerciceButton);
 
         communityButton = new JButton("Community");
@@ -243,7 +243,7 @@ public class DashboardView extends BaseView implements UIViewObserver {
                 dispose();
             }
         });
-        communityButton.setVisible(UserStore.getCurrentUser().getPremium());
+        communityButton.setVisible(UserStore.getCurrentUser().getPremium() && featureManager.isActive(FeaturesEnum.COMMUNITY.getFeature()));
         navBar.add(communityButton);
 
         return navBar;
