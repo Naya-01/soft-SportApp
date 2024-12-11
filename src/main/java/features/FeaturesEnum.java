@@ -26,7 +26,8 @@ public enum FeaturesEnum {
     PAYMENT_METHOD_BANCONTACT("bancontact"),
     PAYMENT_METHOD_PAYPAL("paypal"),
     SET_USERNAME("set_username"),
-    SET_PASSWORD("set_password");
+    SET_PASSWORD("set_password"),
+    EXPLANATION("explanation");
 
     private String feature;
 

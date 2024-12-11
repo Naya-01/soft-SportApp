@@ -3,6 +3,8 @@ package views;
 import controllers.ExerciceController;
 import controllers.PerformanceController;
 import controllers.TimerController;
+import features.FeaturesEnum;
+import features.managers.FeatureManager;
 import models.domains.MediaDTO;
 import models.domains.ExerciceDTO;
 
@@ -23,6 +25,7 @@ public class ExerciceDetailView extends BaseView {
     private ExerciceController exerciceController;
     private PerformanceController performanceController;
     private Logger logger;
+    private FeatureManager featureManager;
 
     private JLabel timerLabel;
     private javax.swing.Timer swingTimer;
@@ -39,6 +42,7 @@ public class ExerciceDetailView extends BaseView {
         this.timerController = new TimerController();
         this.exerciceController = new ExerciceController();
         this.performanceController = new PerformanceController();
+        this.featureManager = FeatureManager.getInstance();
         logger = Log.getLogger();
         logger.info("Exercice detail view rendered");
         initComponents();
@@ -91,7 +95,9 @@ public class ExerciceDetailView extends BaseView {
 
         exerciceDetailsPanel.add(new JLabel("Nom : " + exercice.getName()));
         exerciceDetailsPanel.add(new JLabel("Type : " + exercice.getType()));
-        exerciceDetailsPanel.add(new JLabel("<html>Explication : " + exercice.getExplanation() + "</html>"));
+        if(featureManager.isActive(FeaturesEnum.EXPLANATION.getFeature())){
+            exerciceDetailsPanel.add(new JLabel("<html>Explication : " + exercice.getExplanation() + "</html>"));
+        }
         exerciceDetailsPanel.add(new JLabel("Difficulté : " + exercice.getDifficulty()));
 
         List<MediaDTO> filteredImages = exerciceController.getFilteredImages(exercice.getMedias());

@@ -1,6 +1,6 @@
 Feature/Mandatory/exercise-profile-authentication
 Feature/Optional/premium-community-payment_methods
-exercise/Mandatory/type-difficulty-media
+exercise/Mandatory/type-difficulty-media-explanation
 exercise/Optional/timer-exercice_custom_add-performance
 community/Mandatory/exercice_custom_list-exercice_custom_add
 difficulty/Alternative/difficulty_beginner-difficulty_intermediate-difficulty_advanced
