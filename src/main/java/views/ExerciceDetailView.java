@@ -44,7 +44,7 @@ public class ExerciceDetailView extends BaseView {
         this.performanceController = new PerformanceController();
         this.featureManager = FeatureManager.getInstance();
         logger = Log.getLogger();
-        logger.info("Exercice detail view rendered");
+        logger.info("Exercise detail view rendered");
         initComponents();
     }
 
@@ -74,7 +74,7 @@ public class ExerciceDetailView extends BaseView {
         JPanel navBar = new JPanel();
         navBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        JButton backButton = new JButton("Retour");
+        JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -93,12 +93,12 @@ public class ExerciceDetailView extends BaseView {
 
         exerciceDetailsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        exerciceDetailsPanel.add(new JLabel("Nom : " + exercice.getName()));
+        exerciceDetailsPanel.add(new JLabel("Name : " + exercice.getName()));
         exerciceDetailsPanel.add(new JLabel("Type : " + exercice.getType()));
         if(featureManager.isActive(FeaturesEnum.EXPLANATION.getFeature())){
-            exerciceDetailsPanel.add(new JLabel("<html>Explication : " + exercice.getExplanation() + "</html>"));
+            exerciceDetailsPanel.add(new JLabel("<html>Explanation : " + exercice.getExplanation() + "</html>"));
         }
-        exerciceDetailsPanel.add(new JLabel("Difficulté : " + exercice.getDifficulty()));
+        exerciceDetailsPanel.add(new JLabel("Difficulty : " + exercice.getDifficulty()));
 
         List<MediaDTO> filteredImages = exerciceController.getFilteredImages(exercice.getMedias());
         if (!filteredImages.isEmpty()) {
@@ -110,7 +110,7 @@ public class ExerciceDetailView extends BaseView {
 
         List<MediaDTO> filteredVideos = exerciceController.getFilteredVideos(exercice.getMedias());
         if (!filteredVideos.isEmpty()) {
-            exerciceDetailsPanel.add(new JLabel("Vidéos :"));
+            exerciceDetailsPanel.add(new JLabel("Videos :"));
             for (MediaDTO media : filteredVideos) {
                 exerciceDetailsPanel.add(new JLabel(media.getUrl()));
             }
@@ -202,7 +202,7 @@ public class ExerciceDetailView extends BaseView {
         timerLabel = new JLabel("00:00");
         timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
 
-        JButton startButton = new JButton("Démarrer");
+        JButton startButton = new JButton("Start");
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -211,7 +211,7 @@ public class ExerciceDetailView extends BaseView {
             }
         });
 
-        JButton stopButton = new JButton("Arrêter");
+        JButton stopButton = new JButton("Stop");
         stopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -219,7 +219,7 @@ public class ExerciceDetailView extends BaseView {
             }
         });
 
-        JButton resetButton = new JButton("Réinitialiser");
+        JButton resetButton = new JButton("Reinitialize");
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

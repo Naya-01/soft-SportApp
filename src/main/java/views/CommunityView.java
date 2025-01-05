@@ -45,7 +45,7 @@ public class CommunityView extends BaseView {
         List<CustomExerciceDetailsDTO> customExercices = communityController.getCustomExercicesWithDetails();
         exercicesPanel = new ExercicesPanel(this::openExerciceDetail);
         exercicesPanel.initComponents(customExercices,
-            "Exercices Custom",
+            "Custom exercises",
             ce -> ce.getExercice().getName() + " by " + ce.getUser().getName()
         );
         mainPanel.add(new JScrollPane(exercicesPanel), BorderLayout.CENTER);
@@ -56,7 +56,7 @@ public class CommunityView extends BaseView {
     private JPanel createNavBar() {
         JPanel navBar = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        backButton = new JButton("Retour");
+        backButton = new JButton("Back");
         backButton.addActionListener(e -> {
             new DashboardView().setVisible(true);
             dispose();
