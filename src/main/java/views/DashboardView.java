@@ -44,11 +44,6 @@ public class DashboardView extends BaseView implements UIViewObserver {
     private JPanel filterPanel;
     private JPanel exercicesPanel;
 
-    private JButton profileButton;
-    private JButton communityButton;
-    private JButton premiumButton;
-    private JButton customExerciceButton;
-
     private NavBar navBarComponent;
 
     public DashboardView() {
@@ -162,34 +157,34 @@ public class DashboardView extends BaseView implements UIViewObserver {
 
     private void toggleProfileButton(boolean isActive) {
         logger.info("Toggling profile button to " + isActive);
-        if (profileButton != null) {
-            profileButton.setVisible(isActive);
+        if (navBarComponent.getProfileButton() != null) {
+            navBarComponent.getProfileButton().setVisible(isActive);
         }
     }
 
     private void togglePremiumButton(boolean isActive) {
         logger.info("Toggling premium button to " + isActive);
-        if (premiumButton != null) {
+        if (navBarComponent.getPremiumButton() != null) {
             if (isActive && !UserStore.getCurrentUser().getPremium()) {
-                premiumButton.setVisible(true);
+                navBarComponent.getPremiumButton().setVisible(true);
             } else {
-                premiumButton.setVisible(false);
+                navBarComponent.getPremiumButton().setVisible(false);
             }
         }
     }
 
     private void toggleCommunityButton(boolean isActive) {
         logger.info("Toggling community button to " + isActive);
-        if (communityButton != null) {
-            communityButton.setVisible(isActive);
+        if (navBarComponent.getCommunityButton() != null) {
+            navBarComponent.getCommunityButton() .setVisible(isActive);
         }
     }
 
 
     private void toggleCustomExerciceButton(boolean isActive) {
         logger.info("Toggling community button to " + isActive);
-        if (customExerciceButton != null) {
-            customExerciceButton.setVisible(isActive);
+        if (navBarComponent.getCustomExerciceButton() != null) {
+            navBarComponent.getCustomExerciceButton().setVisible(isActive);
         }
     }
 

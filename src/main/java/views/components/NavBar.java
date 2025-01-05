@@ -28,7 +28,7 @@ public class NavBar extends JPanel {
 
     public NavBar(JFrame parentFrame) {
         super();
-        featureManager = new FeatureManager();
+        this.featureManager = FeatureManager.getInstance();
         this.paymentDialog = new PaymentDialog(this, new PaymentMethodController());
         this.parentFrame = (BaseView) parentFrame;
     }
@@ -56,6 +56,8 @@ public class NavBar extends JPanel {
                 communityButton.setVisible(UserStore.getCurrentUser().getPremium() && featureManager.isActive(FeaturesEnum.COMMUNITY.getFeature()));
             }
         });
+        boolean isPremium = UserStore.getCurrentUser().getPremium();
+        boolean isFeatureActive = featureManager.isActive(FeaturesEnum.PREMIUM.getFeature());
         premiumButton.setVisible(!UserStore.getCurrentUser().getPremium() && featureManager.isActive(FeaturesEnum.PREMIUM.getFeature()));
         navBar.add(premiumButton);
 
