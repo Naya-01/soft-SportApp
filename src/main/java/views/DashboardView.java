@@ -24,6 +24,8 @@ import java.util.logging.Logger;
 
 import utils.Log;
 import views.components.ExercicesPanel;
+import views.components.NavBar;
+import views.components.PaymentDialog;
 import views.utils.BaseView;
 import views.utils.UserStore;
 
@@ -47,6 +49,8 @@ public class DashboardView extends BaseView implements UIViewObserver {
     private JButton premiumButton;
     private JButton customExerciceButton;
 
+    private NavBar navBarComponent;
+
     public DashboardView() {
         super();
         this.exerciceController = new ExerciceController();
@@ -54,6 +58,8 @@ public class DashboardView extends BaseView implements UIViewObserver {
         this.featureManager = FeatureManager.getInstance();
         logger = Log.getLogger();
         logger.info("Dashboard view rendered");
+
+        navBarComponent = new NavBar();
         initComponents();
         featureManager.addObserver(this);
         initFeatureUpdateHandlers();
@@ -67,7 +73,7 @@ public class DashboardView extends BaseView implements UIViewObserver {
         setLocationRelativeTo(null);
 
         mainPanel = new JPanel(new BorderLayout());
-        navBar = createNavBar();
+        navBar = navBarComponent.createNavBar();
         filterPanel = createFilterPanel();
         exercicesPanel = createExercicesPanel();
 
@@ -84,6 +90,9 @@ public class DashboardView extends BaseView implements UIViewObserver {
         featureUpdateHandlers.put(FeaturesEnum.EXERCICE_TYPE_CARDIO.getFeature(), this::toggleCardioCheckbox);
         featureUpdateHandlers.put(FeaturesEnum.EXERCICE_TYPE_STRENGTH.getFeature(), this::toggleStrengthCheckbox);
         featureUpdateHandlers.put(FeaturesEnum.EXERCICE_TYPE_FLEXIBILITY.getFeature(), this::toggleFlexibilityCheckbox);
+        featureUpdateHandlers.put(FeaturesEnum.EXERCICE_DIFFICULTY_BEGINNER.getFeature(), this::toggleDifficulty);
+        featureUpdateHandlers.put(FeaturesEnum.EXERCICE_DIFFICULTY_INTERMEDIATE.getFeature(), this::toggleDifficulty);
+        featureUpdateHandlers.put(FeaturesEnum.EXERCICE_DIFFICULTY_ADVANCED.getFeature(), this::toggleDifficulty);
 
         featureUpdateHandlers.put(FeaturesEnum.PROFILE.getFeature(), this::toggleProfileButton);
         featureUpdateHandlers.put(FeaturesEnum.PREMIUM.getFeature(), this::togglePremiumButton);
@@ -104,6 +113,12 @@ public class DashboardView extends BaseView implements UIViewObserver {
     @Override
     public void onUIViewStateChanged(boolean enabled) {
         SwingUtilities.invokeLater(() -> setVisible(enabled));
+    }
+
+    private void toggleDifficulty(boolean isActive) {
+        logger.info("Toggling difficulty " +exerciceController.getCurrentDifficulty());
+        difficultyComboBox.setSelectedItem(exerciceController.getCurrentDifficulty());
+        refreshExercicesPanel();
     }
 
     private void toggleCardioCheckbox(boolean isActive) {
@@ -197,56 +212,6 @@ public class DashboardView extends BaseView implements UIViewObserver {
 
         mainPanel.revalidate();
         mainPanel.repaint();
-    }
-
-    private JPanel createNavBar() {
-        JPanel navBar = new JPanel();
-        navBar.setLayout(new FlowLayout(FlowLayout.LEFT));
-
-        profileButton = new JButton("Voir Profil");
-        profileButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ProfileView().setVisible(true);
-            }
-        });
-        navBar.add(profileButton);
-
-        premiumButton = new JButton("Become Premium");
-        premiumButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showPaymentDialog();
-                customExerciceButton.setVisible(UserStore.getCurrentUser().getPremium() && featureManager.isActive(FeaturesEnum.EXERCICE_CUSTOM_ADD.getFeature()));
-                communityButton.setVisible(UserStore.getCurrentUser().getPremium() && featureManager.isActive(FeaturesEnum.COMMUNITY.getFeature()));
-            }
-        });
-        premiumButton.setVisible(!UserStore.getCurrentUser().getPremium() && featureManager.isActive(FeaturesEnum.PREMIUM.getFeature()));
-        navBar.add(premiumButton);
-
-        customExerciceButton = new JButton("Add Custom Exercice");
-        customExerciceButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new CustomExerciceCreationView().setVisible(true);
-                dispose();
-            }
-        });
-        customExerciceButton.setVisible(UserStore.getCurrentUser().getPremium() && featureManager.isActive(FeaturesEnum.EXERCICE_CUSTOM_ADD.getFeature()));
-        navBar.add(customExerciceButton);
-
-        communityButton = new JButton("Community");
-        communityButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new CommunityView().setVisible(true);
-                dispose();
-            }
-        });
-        communityButton.setVisible(UserStore.getCurrentUser().getPremium() && featureManager.isActive(FeaturesEnum.COMMUNITY.getFeature()));
-        navBar.add(communityButton);
-
-        return navBar;
     }
 
     private JPanel createFilterPanel() {
@@ -345,7 +310,7 @@ public class DashboardView extends BaseView implements UIViewObserver {
         getContentPane().removeAll();
 
         mainPanel = new JPanel(new BorderLayout());
-        navBar = createNavBar();
+        navBar = navBarComponent.createNavBar();
         filterPanel = createFilterPanel();
         exercicesPanel = createExercicesPanel();
 
@@ -374,36 +339,4 @@ public class DashboardView extends BaseView implements UIViewObserver {
         refreshExercicesPanel();
     }
 
-    private void showPaymentDialog() {
-        List<PaymentMethod> availableMethods = paymentMethodController.getAvailablePaymentMethods();
-        if (availableMethods.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No payment methods are available.");
-            return;
-        }
-
-        String[] options = availableMethods.stream().map(PaymentMethod::getName).toArray(String[]::new);
-        int choice = JOptionPane.showOptionDialog(
-            this,
-            "Choose a payment method:",
-            "Payment Method",
-            JOptionPane.DEFAULT_OPTION,
-            JOptionPane.INFORMATION_MESSAGE,
-            null,
-            options,
-            options[0]
-        );
-
-        if (choice != -1) {
-            PaymentMethod selectedMethod = availableMethods.get(choice);
-            boolean success = paymentMethodController.upgradeAccount(selectedMethod);
-            if (success) {
-                JOptionPane.showMessageDialog(this, "Payment successful! You are now a premium user.");
-                UserStore.getCurrentUser().setPremium(true);
-
-                premiumButton.setVisible(false);
-            } else {
-                JOptionPane.showMessageDialog(this, "Payment failed. Please try again.");
-            }
-        }
-    }
 }
