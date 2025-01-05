@@ -219,13 +219,13 @@ public class CustomExerciceCreationView extends BaseView {
             if (type == ExerciceType.CARDIO) {
                 int duration = Integer.parseInt(param1Field.getText());
                 int distance = Integer.parseInt(param2Field.getText());
-                exercice = exerciceController.addExercice(type, name, explanation, medias, difficulty, isCustom, duration, distance);
+                exercice = exerciceController.addExercice(new ExerciceDTO(name, type, explanation, medias, difficulty, isCustom), duration, distance);
             } else if (type == ExerciceType.STRENGTH) {
                 int repetitions = Integer.parseInt(param1Field.getText());
                 int series = Integer.parseInt(param2Field.getText());
-                exercice = exerciceController.addExercice(type, name, explanation, medias, difficulty, isCustom, repetitions, series);
+                exercice = exerciceController.addExercice(new ExerciceDTO(name, type, explanation, medias, difficulty, isCustom), repetitions, series);
             } else {
-                exercice = exerciceController.addExercice(type, name, explanation, medias, difficulty, isCustom);
+                exercice = exerciceController.addExercice(new ExerciceDTO(name, type, explanation, medias, difficulty, isCustom));
             }
 
             if (exercice != null) {

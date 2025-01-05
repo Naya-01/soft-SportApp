@@ -39,6 +39,15 @@ public class ExerciceDTO {
         this.isCustom = isCustom;
     }
 
+    public ExerciceDTO(String name, ExerciceType type, String explanation, List<MediaDTO> medias, Difficulty difficulty, boolean isCustom) {
+        this.name = name;
+        this.type = type;
+        this.explanation = explanation;
+        this.medias = medias;
+        this.difficulty = difficulty;
+        this.isCustom = isCustom;
+    }
+
     public UUID getId() {
         return id;
     }

@@ -27,24 +27,24 @@ public class ExerciceController{
         featureManager = FeatureManager.getInstance();
     }
 
-    public ExerciceDTO addExercice(ExerciceType type, String name, String explanation, List<MediaDTO> medias, Difficulty difficulty, boolean isCustom, Object... extraParams) {
-        if (isCustom && !featureManager.isActive(FeaturesEnum.EXERCICE_CUSTOM_ADD.getFeature())) {
+    public ExerciceDTO addExercice(ExerciceDTO exerciceDTO, Object... extraParams) {
+        if (exerciceDTO.isCustom() && !featureManager.isActive(FeaturesEnum.EXERCICE_CUSTOM_ADD.getFeature())) {
             logger.warning("exercice-custom-add feature is disabled.");
             return null;
         }
 
-        if (name == null || name.isEmpty()) {
+        if (exerciceDTO.getName() == null || exerciceDTO.getName().isEmpty()) {
             logger.log(Level.WARNING, "Add Exercice failed: Fields missing or empty");
             return null;
         }
 
-        if (exerciceModel.getExerciceByName(name) != null) {
-            logger.log(Level.WARNING, "Add Exercice failed: Exercice already exists - " + name);
+        if (exerciceModel.getExerciceByName(exerciceDTO.getName()) != null) {
+            logger.log(Level.WARNING, "Add Exercice failed: Exercice already exists - " + exerciceDTO.getName());
             return null;
         }
 
-        ExerciceDTO ex = exerciceModel.addExercice(type, name, explanation, medias, difficulty, isCustom, extraParams);
-        if (isCustom) {
+        ExerciceDTO ex = exerciceModel.addExercice(exerciceDTO, extraParams);
+        if (exerciceDTO.isCustom()) {
             customExerciceModel.addCustomExercice(ex.getId());
         }
 

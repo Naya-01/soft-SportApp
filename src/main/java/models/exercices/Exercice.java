@@ -29,8 +29,8 @@ public class Exercice {
         return JsonDBUtil.findObjectInJson(EXERCICE_FILE_PATH,"id", exerciceId, ExerciceDTO.class);
     }
 
-    public ExerciceDTO addExercice(ExerciceType type, String name, String explanation, List<MediaDTO> medias, Difficulty difficulty, boolean isCustom, Object... extraParams) {
-        ExerciceDTO exercice = ExerciceFactory.createExercice(type, name, explanation, medias, difficulty, isCustom, extraParams);
+    public ExerciceDTO addExercice(ExerciceDTO exerciceDTO, Object... extraParams) {
+        ExerciceDTO exercice = ExerciceFactory.createExercice(exerciceDTO, extraParams);
         JsonDBUtil.addObjectToJson(EXERCICE_FILE_PATH, exercice, ExerciceDTO.class);
         return exercice;
     }
