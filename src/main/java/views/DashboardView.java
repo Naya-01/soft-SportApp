@@ -117,7 +117,7 @@ public class DashboardView extends BaseView implements UIViewObserver {
     }
 
     private void toggleCardioCheckbox(boolean isActive) {
-        logger.info("Toggling cardio checkbox to " + isActive);
+        logger.info("Toggling cardio checkbox ");
         cardioCheckBox.setVisible(isActive);
         if (isActive) {
             cardioCheckBox.setSelected(true);
@@ -130,7 +130,7 @@ public class DashboardView extends BaseView implements UIViewObserver {
     }
 
     private void toggleStrengthCheckbox(boolean isActive) {
-        logger.info("Toggling strength checkbox to " + isActive);
+        logger.info("Toggling strength checkbox");
         strengthCheckBox.setVisible(isActive);
         if (isActive) {
             strengthCheckBox.setSelected(true);
@@ -143,7 +143,7 @@ public class DashboardView extends BaseView implements UIViewObserver {
     }
 
     private void toggleFlexibilityCheckbox(boolean isActive) {
-        logger.info("Toggling flexibility checkbox to " + isActive);
+        logger.info("Toggling flexibility checkbox ");
         flexibilityCheckBox.setVisible(isActive);
         if (isActive) {
             flexibilityCheckBox.setSelected(true);
@@ -156,14 +156,14 @@ public class DashboardView extends BaseView implements UIViewObserver {
     }
 
     private void toggleProfileButton(boolean isActive) {
-        logger.info("Toggling profile button to " + isActive);
+        logger.info("Toggling profile button ");
         if (navBarComponent.getProfileButton() != null) {
             navBarComponent.getProfileButton().setVisible(isActive);
         }
     }
 
     private void togglePremiumButton(boolean isActive) {
-        logger.info("Toggling premium button to " + isActive);
+        logger.info("Toggling premium button ");
         if (navBarComponent.getPremiumButton() != null) {
             if (isActive && !UserStore.getCurrentUser().getPremium()) {
                 navBarComponent.getPremiumButton().setVisible(true);
@@ -174,7 +174,7 @@ public class DashboardView extends BaseView implements UIViewObserver {
     }
 
     private void toggleCommunityButton(boolean isActive) {
-        logger.info("Toggling community button to " + isActive);
+        logger.info("Toggling community button ");
         if (navBarComponent.getCommunityButton() != null) {
             navBarComponent.getCommunityButton() .setVisible(isActive);
         }
@@ -182,14 +182,14 @@ public class DashboardView extends BaseView implements UIViewObserver {
 
 
     private void toggleCustomExerciceButton(boolean isActive) {
-        logger.info("Toggling community button to " + isActive);
+        logger.info("Toggling community button ");
         if (navBarComponent.getCustomExerciceButton() != null) {
             navBarComponent.getCustomExerciceButton().setVisible(isActive);
         }
     }
 
     private void toggleExercisePanel(boolean isActive) {
-        logger.info("Toggling exercise panel to " + isActive);
+        logger.info("Toggling exercise panel ");
         filterPanel.setVisible(isActive);
         exercicesPanel.setVisible(isActive);
 
