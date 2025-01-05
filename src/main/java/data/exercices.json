@@ -243,12 +243,4 @@
   } ],
   "difficulty" : "ADVANCED",
   "custom" : false
-}, {
-  "id" : "e2a81d9b-3a74-44a1-9db4-0584362ef971",
-  "name" : "a",
-  "type" : "FLEXIBILITY",
-  "explanation" : "a",
-  "medias" : [ ],
-  "difficulty" : "INTERMEDIATE",
-  "custom" : true
 } ]
