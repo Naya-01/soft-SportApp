@@ -15,7 +15,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class NavBar extends BaseView {
+public class NavBar extends JPanel {
 
     private JButton profileButton;
     private JButton premiumButton;
@@ -24,11 +24,13 @@ public class NavBar extends BaseView {
     private FeatureManager featureManager;
 
     private PaymentDialog paymentDialog;
+    private BaseView parentFrame;
 
-    public NavBar() {
+    public NavBar(JFrame parentFrame) {
         super();
         featureManager = new FeatureManager();
         this.paymentDialog = new PaymentDialog(this, new PaymentMethodController());
+        this.parentFrame = (BaseView) parentFrame;
     }
 
 
@@ -62,7 +64,7 @@ public class NavBar extends BaseView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new CustomExerciceCreationView().setVisible(true);
-                dispose();
+                parentFrame.dispose();
             }
         });
         customExerciceButton.setVisible(UserStore.getCurrentUser().getPremium() && featureManager.isActive(FeaturesEnum.EXERCICE_CUSTOM_ADD.getFeature()));
@@ -73,7 +75,7 @@ public class NavBar extends BaseView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new CommunityView().setVisible(true);
-                dispose();
+                parentFrame.dispose();
             }
         });
         communityButton.setVisible(UserStore.getCurrentUser().getPremium() && featureManager.isActive(FeaturesEnum.COMMUNITY.getFeature()));
