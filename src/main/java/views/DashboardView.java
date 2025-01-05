@@ -59,7 +59,7 @@ public class DashboardView extends BaseView implements UIViewObserver {
         logger = Log.getLogger();
         logger.info("Dashboard view rendered");
 
-        navBarComponent = new NavBar();
+        navBarComponent = new NavBar( this);
         initComponents();
         featureManager.addObserver(this);
         initFeatureUpdateHandlers();
