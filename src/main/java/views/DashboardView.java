@@ -62,7 +62,7 @@ public class DashboardView extends BaseView implements UIViewObserver {
     }
 
     private void initComponents() {
-        setTitle("Dashboard - Exercices");
+        setTitle("Dashboard - Exercises");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -212,9 +212,9 @@ public class DashboardView extends BaseView implements UIViewObserver {
     private JPanel createFilterPanel() {
         JPanel filterPanel = new JPanel();
         filterPanel.setLayout(new BoxLayout(filterPanel, BoxLayout.Y_AXIS));
-        filterPanel.setBorder(BorderFactory.createTitledBorder("Filtres"));
+        filterPanel.setBorder(BorderFactory.createTitledBorder("Filters"));
 
-        JLabel difficultyLabel = new JLabel("Filtrer par Difficulté:");
+        JLabel difficultyLabel = new JLabel("Filter by Difficulty:");
         filterPanel.add(difficultyLabel);
 
         List<Difficulty> activeDifficulties = new ArrayList<>();
@@ -245,7 +245,7 @@ public class DashboardView extends BaseView implements UIViewObserver {
         });
         filterPanel.add(difficultyComboBox);
 
-        JLabel typeLabel = new JLabel("Filtrer par Type:");
+        JLabel typeLabel = new JLabel("Filter by Type:");
         filterPanel.add(typeLabel);
 
         cardioCheckBox = new JCheckBox(ExerciceType.CARDIO.getTypeName());
@@ -294,7 +294,7 @@ public class DashboardView extends BaseView implements UIViewObserver {
         List<ExerciceDTO> exercices = exerciceController.getAllNoCustomExercices();
         if (exercices != null) {
             exercicesPanel.initComponents(exercices,
-                "Exercices",
+                "Exercises",
                 ExerciceDTO::getName);
         }
 

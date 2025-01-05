@@ -38,7 +38,7 @@ public class NavBar extends JPanel {
         JPanel navBar = new JPanel();
         navBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        profileButton = new JButton("Voir Profil");
+        profileButton = new JButton("View Profile");
         profileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

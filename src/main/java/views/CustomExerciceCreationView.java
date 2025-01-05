@@ -36,12 +36,12 @@ public class CustomExerciceCreationView extends BaseView {
     public CustomExerciceCreationView() {
         this.exerciceController = new ExerciceController();
         logger = Log.getLogger();
-        logger.info("Custom Exercice Creation view rendered");
+        logger.info("Custom Exercise Creation view rendered");
         initComponents();
     }
 
     private void initComponents() {
-        setTitle("Custom Exercice Creation");
+        setTitle("Custom Exercise Creation");
         setSize(500, 700);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -151,7 +151,7 @@ public class CustomExerciceCreationView extends BaseView {
         gbc.gridy = 7;
         panel.add(videoField, gbc);
 
-        saveButton = new JButton("Save Exercice");
+        saveButton = new JButton("Save Exercise");
         saveButton.setBackground(new Color(59, 89, 182));
         saveButton.setForeground(Color.WHITE);
         saveButton.setFocusPainted(false);
@@ -229,11 +229,11 @@ public class CustomExerciceCreationView extends BaseView {
             }
 
             if (exercice != null) {
-                JOptionPane.showMessageDialog(this, "Exercice created successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Exercise created successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
                 new DashboardView().setVisible(true);
                 dispose();
             } else {
-                JOptionPane.showMessageDialog(this, "Error creating exercice.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Error creating exercise.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Invalid parameters for the selected exercise type.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -246,7 +246,7 @@ public class CustomExerciceCreationView extends BaseView {
         JPanel navBar = new JPanel();
         navBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        JButton backButton = new JButton("Retour");
+        JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
